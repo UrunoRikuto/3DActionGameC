@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="テキスト ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="コード ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem">
+      <UniqueIdentifier>{5531f7f0-9863-46a1-9fe1-2cfb1fc0844f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Buffer">
+      <UniqueIdentifier>{a1032311-b338-4840-9a23-509fcba06277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Camera">
+      <UniqueIdentifier>{b6588edd-1cdb-4391-879c-0c8c7b71c897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Input">
+      <UniqueIdentifier>{798d88e1-7a9d-45c3-bf1a-c57f7e7da122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Model">
+      <UniqueIdentifier>{7908e291-5985-41ec-aec8-97302a053a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Shader">
+      <UniqueIdentifier>{34362750-c34d-4da6-8483-b206c966770b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Sprite">
+      <UniqueIdentifier>{46ec40f3-bbf8-46fd-ad26-f5f32ab5c8ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Sprite\DrawSetting">
+      <UniqueIdentifier>{ee502056-75de-457d-b95e-933ac9d63a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Global">
+      <UniqueIdentifier>{0003f63f-fb25-4dd0-bb6f-83258eabc8c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Scene">
+      <UniqueIdentifier>{b3eefb57-b886-4a55-ab7f-d56a7a2346be}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DirectX.cpp">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometory.cpp">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Startup.cpp">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuffer.cpp">
+      <Filter>コード ファイル\BaseSystem\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>コード ファイル\BaseSystem\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>コード ファイル\BaseSystem\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>コード ファイル\BaseSystem\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_anime.cpp">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_check.cpp">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_get.cpp">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_morph.cpp">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>コード ファイル\BaseSystem\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderList.cpp">
+      <Filter>コード ファイル\BaseSystem\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>コード ファイル\BaseSystem\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteDrawer.cpp">
+      <Filter>コード ファイル\BaseSystem\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteDrawSetting.cpp">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSetting.cpp">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGame.cpp">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTitle.cpp">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Setting.cpp">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DirectX.h">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometory.h">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>コード ファイル\BaseSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshBuffer.h">
+      <Filter>コード ファイル\BaseSystem\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>コード ファイル\BaseSystem\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>コード ファイル\BaseSystem\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>コード ファイル\BaseSystem\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>コード ファイル\BaseSystem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>コード ファイル\BaseSystem\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderList.h">
+      <Filter>コード ファイル\BaseSystem\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>コード ファイル\BaseSystem\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDrawer.h">
+      <Filter>コード ファイル\BaseSystem\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDrawSetting.h">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSetting.h">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="StructMath.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGame.h">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Setting.h">
+      <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\設計\クリーンアップメモ.txt">
+      <Filter>テキスト ファイル</Filter>
+    </Text>
+    <Text Include="Assets\設計\ゲーム設計.txt">
+      <Filter>テキスト ファイル</Filter>
+    </Text>
+    <Text Include="Assets\設計\コードクリーンアップ規則.txt">
+      <Filter>テキスト ファイル</Filter>
+    </Text>
+    <Text Include="Assets\設計\ハンガリアン記法.txt">
+      <Filter>テキスト ファイル</Filter>
+    </Text>
+    <Text Include="Assets\設計\コミットメッセージ[prefix]規則.txt">
+      <Filter>テキスト ファイル</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
