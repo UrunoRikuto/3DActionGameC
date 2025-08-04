@@ -101,10 +101,13 @@ jobs:
               let alreadySet = false;
 
               for (const field of item.fieldValues.nodes) {
-                if (field.field.name === statusName && field.name === statusName) {
+                const fieldName = field?.field?.name;
+
+                if (fieldName === statusName && field?.name === statusName) {
                   isInProgress = true;
                 }
-                if (field.field.name === startDateFieldName && field.date) {
+
+                if (fieldName === startDateFieldName && field?.date) {
                   alreadySet = true;
                 }
               }
