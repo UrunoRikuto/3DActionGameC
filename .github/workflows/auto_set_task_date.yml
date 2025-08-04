@@ -13,7 +13,7 @@ jobs:
         with:
           script: |
             const issueId = context.payload.issue.node_id;
-            const projectNumber = 1; // 対象のプロジェクト番号
+            const projectNumber = 7; // 対象のプロジェクト番号
             const fieldName = "タスク作成日"; // カスタムフィールド名
 
             const { data: projects } = await github.graphql(`
