@@ -1,28 +1,32 @@
 /*
-* @file SceneTitle.h
-* @brief タイトルシーンのクラスのヘッダーファイル
+* @file Field.h
+* @brief フィールドオブジェクトのクラスのヘッダーファイル
 * @author 宇留野陸斗
 * @date 2025/08/04 クラスの作成
 */
-
 #pragma once
-#include "SpriteDrawer.h"
+
+/* 基底クラスのインクルード */
+#include "GameObject.h"
+
+/* 前方宣言 */
+class Model;
 
 /// <summary>
-/// シーンタイトルクラス
+/// フィールドオブジェクトのクラス
 /// </summary>
-class CSceneTitle : public CSceneBase
+class CField : public CGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CSceneTitle();
+	CField();
 	
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CSceneTitle();
+	~CField();
 	
 	/// <summary>
 	/// 更新処理
@@ -33,8 +37,9 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw(void) override;
+
 private:
-	//2D描画に必要なデータ
-	ID3D11Buffer* m_pVtx;
-	ID3D11ShaderResourceView* m_pTex;
+	// モデルのポインタ
+	std::unique_ptr<Model> m_pModel; // フィールドのモデル
 };
+

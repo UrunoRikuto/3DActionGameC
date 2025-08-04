@@ -1,3 +1,11 @@
+/*
+* @file SceneTitle.cpp
+* @brief タイトルシーンのクラスのCppファイル
+* @author 宇留野陸斗
+* @date 2025/08/04 クラスの実装
+*/
+
+#include "SceneBase.h"
 #include "SceneTitle.h"
 #include "DirectXTex/TextureLoad.h"
 #include "Defines.h"
@@ -5,9 +13,7 @@
 #include "Input.h"
 #include "Main.h"
 
-/*
-* @brief コンストラクタ
-*/
+// @brief コンストラクタ
 CSceneTitle::CSceneTitle()
 {
 	//Vertexの生成
@@ -32,9 +38,7 @@ CSceneTitle::CSceneTitle()
 	}
 }
 
-/*
-* @brief デストラクタ
-*/
+// @brief デストラクタ
 CSceneTitle::~CSceneTitle()
 {
 	//バッファーポインタの解放
@@ -43,9 +47,7 @@ CSceneTitle::~CSceneTitle()
 	if (m_pTex) m_pTex->Release();
 }
 
-/*
-* @brief 更新処理
-*/
+// @brief 更新処理
 void CSceneTitle::Update(void)
 {
 	if (IsKeyTrigger(VK_RETURN))
@@ -55,9 +57,7 @@ void CSceneTitle::Update(void)
 	}
 }
 
-/*
-* @brief 描画処理
-*/
+// @brief 描画処理
 void CSceneTitle::Draw(void)
 {
 	//背景の描画

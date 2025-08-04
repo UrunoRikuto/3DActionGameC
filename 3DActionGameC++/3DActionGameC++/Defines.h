@@ -1,3 +1,9 @@
+/*
+* @file Defines.h
+* @brief 定数やマクロの定義ファイル
+* @author 宇留野陸斗
+*/
+
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 
@@ -21,8 +27,6 @@ static const float fFPS = static_cast<float>(FPS);
 #define METER(value) (value * 1.0f)
 #define MSEC(value) (value / fFPS)
 #define CMSEC(value) MSEC(CMETER(value))
-
-#define HALFSIZE(value) (value / 2.0f)
 
 #define PI (3.1415f)
 #define TORAD(deg) ((deg / 180) * PI)

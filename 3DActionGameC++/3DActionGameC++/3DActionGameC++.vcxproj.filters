@@ -39,6 +39,15 @@
     <Filter Include="コード ファイル\Scene">
       <UniqueIdentifier>{b3eefb57-b886-4a55-ab7f-d56a7a2346be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\GameObject">
+      <UniqueIdentifier>{30aaef5c-0d03-46dc-86a3-2f619db7d54e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\GameObject\Field">
+      <UniqueIdentifier>{ad252a39-41b0-42be-bc5c-cc752c9b5c15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Model\DrawSetting">
+      <UniqueIdentifier>{abba8bb9-3bb8-431e-bf40-ea86bd0d5fdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -113,6 +122,15 @@
     <ClCompile Include="Setting.cpp">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
     </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>コード ファイル\GameObject\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>コード ファイル\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelDrawSetting.cpp">
+      <Filter>コード ファイル\BaseSystem\Model\DrawSetting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -163,9 +181,6 @@
     <ClInclude Include="Enums.h">
       <Filter>コード ファイル\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>コード ファイル\Global</Filter>
-    </ClInclude>
     <ClInclude Include="Defines.h">
       <Filter>コード ファイル\Global</Filter>
     </ClInclude>
@@ -183,6 +198,15 @@
     </ClInclude>
     <ClInclude Include="Setting.h">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>コード ファイル\GameObject\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>コード ファイル\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelDrawSetting.h">
+      <Filter>コード ファイル\BaseSystem\Model\DrawSetting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

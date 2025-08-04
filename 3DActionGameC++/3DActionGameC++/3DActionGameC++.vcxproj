@@ -133,11 +133,14 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectX.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelDrawSetting.cpp" />
     <ClCompile Include="Model_anime.cpp" />
     <ClCompile Include="Model_check.cpp" />
     <ClCompile Include="Model_get.cpp" />
@@ -161,11 +164,14 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelDrawSetting.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneTitle.h" />
@@ -177,7 +183,6 @@
     <ClInclude Include="SpriteDrawSetting.h" />
     <ClInclude Include="SpriteSetting.h" />
     <ClInclude Include="StructMath.h" />
-    <ClInclude Include="Structs.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>

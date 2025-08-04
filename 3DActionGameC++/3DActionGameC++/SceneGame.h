@@ -1,28 +1,46 @@
-#pragma once
-#include "SceneBase.h"
-#include "Enums.h"
-#include "Camera.h"
-
 /*
-* @brief ゲームシーンクラス
+* @file SceneGame.h
+* @brief ゲームシーンのクラスのヘッダーファイル
+* @author 宇留野陸斗
+* @date 2025/08/04 クラスの作成
 */
+
+#pragma once
+
+/* 基底クラスのインクルード */
+#include "SceneBase.h"
+
+/* 前方宣言 */
+class CField;
+
+/// <summary>
+/// ゲームシーンクラス
+/// </summary>
 class CSceneGame : public CSceneBase
 {
 public:
-	//コンストラクタ
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	CSceneGame();
-	//デストラクタ
+	
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~CSceneGame();
-	//更新処理
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update(void)override;
-	//描画処理
+	
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw(void)override;
-private:
-	//通常モードの更新処理
-	void NormalUpdate(void);
-	//通常モードの描画処理
-	void NormalDraw(void);
 
 private:
+	// フィールドオブジェクトのポインタ
+	std::unique_ptr<CField> m_pField;
 };
 
