@@ -1,0 +1,135 @@
+name: Set Start Date When Status is In Progress
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # 15分ごとに実行（必要に応じて変更）
+  workflow_dispatch: # 手動実行も可能
+
+jobs:
+  update-start-date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Start Date on Status Change
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const projectNumber = 7;
+            const statusName = "進行中";
+            const startDateFieldName = "取り掛かり日";
+
+            const projects = await github.graphql(`
+              query {
+                viewer {
+                  projectsV2(first: 10) {
+                    nodes {
+                      id
+                      number
+                      title
+                    }
+                  }
+                }
+              }
+            `);
+
+            const project = projects.viewer.projectsV2.nodes.find(p => p.number === projectNumber);
+            if (!project) throw new Error('Project not found');
+            const projectId = project.id;
+
+            const items = await github.graphql(`
+              query($projectId: ID!) {
+                node(id: $projectId) {
+                  ... on ProjectV2 {
+                    items(first: 100) {
+                      nodes {
+                        id
+                        fieldValues(first: 20) {
+                          nodes {
+                            ... on ProjectV2ItemFieldTextValue {
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                  id
+                                }
+                              }
+                              text
+                            }
+                            ... on ProjectV2ItemFieldDateValue {
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                  id
+                                }
+                              }
+                              date
+                            }
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              field {
+                                ... on ProjectV2FieldCommon {
+                                  name
+                                  id
+                                }
+                              }
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2FieldCommon {
+                          id
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { projectId });
+
+            const fieldMap = {};
+            for (const field of items.node.fields.nodes) {
+              fieldMap[field.name] = field.id;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+
+            for (const item of items.node.items.nodes) {
+              let isInProgress = false;
+              let alreadySet = false;
+
+              for (const field of item.fieldValues.nodes) {
+                if (field.field.name === statusName && field.name === statusName) {
+                  isInProgress = true;
+                }
+                if (field.field.name === startDateFieldName && field.date) {
+                  alreadySet = true;
+                }
+              }
+
+              if (isInProgress && !alreadySet) {
+                await github.graphql(`
+                  mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: Date!) {
+                    updateProjectV2ItemFieldValue(input: {
+                      projectId: $projectId,
+                      itemId: $itemId,
+                      fieldId: $fieldId,
+                      value: {
+                        date: $value
+                      }
+                    }) {
+                      projectV2Item {
+                        id
+                      }
+                    }
+                  }
+                `, {
+                  projectId,
+                  itemId: item.id,
+                  fieldId: fieldMap[startDateFieldName],
+                  value: today
+                });
+              }
+            }
