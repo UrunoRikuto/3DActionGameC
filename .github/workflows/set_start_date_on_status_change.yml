@@ -2,7 +2,7 @@ name: Set Start Date When Status is In Progress
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # 15分ごとに実行（必要に応じて変更）
+    - cron: '*/15 * * * *' # 15分ごとに実行
   workflow_dispatch: # 手動実行も可能
 
 jobs:
@@ -18,6 +18,7 @@ jobs:
             const statusName = "進行中";
             const startDateFieldName = "取り掛かり日";
 
+            // プロジェクト取得
             const projects = await github.graphql(`
               query {
                 viewer {
@@ -35,7 +36,9 @@ jobs:
             const project = projects.viewer.projectsV2.nodes.find(p => p.number === projectNumber);
             if (!project) throw new Error('Project not found');
             const projectId = project.id;
+            console.log('📌 Project ID:', projectId);
 
+            // アイテム＋フィールド値取得
             const items = await github.graphql(`
               query($projectId: ID!) {
                 node(id: $projectId) {
@@ -89,12 +92,17 @@ jobs:
               }
             `, { projectId });
 
+            // フィールドIDマップ化
             const fieldMap = {};
             for (const field of items.node.fields.nodes) {
               fieldMap[field.name] = field.id;
             }
 
+            const startDateFieldId = fieldMap[startDateFieldName];
+            console.log('📌 Start Date Field ID:', startDateFieldId);
+
             const today = new Date().toISOString().split('T')[0];
+            console.log('📆 Today:', today);
 
             for (const item of items.node.items.nodes) {
               let isInProgress = false;
@@ -106,14 +114,15 @@ jobs:
                 if (fieldName === statusName && field?.name === statusName) {
                   isInProgress = true;
                 }
-
                 if (fieldName === startDateFieldName && field?.date) {
                   alreadySet = true;
                 }
               }
 
               if (isInProgress && !alreadySet) {
-                await github.graphql(`
+                console.log(`⏳ Updating item ${item.id} with date ${today}`);
+
+                const response = await github.graphql(`
                   mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: Date!) {
                     updateProjectV2ItemFieldValue(input: {
                       projectId: $projectId,
@@ -131,8 +140,12 @@ jobs:
                 `, {
                   projectId,
                   itemId: item.id,
-                  fieldId: fieldMap[startDateFieldName],
+                  fieldId: startDateFieldId,
                   value: today
                 });
+
+                console.log('✅ Mutation response:', JSON.stringify(response, null, 2));
+              } else {
+                console.log(`🚫 Skipping item ${item.id} | isInProgress: ${isInProgress}, alreadySet: ${alreadySet}`);
               }
             }
