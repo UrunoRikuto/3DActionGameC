@@ -1,35 +1,35 @@
 /*
-* @file SceneBase.h
-* @brief シーンクラスのベースクラスのヘッダーファイル
+* @file GameObject.h
+* @brief ゲームオブジェクトの基底クラスのhファイル
 * @author 宇留野陸斗
 * @date 2025/08/04 クラスの作成
 */
 #pragma once
 
 /// <summary>
-/// シーンの基底クラス
+/// ゲームオブジェクトの基底クラス
 /// </summary>
-class CSceneBase
+class CGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CSceneBase();
-
+	CGameObject();
+	
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~CSceneBase();
-	
+	virtual ~CGameObject();
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update(void) = 0;
-	
+	virtual void Update();
+
 	/// <summary>
 	/// 描画処理
 	/// </summary>
-	virtual void Draw(void) = 0;
-
+	virtual void Draw();
 };
+

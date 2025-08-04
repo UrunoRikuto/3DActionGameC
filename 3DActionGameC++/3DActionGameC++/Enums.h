@@ -1,9 +1,9 @@
-#pragma once
-
 /*
-* @brief 列挙型名
-* @param 要素番号：要素名
+* @file Enums.h
+* @brief 列挙型の定義ファイル
+* @author 宇留野陸斗
 */
+#pragma once
 
 /*
 * @brief シーンの種類

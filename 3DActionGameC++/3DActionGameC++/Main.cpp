@@ -9,6 +9,7 @@
 #include "SceneTitle.h"
 #include "SceneGame.h"
 #include "ShaderList.h"
+#include "Camera.h"
 
 RenderTarget* pRTV;
 DepthStencil* pDSV;
@@ -39,7 +40,7 @@ HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 	pRTV = GetDefaultRTV();
 	pDSV = GetDefaultDSV();
 
-	Camera::CreateCamera();
+	Camera::CreataeInstance();
 
 	// ƒV[ƒ“ì¬
 	m_pScene = new CSceneTitle();
@@ -70,8 +71,8 @@ void Draw()
 
 	m_pScene->Draw();
 
-	Geometory::SetProjection(Camera::GetInfo()->GetProjectionMatrix());
-	Geometory::SetView(Camera::GetInfo()->GetViewMatrix());
+	Geometory::SetProjection(Camera::GetInstance()->GetProjectionMatrix());
+	Geometory::SetView(Camera::GetInstance()->GetViewMatrix());
 
 	EndDrawDirectX();
 }

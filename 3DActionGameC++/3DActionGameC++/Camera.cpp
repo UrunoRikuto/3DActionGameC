@@ -2,7 +2,15 @@
 #include "Input.h" 
 #include "Defines.h"
 
-Camera* Camera::m_pCamera = nullptr;
+Camera* Camera::m_pInstance = nullptr;
+
+void Camera::CreataeInstance(void)
+{
+	if (!m_pInstance)
+	{
+		m_pInstance = new CameraDebug();
+	}
+}
 
 Camera::Camera()
 	: m_pos(0.0f, 0.0f, -40.0f)
@@ -14,14 +22,7 @@ Camera::Camera()
 	, m_radius(55.5f)
 	, m_radY(3.1f)
 { 
-}
 
-void Camera::CreateCamera()
-{
-	if (m_pCamera == nullptr)
-	{
-		m_pCamera = new CameraDebug();
-	}
 }
 
 Camera::~Camera()
@@ -101,9 +102,26 @@ void CameraDebug::Update(DirectX::XMFLOAT3 PlayerPos, DirectX::XMFLOAT3 PlayerRo
 
 void CameraDebug::Update(void)
 {
-	m_look.x = -19.0f;
-	m_look.y = -19.0f;
-	m_look.z = -40.0f;
+	//m_look.x = -19.0f;
+	//m_look.y = -19.0f;
+	//m_look.z = -40.0f;
+
+	if (IsKeyPress(VK_UP))
+	{
+		m_look.y += 0.1f;
+	}
+	if (IsKeyPress(VK_DOWN))
+	{
+		m_look.y -= 0.1f;
+	}
+	if (IsKeyPress(VK_LEFT))
+	{
+		m_radXZ -= 0.01f;
+	}
+	if (IsKeyPress(VK_RIGHT))
+	{
+		m_radXZ += 0.01f;
+	}
 
 	m_pos.x = cosf(m_radY) * sinf(m_radXZ) * m_radius + m_look.x;
 	m_pos.y = sinf(m_radY) * m_radius + m_look.y;

@@ -1,15 +1,20 @@
 #pragma once
-#include <DirectXMath.h> 
-#include "Structs.h"
+#include "StructMath.h"
 
 class Camera 
 {
 protected:
+	//カメラのインスタンス
+	static Camera* m_pInstance;
+public:// インスタンスのアクセサ
+	//作成
+	static void CreataeInstance(void);
+	// 取得
+	static Camera* GetInstance() { return m_pInstance; }
+protected:
 	//コンストラクタ
 	Camera();
 public:
-	//アドレス作成
-	static void CreateCamera(void);
 	//デストラクタ
 	virtual ~Camera();
  
@@ -31,9 +36,7 @@ public:
 
 	DirectX::XMFLOAT3 MoveVector(void);
 
-	static Camera* GetInfo() { return m_pCamera; }
 protected:
-	static Camera* m_pCamera;
 
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_look;
