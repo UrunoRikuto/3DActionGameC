@@ -1,8 +1,8 @@
 /*
-* @file Field.h
-* @brief フィールドオブジェクトのクラスのヘッダーファイル
+* @file Player.h
+* @brief プレイヤークラスのヘッダーファイル
 * @author 宇留野陸斗
-* @date 2025/08/04 クラスの作成
+* @date 2025/08/04 クラスの定義
 */
 #pragma once
 
@@ -10,21 +10,21 @@
 #include "GameObject.h"
 
 /// <summary>
-/// フィールドオブジェクトのクラス
+/// プレイヤーのクラス
 /// </summary>
-class CField : public CGameObject
+class CPlayer : public CGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CField();
-	
+	CPlayer();
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CField();
-	
+	virtual ~CPlayer();
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -35,4 +35,16 @@ public:
 	/// </summary>
 	void Draw(void) override;
 
+private:
+	/// <summary>
+	/// 移動処理
+	/// </summary>
+	void Move(void);
+
+private:
+	/// <summary>
+	/// プレイヤーの移動量
+	/// </summary>
+	XMFLOAT3 m_tMovePower;
 };
+

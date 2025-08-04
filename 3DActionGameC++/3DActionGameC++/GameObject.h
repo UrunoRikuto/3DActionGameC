@@ -6,6 +6,12 @@
 */
 #pragma once
 
+#include <memory>
+#include "StructMath.h"
+
+/* 前方宣言 */
+class Model;
+
 /// <summary>
 /// ゲームオブジェクトの基底クラス
 /// </summary>
@@ -31,5 +37,26 @@ public:
 	/// 描画処理
 	/// </summary>
 	virtual void Draw();
+
+protected:
+	/// <summary>
+	/// モデルのポインタ
+	/// </summary>
+	std::unique_ptr<Model> m_pModel;
+
+	/// <summary>
+	/// 位置情報
+	///	</summary>
+	XMFLOAT3 m_tPosition;
+
+	/// <summary>
+	/// 大きさ情報
+	/// </summary>
+	XMFLOAT3 m_tScale;
+
+	/// <summary>
+	/// 回転情報
+	/// </summary>
+	XMFLOAT3 m_tRotation;
 };
 
