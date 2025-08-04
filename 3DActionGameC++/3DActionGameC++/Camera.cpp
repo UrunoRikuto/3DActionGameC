@@ -89,10 +89,18 @@ CameraDebug::~CameraDebug()
 
 void CameraDebug::Update(DirectX::XMFLOAT3 PlayerPos, DirectX::XMFLOAT3 PlayerRot)
 {
+#ifdef _DEBUG
+	if (IsKeyPress('C'))
+	{
+		Camera::GetInstance()->Update();
+		return;
+	}
+#endif // !_DEBUG
+	m_radius = 20.0f;
 	m_look = PlayerPos;
 
 	m_radXZ = DirectX::XMConvertToRadians(PlayerRot.y);
-	m_radY = DirectX::XMConvertToRadians(180) - DirectX::XMConvertToRadians(PlayerRot.x);
+	m_radY = DirectX::XMConvertToRadians(150) - DirectX::XMConvertToRadians(PlayerRot.x);
 
 
 	m_pos.x = cosf(m_radY) * sinf(m_radXZ) * m_radius + m_look.x;
@@ -106,11 +114,11 @@ void CameraDebug::Update(void)
 	//m_look.y = -19.0f;
 	//m_look.z = -40.0f;
 
-	if (IsKeyPress(VK_UP))
+	if (IsKeyPress('Q'))
 	{
 		m_look.y += 0.1f;
 	}
-	if (IsKeyPress(VK_DOWN))
+	if (IsKeyPress('E'))
 	{
 		m_look.y -= 0.1f;
 	}
@@ -122,6 +130,15 @@ void CameraDebug::Update(void)
 	{
 		m_radXZ += 0.01f;
 	}
+	if (IsKeyPress(VK_UP))
+	{
+		m_radY -= 0.01f;
+	}
+	if (IsKeyPress(VK_DOWN))
+	{
+		m_radY += 0.01f;
+	}
+
 
 	m_pos.x = cosf(m_radY) * sinf(m_radXZ) * m_radius + m_look.x;
 	m_pos.y = sinf(m_radY) * m_radius + m_look.y;

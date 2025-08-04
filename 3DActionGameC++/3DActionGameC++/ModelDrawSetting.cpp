@@ -55,7 +55,7 @@ void ShaderCameraSetting(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX
 	Model->SetPixelShader(ShaderList::GetPS(ShaderList::PS_LAMBERT));
 }
 
-void CreateObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, DirectX::XMFLOAT3 Color,Model* Model, Camera* Camera,bool IsLighting)
+void CreateObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, Model* Model, Camera* Camera,bool IsLighting, DirectX::XMFLOAT3 LightingColor)
 {
 	ShaderCameraSetting(pos, Scale, Rotate, Model, Camera);
 	for (int i = 0; i < Model->GetMeshNum(); ++i)
@@ -64,9 +64,9 @@ void CreateObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLO
 		Model::Material material = *Model->GetMaterial(Model->GetMesh(i)->materialID);
 		if (IsLighting)
 		{
-			material.ambient.x = Color.x; // x (r) 
-			material.ambient.y = Color.y; // y (g) 
-			material.ambient.z = Color.z; // z (b) 
+			material.ambient.x = LightingColor.x; // x (r) 
+			material.ambient.y = LightingColor.y; // y (g) 
+			material.ambient.z = LightingColor.z; // z (b) 
 		}
 		ShaderList::SetMaterial(material);
 
@@ -95,7 +95,7 @@ void ShaderCameraAnimationSetting(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale
 	Model->SetPixelShader(ShaderList::GetPS(ShaderList::PS_LAMBERT));
 }
 
-void CreateAnimationObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, DirectX::XMFLOAT3 Color, Model* Model, Camera* Camera, bool IsLighting)
+void CreateAnimationObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, Model* Model, Camera* Camera, bool IsLighting , DirectX::XMFLOAT3 LightingColor)
 {
 	ShaderCameraAnimationSetting(pos, Scale, Rotate, Model, Camera);
 	const Model::Mesh* tMesh;
