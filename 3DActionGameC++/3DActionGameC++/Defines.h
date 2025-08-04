@@ -47,4 +47,8 @@ static const int SCREEN_HEIGHT	= 1080;
 #define SAFE_RELEASE(p)			do{if(p){p->Release(); p = nullptr;}}while(0)
 #define SAFE_NULLPTR(p)			do{if(p){p = nullptr;}}while(0)
 
+/* ゲームの値 */
+constexpr float PLAYER_SPEED = 0.5f; // プレイヤーの移動速度
+constexpr float PLAYER_ROTATION_SPEED = 1.0f; // プレイヤーの回転速度
+
 #endif // __DEFINES_H__

@@ -41,6 +41,11 @@ private:
 	/// </summary>
 	void Move(void);
 
+	/// <summary>
+	/// 視点移動
+	/// </summary>
+	void LookRotation(void);
+
 private:
 	/// <summary>
 	/// プレイヤーの移動量
