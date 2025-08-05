@@ -38,8 +38,13 @@ CPlayer::CPlayer()
 
 	// 位置、スケール、回転の設定
 	m_tScale = { 20.0f, 20.0f, 20.0f };
-	m_tPosition = { 0.0f, 0.0f, 0.0f };
+	m_tPosition = { 0.0f, m_tScale.y / 2, 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
+
+	// 当たり判定の設定
+	m_tCollisionInfo.type = Collision::eBox;	 // 当たり判定の種類をボックスに設定
+	m_tCollisionInfo.box.center = m_tPosition;	 // 中心位置をプレイヤーの位置に設定
+	m_tCollisionInfo.box.size = StructMath::Mul(m_tScale,0.1f);		 // ボックスの大きさを設定
 }
 
 // @brief デストラクタ
@@ -59,13 +64,18 @@ void CPlayer::Update(void)
 	Jump();
 	// カメラの更新処理
 	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
+	// 当たり判定の更新
+	m_tCollisionInfo.box.center = m_tPosition; // 当たり判定の中心位置を更新
 }
 
 // @brief 描画処理
 void CPlayer::Draw(void)
 {
-	// モデルの描画
 	SetRender3D();
+	// 当たり判定の描画
+	Collision::DrawCollision(m_tCollisionInfo);
+
+	// モデルの描画
 	CreateObject(
 		m_tPosition,        // 位置
 		m_tScale,			// スケール
@@ -130,16 +140,17 @@ void CPlayer::Jump(void)
 		// sin波を使ってジャンプの高さを計算
 		float rad = (PI * m_nJumpFrame) / PLAYER_JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tPosition.y = sin(rad) * PLAYER_JUMP_HEIGHT;
+		m_tMovePower.y = sin(rad) * PLAYER_JUMP_HEIGHT;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
+		m_tPosition.y += m_tMovePower.y; // 高さを更新
 
 		// ジャンプの総フレーム数に達したら
 		if (m_nJumpFrame >= PLAYER_JUMP_DURATION) 
 		{
 			// 地面の高さに戻す
-			m_tPosition.y = 0.0f; 
+			m_tPosition.y = m_tScale.y / 2;
 			// ジャンプ中フラグを下ろす
 			m_bJumping = false;
 			// 地面にいる状態にする
@@ -149,7 +160,7 @@ void CPlayer::Jump(void)
 	// 地面にいる場合は高さを0にする
 	else if(m_bGround)
 	{
-		m_tPosition.y = 0.0f; 
+		m_tPosition.y = m_tScale.y / 2;
 	}
 }
 
