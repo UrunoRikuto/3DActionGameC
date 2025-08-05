@@ -50,7 +50,7 @@ static const int SCREEN_HEIGHT	= 1080;
 /* ゲームの値 */
 constexpr float PLAYER_MOVE_SPEED = 0.5f;		// プレイヤーの移動速度
 constexpr float PLAYER_ROTATION_SPEED = 1.0f;	// プレイヤーの回転速度
-constexpr float PLAYER_JUMP_HEIGHT = 2.0f;		// プレイヤーのジャンプの最大高さ
+constexpr float PLAYER_JUMP_HEIGHT = 3.0f;		// プレイヤーのジャンプの最大高さ
 constexpr int	PLAYER_JUMP_DURATION = 45;		// プレイヤーのジャンプの総フレーム数
 
 #endif // __DEFINES_H__
