@@ -69,10 +69,9 @@ void Draw()
 {
 	BeginDrawDirectX();
 
-	m_pScene->Draw();
-
 	Geometory::SetProjection(Camera::GetInstance()->GetProjectionMatrix());
 	Geometory::SetView(Camera::GetInstance()->GetViewMatrix());
+	m_pScene->Draw();
 
 	EndDrawDirectX();
 }

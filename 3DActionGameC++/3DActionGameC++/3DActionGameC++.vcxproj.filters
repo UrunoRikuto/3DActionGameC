@@ -51,6 +51,12 @@
     <Filter Include="コード ファイル\GameObject\Player">
       <UniqueIdentifier>{f261034a-f7d0-4e94-936b-8257108cc98a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component">
+      <UniqueIdentifier>{e8bb9865-a912-4e17-bfd2-c1165d394f95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Component\Collision">
+      <UniqueIdentifier>{113f264c-cc24-4810-86f6-5b55c7e12ae0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -137,6 +143,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>コード ファイル\GameObject\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>コード ファイル\Component\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -216,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>コード ファイル\GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>コード ファイル\Component\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
