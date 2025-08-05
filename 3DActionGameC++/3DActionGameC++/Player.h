@@ -42,6 +42,11 @@ private:
 	void Move(void);
 
 	/// <summary>
+	/// 跳躍処理
+	/// </summary>
+	void Jump(void);
+
+	/// <summary>
 	/// 視点移動
 	/// </summary>
 	void LookRotation(void);
@@ -51,5 +56,20 @@ private:
 	/// プレイヤーの移動量
 	/// </summary>
 	XMFLOAT3 m_tMovePower;
+
+	/// <summary>
+	/// 地面に立っているかのフラグ
+	/// </summary>
+	bool m_bGround;
+
+	/// <summary>
+	/// ジャンプ中かどうかのフラグ
+	/// </summary>
+	bool m_bJumping;
+
+	/// <summary>
+	/// ジャンプの現在フレーム数
+	/// </summary>
+	int m_nJumpFrame;
 };
 

@@ -21,6 +21,8 @@
 CPlayer::CPlayer()
 	:CGameObject()// 基底クラスのコンストラクタを呼び出す
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
+	, m_bGround(true) // 地面にいるかどうかの初期値
+	, m_nJumpFrame(0) // ジャンプフレームの初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -49,6 +51,8 @@ void CPlayer::Update(void)
 	LookRotation();
 	// 移動処理
 	Move();
+	// 跳躍処理
+	Jump();
 	// カメラの更新処理
 	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
 }
@@ -75,32 +79,74 @@ void CPlayer::Move(void)
 	// 前
 	if(IsKeyPress('W'))
 	{
-		m_tMovePower.x += PLAYER_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z += PLAYER_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 後
 	if (IsKeyPress('S'))
 	{
-		m_tMovePower.x -= PLAYER_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= PLAYER_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 左
 	if (IsKeyPress('A'))
 	{
-		m_tMovePower.x -= PLAYER_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z += PLAYER_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 	// 右
 	if (IsKeyPress('D'))
 	{
-		m_tMovePower.x += PLAYER_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= PLAYER_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 
 	// 移動量を適用
 	m_tPosition = StructMath::Add(m_tPosition, m_tMovePower);
+	// 移動量をリセット
+	m_tMovePower = { 0.0f, 0.0f, 0.0f }; 
+}
 
-	m_tMovePower = { 0.0f, 0.0f, 0.0f }; // 移動量をリセット
+// @brief 跳躍処理
+void CPlayer::Jump(void)
+{
+	// スペースキーが押されたら
+	if (IsKeyTrigger(VK_SPACE) && m_bGround) 
+	{
+		// ジャンプ中フラグを立てる
+		m_bJumping = true; 
+		// ジャンプフレームをリセット
+		m_nJumpFrame = 0;
+		// 地面にいない状態にする
+		m_bGround = false;
+	}
+	// ジャンプ中の処理
+	if (m_bJumping) 
+	{
+		// sin波を使ってジャンプの高さを計算
+		float rad = (PI * m_nJumpFrame) / PLAYER_JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
+		// ジャンプの高さを計算
+		m_tPosition.y = sin(rad) * PLAYER_JUMP_HEIGHT;
+
+		// ジャンプフレームを進める
+		m_nJumpFrame++;
+
+		// ジャンプの総フレーム数に達したら
+		if (m_nJumpFrame >= PLAYER_JUMP_DURATION) 
+		{
+			// 地面の高さに戻す
+			m_tPosition.y = 0.0f; 
+			// ジャンプ中フラグを下ろす
+			m_bJumping = false;
+			// 地面にいる状態にする
+			m_bGround = true;
+		}
+	}
+	// 地面にいる場合は高さを0にする
+	else if(m_bGround)
+	{
+		m_tPosition.y = 0.0f; 
+	}
 }
 
 // @brief 視点移動
