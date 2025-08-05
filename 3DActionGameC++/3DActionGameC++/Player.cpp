@@ -44,7 +44,7 @@ CPlayer::CPlayer()
 	// 当たり判定の設定
 	m_tCollisionInfo.type = Collision::eBox;	 // 当たり判定の種類をボックスに設定
 	m_tCollisionInfo.box.center = m_tPosition;	 // 中心位置をプレイヤーの位置に設定
-	m_tCollisionInfo.box.size = StructMath::Mul(m_tScale,0.1f);		 // ボックスの大きさを設定
+	m_tCollisionInfo.box.size = StructMath::Add(StructMath::Mul(m_tScale, 0.1f), XMFLOAT3(0.0f, 1.0f, 0.0f));		 // ボックスの大きさを設定
 }
 
 // @brief デストラクタ
