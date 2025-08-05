@@ -140,17 +140,16 @@ void CPlayer::Jump(void)
 		// sin波を使ってジャンプの高さを計算
 		float rad = (PI * m_nJumpFrame) / PLAYER_JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tMovePower.y = sin(rad) * PLAYER_JUMP_HEIGHT;
+		m_tPosition.y = (sin(rad) * PLAYER_JUMP_HEIGHT) + m_fUnderHeight;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
-		m_tPosition.y += m_tMovePower.y; // 高さを更新
 
 		// ジャンプの総フレーム数に達したら
 		if (m_nJumpFrame >= PLAYER_JUMP_DURATION) 
 		{
 			// 地面の高さに戻す
-			m_tPosition.y = m_tScale.y / 2;
+			m_tPosition.y = m_fUnderHeight;
 			// ジャンプ中フラグを下ろす
 			m_bJumping = false;
 			// 地面にいる状態にする
@@ -160,7 +159,7 @@ void CPlayer::Jump(void)
 	// 地面にいる場合は高さを0にする
 	else if(m_bGround)
 	{
-		m_tPosition.y = m_tScale.y / 2;
+		m_tPosition.y = m_fUnderHeight;
 	}
 }
 

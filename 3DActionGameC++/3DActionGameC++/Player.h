@@ -35,6 +35,12 @@ public:
 	/// </summary>
 	void Draw(void) override;
 
+	/// <summary>
+	/// プレイヤーの真下の地面の高さを設定する関数
+	/// </summary>
+	/// <param name="height">設定するオブジェクトのY軸</param>
+	void SetUnderHeight(float height) { m_fUnderHeight = height + (m_tScale.y / 2.0f); }
+
 private:
 	/// <summary>
 	/// 移動処理
@@ -71,5 +77,10 @@ private:
 	/// ジャンプの現在フレーム数
 	/// </summary>
 	int m_nJumpFrame;
+
+	/// <summary>
+	/// 真下の高さを保存する変数
+	/// </summary>
+	float m_fUnderHeight;
 };
 

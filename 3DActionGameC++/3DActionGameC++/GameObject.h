@@ -69,5 +69,32 @@ protected:
 	/// 回転情報
 	/// </summary>
 	XMFLOAT3 m_tRotation;
+
+public: // メンバ変数のアクセサ
+
+	/// <summary>
+	/// 当たり判定の取得
+	/// </summary>
+	/// <returns>当たり判定情報</returns>
+	Collision::Info GetCollisionInfo() const { return m_tCollisionInfo; }
+
+	/// <summary>
+	/// 位置情報の取得
+	/// </summary>
+	/// <returns>位置情報</returns>
+	const XMFLOAT3& GetPosition() const { return m_tPosition; }
+
+	/// <summary>
+	/// スケール情報の取得
+	/// </summary>
+	/// <returns>スケール情報</returns>
+	const XMFLOAT3& GetScale() const { return m_tScale; }
+
+	/// <summary>
+	/// 回転情報の取得
+	/// </summary>
+	/// <returns>回転情報</returns>
+	const XMFLOAT3& GetRotation() const { return m_tRotation; }
+
 };
 

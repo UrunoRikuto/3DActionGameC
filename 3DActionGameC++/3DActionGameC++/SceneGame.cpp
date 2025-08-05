@@ -37,6 +37,9 @@ void CSceneGame::Update(void)
 	if (m_pField)m_pField->Update();
 	// プレイヤーの更新処理
 	if (m_pPlayer)m_pPlayer->Update();
+
+	//(仮)プレイヤーの真下の地面の高さを設定
+	m_pPlayer->SetUnderHeight(m_pField->GetPosition().y + m_pField->GetScale().y / 2.0f);
 }
 
 // @brief 描画処理
