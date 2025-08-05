@@ -17,6 +17,7 @@ CGameObject::CGameObject()
 	, m_tPosition(0.0f, 0.0f, 0.0f) // 初期位置
 	, m_tScale(1.0f, 1.0f, 1.0f) // 初期スケール
 	, m_tRotation(0.0f, 0.0f, 0.0f) // 初期回転
+	, m_tCollisionInfo() // 当たり判定情報の初期化
 {
 	
 }

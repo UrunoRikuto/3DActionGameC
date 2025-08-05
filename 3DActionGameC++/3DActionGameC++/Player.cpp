@@ -3,6 +3,9 @@
 * @brief プレイヤークラスのCppファイル
 * @author 宇留野陸斗
 * @date 2025/08/04 クラスの実装
+*                  移動処理の追加
+*                  視点移動処理の追加
+*            08/05 ジャンプ処理の追加
 */
 
 /* ヘッダーで利用するシステム・要素のインクルード */
@@ -22,18 +25,19 @@ CPlayer::CPlayer()
 	:CGameObject()// 基底クラスのコンストラクタを呼び出す
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
 	, m_bGround(true) // 地面にいるかどうかの初期値
+	, m_bJumping(false) // ジャンプ中かどうかの初期値
 	, m_nJumpFrame(0) // ジャンプフレームの初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
 	// モデルの読み込み
-	if (!m_pModel->Load(MODEL_PATH("Player.obj")))
+	if (!m_pModel->Load(MODEL_PATH("Player.obj"), 0.1f))
 	{
 		MessageBox(NULL, "プレイヤーモデルの読み込みに失敗しました。", "Error", MB_OK);
 	}
 
 	// 位置、スケール、回転の設定
-	m_tScale = { 2.0f, 2.0f, 2.0f };
+	m_tScale = { 20.0f, 20.0f, 20.0f };
 	m_tPosition = { 0.0f, 0.0f, 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 }
