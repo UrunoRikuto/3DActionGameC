@@ -48,6 +48,9 @@
     <Filter Include="コード ファイル\BaseSystem\Model\DrawSetting">
       <UniqueIdentifier>{abba8bb9-3bb8-431e-bf40-ea86bd0d5fdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\GameObject\Player">
+      <UniqueIdentifier>{f261034a-f7d0-4e94-936b-8257108cc98a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -131,6 +134,9 @@
     <ClCompile Include="ModelDrawSetting.cpp">
       <Filter>コード ファイル\BaseSystem\Model\DrawSetting</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>コード ファイル\GameObject\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -207,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="ModelDrawSetting.h">
       <Filter>コード ファイル\BaseSystem\Model\DrawSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>コード ファイル\GameObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
