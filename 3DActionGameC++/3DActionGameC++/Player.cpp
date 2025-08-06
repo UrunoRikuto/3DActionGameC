@@ -120,7 +120,7 @@ void CPlayer::SnipingActionUpdate(void)
 // @brief 行動モードの切り替え
 void CPlayer::ChangeActionMode(void)
 {
-	if (IsKeyTrigger(PLAYER_CHANGE_ACTIONMODE_KEY))
+	if (IsKeyTrigger(InputKey::Player::CHANGE_ACTIONMODE))
 	{
 		switch (m_eActionMode)
 		{
@@ -140,25 +140,25 @@ void CPlayer::ChangeActionMode(void)
 void CPlayer::Move(void)
 {
 	// 前
-	if(IsKeyPress(PLAYER_MOVE_FORWARD_KEY))
+	if(IsKeyPress(InputKey::Player::MOVE_FORWARD))
 	{
 		m_tMovePower.x += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 		m_tMovePower.z += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 後
-	if (IsKeyPress(PLAYER_MOVE_BACKWARD_KEY))
+	if (IsKeyPress(InputKey::Player::MOVE_BACKWARD))
 	{
 		m_tMovePower.x -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 		m_tMovePower.z -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 左
-	if (IsKeyPress(PLAYER_MOVE_LEFT_KEY))
+	if (IsKeyPress(InputKey::Player::MOVE_LEFT))
 	{
 		m_tMovePower.x -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 		m_tMovePower.z += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 	// 右
-	if (IsKeyPress(PLAYER_MOVE_RIGHT_KEY))
+	if (IsKeyPress(InputKey::Player::MOVE_RIGHT))
 	{
 		m_tMovePower.x += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 		m_tMovePower.z -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
@@ -174,7 +174,7 @@ void CPlayer::Move(void)
 void CPlayer::Jump(void)
 {
 	// スペースキーが押されたら
-	if (IsKeyTrigger(PLAYER_JUMP_KEY) && m_bGround) 
+	if (IsKeyTrigger(InputKey::Player::JUMP) && m_bGround)
 	{
 		// ジャンプ中フラグを立てる
 		m_bJumping = true; 
@@ -215,11 +215,11 @@ void CPlayer::Jump(void)
 // @brief 視点移動
 void CPlayer::LookRotation(void)
 {
-	if (IsKeyPress(PLAYER_LOOK_LEFT_KEY))
+	if (IsKeyPress(InputKey::Player::LOOK_LEFT))
 	{
 		m_tRotation.y -= PLAYER_ROTATION_SPEED; // 左向き
 	}
-	if (IsKeyPress(PLAYER_LOOK_RIGHT_KEY))
+	if (IsKeyPress(InputKey::Player::LOOK_RIGHT))
 	{
 		m_tRotation.y += PLAYER_ROTATION_SPEED; // 右向き
 	}
