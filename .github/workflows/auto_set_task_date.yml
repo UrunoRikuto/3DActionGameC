@@ -79,7 +79,9 @@ jobs:
             }
 
             const fieldId = field.id;
-            const today = new Date().toISOString().split('T')[0];
+            const jstOffset = 9 * 60 * 60 * 1000;
+            const jstDate = new Date(Date.now() + jstOffset);
+            const today = jstDate.toISOString().split('T')[0];
 
             await github.graphql(`
               mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: Date!) {
