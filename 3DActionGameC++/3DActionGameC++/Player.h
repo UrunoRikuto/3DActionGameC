@@ -3,8 +3,15 @@
 * @brief プレイヤークラスのヘッダーファイル
 * @author 宇留野陸斗
 * @date 2025/08/04 クラスの定義
+*                  移動処理の定義
+*                  視点移動処理の定義
+*            08/05 ジャンプ処理の定義
+*            08/07 プレイヤーの行動モードの定義
 */
 #pragma once
+
+/* システム・要素のインクルード */
+#include "Enums.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -43,6 +50,21 @@ public:
 
 private:
 	/// <summary>
+	/// 移動アクションの更新処理
+	/// </summary>
+	void MoveActionUpdate(void);
+
+	/// <summary>
+	/// 狙撃モードの更新処理
+	/// </summary>
+	void SnipingActionUpdate(void);
+
+	/// <summary>
+	/// 行動モードの切り替え
+	/// </summary>
+	void ChangeActionMode(void);
+
+	/// <summary>
 	/// 移動処理
 	/// </summary>
 	void Move(void);
@@ -58,6 +80,11 @@ private:
 	void LookRotation(void);
 
 private:
+	/// <summary>
+	/// プレイヤーの行動モード
+	/// </summary>
+	PlayerActionMode m_eActionMode;
+
 	/// <summary>
 	/// プレイヤーの移動量
 	/// </summary>

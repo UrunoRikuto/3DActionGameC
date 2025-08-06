@@ -6,6 +6,8 @@
 *                  移動処理の追加
 *                  視点移動処理の追加
 *            08/05 ジャンプ処理の追加
+*            08/07 プレイヤーの行動モードの実装
+*                  操作キーをDefines.hで一括管理化
 */
 
 /* ヘッダーで利用するシステム・要素のインクルード */
@@ -23,10 +25,12 @@
 // @brief コンストラクタ
 CPlayer::CPlayer()
 	:CGameObject()// 基底クラスのコンストラクタを呼び出す
+	, m_eActionMode(PlayerActionMode::Move) // プレイヤーの行動モードを移動モードに設定
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
 	, m_bGround(true) // 地面にいるかどうかの初期値
 	, m_bJumping(false) // ジャンプ中かどうかの初期値
 	, m_nJumpFrame(0) // ジャンプフレームの初期値
+	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -56,16 +60,21 @@ CPlayer::~CPlayer()
 // @brief 更新処理
 void CPlayer::Update(void)
 {
-	// 視点の移動処理
-	LookRotation();
-	// 移動処理
-	Move();
-	// 跳躍処理
-	Jump();
-	// カメラの更新処理
-	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
-	// 当たり判定の更新
-	m_tCollisionInfo.box.center = m_tPosition; // 当たり判定の中心位置を更新
+	// 行動モードの切り替え処理
+	ChangeActionMode();
+
+	// プレイヤーの行動モードによって更新処理を分岐
+	switch (m_eActionMode)
+	{
+	case PlayerActionMode::Move: // 移動モード
+		MoveActionUpdate();
+		break;
+	case PlayerActionMode::Sniping: // 狙撃モード
+		SnipingActionUpdate();
+		break;
+	default:
+		break;
+	}
 }
 
 // @brief 描画処理
@@ -87,29 +96,69 @@ void CPlayer::Draw(void)
 	);
 }
 
+// @brief 移動アクションの更新処理
+void CPlayer::MoveActionUpdate(void)
+{
+	// 視点の移動処理
+	LookRotation();
+	// 移動処理
+	Move();
+	// 跳躍処理
+	Jump();
+	// カメラの更新処理
+	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
+	// 当たり判定の更新
+	m_tCollisionInfo.box.center = m_tPosition; // 当たり判定の中心位置を更新
+}
+
+// @brief 狙撃モードの更新処理
+void CPlayer::SnipingActionUpdate(void)
+{
+
+}
+
+// @brief 行動モードの切り替え
+void CPlayer::ChangeActionMode(void)
+{
+	if (IsKeyTrigger(PLAYER_CHANGE_ACTIONMODE_KEY))
+	{
+		switch (m_eActionMode)
+		{
+		case PlayerActionMode::Move:
+			// 移動モードから狙撃モードに切り替え
+			m_eActionMode = PlayerActionMode::Sniping;
+			break;
+		case PlayerActionMode::Sniping:
+			// 狙撃モードから移動モードに切り替え
+			m_eActionMode = PlayerActionMode::Move;
+			break;
+		}
+	}
+}
+
 // @brief 移動処理
 void CPlayer::Move(void)
 {
 	// 前
-	if(IsKeyPress('W'))
+	if(IsKeyPress(PLAYER_MOVE_FORWARD_KEY))
 	{
 		m_tMovePower.x += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 		m_tMovePower.z += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 後
-	if (IsKeyPress('S'))
+	if (IsKeyPress(PLAYER_MOVE_BACKWARD_KEY))
 	{
 		m_tMovePower.x -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 		m_tMovePower.z -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 左
-	if (IsKeyPress('A'))
+	if (IsKeyPress(PLAYER_MOVE_LEFT_KEY))
 	{
 		m_tMovePower.x -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 		m_tMovePower.z += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 	// 右
-	if (IsKeyPress('D'))
+	if (IsKeyPress(PLAYER_MOVE_RIGHT_KEY))
 	{
 		m_tMovePower.x += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 		m_tMovePower.z -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
@@ -125,7 +174,7 @@ void CPlayer::Move(void)
 void CPlayer::Jump(void)
 {
 	// スペースキーが押されたら
-	if (IsKeyTrigger(VK_SPACE) && m_bGround) 
+	if (IsKeyTrigger(PLAYER_JUMP_KEY) && m_bGround) 
 	{
 		// ジャンプ中フラグを立てる
 		m_bJumping = true; 
@@ -166,11 +215,11 @@ void CPlayer::Jump(void)
 // @brief 視点移動
 void CPlayer::LookRotation(void)
 {
-	if (IsKeyPress(VK_LEFT))
+	if (IsKeyPress(PLAYER_LOOK_LEFT_KEY))
 	{
 		m_tRotation.y -= PLAYER_ROTATION_SPEED; // 左向き
 	}
-	if (IsKeyPress(VK_RIGHT))
+	if (IsKeyPress(PLAYER_LOOK_RIGHT_KEY))
 	{
 		m_tRotation.y += PLAYER_ROTATION_SPEED; // 右向き
 	}
