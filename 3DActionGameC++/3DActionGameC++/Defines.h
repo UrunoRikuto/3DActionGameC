@@ -53,4 +53,15 @@ constexpr float PLAYER_ROTATION_SPEED = 1.0f;	// プレイヤーの回転速度
 constexpr float PLAYER_JUMP_HEIGHT = 3.0f;		// プレイヤーのジャンプの最大高さ
 constexpr int	PLAYER_JUMP_DURATION = 45;		// プレイヤーのジャンプの総フレーム数
 
+/* 入力キー */
+constexpr BYTE PLAYER_MOVE_FORWARD_KEY = 'W';	// 前進キー
+constexpr BYTE PLAYER_MOVE_BACKWARD_KEY = 'S';	// 後退キー
+constexpr BYTE PLAYER_MOVE_LEFT_KEY = 'A';		// 左移動キー
+constexpr BYTE PLAYER_MOVE_RIGHT_KEY = 'D';		// 右移動キー
+constexpr BYTE PLAYER_JUMP_KEY = VK_SPACE;	// ジャンプキー
+constexpr BYTE PLAYER_LOOK_LEFT_KEY = VK_LEFT;	// 左向きキー
+constexpr BYTE PLAYER_LOOK_RIGHT_KEY = VK_RIGHT; // 右向きキー
+constexpr BYTE PLAYER_CHANGE_ACTIONMODE_KEY = 'F'; // 行動モード切り替えキー
+
+
 #endif // __DEFINES_H__

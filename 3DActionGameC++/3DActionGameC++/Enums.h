@@ -16,3 +16,15 @@ enum class SceneType
 	Game,
 	MAX,
 };
+
+/*
+* @brief プレイヤーの行動モード
+* @param 0：移動モード
+* @param 1：狙撃モード
+*/
+enum class PlayerActionMode
+{
+	Move,		// 移動モード
+	Sniping,	// 狙撃モード
+	MAX,
+};

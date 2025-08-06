@@ -11,6 +11,7 @@
 */
 #pragma once
 
+/* システム・要素のインクルード */
 #include <memory>
 #include "StructMath.h"
 #include "Collision.h"
