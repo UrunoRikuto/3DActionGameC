@@ -13,6 +13,7 @@
 /* 前方宣言 */
 class CField;
 class CPlayer;
+class CNpcBase;
 
 /// <summary>
 /// ゲームシーンクラス
@@ -45,5 +46,7 @@ private:
 	std::unique_ptr<CField> m_pField;
 	// プレイヤーオブジェクトのポインタ
 	std::unique_ptr<CPlayer> m_pPlayer;
+	// NPCオブジェクトのポインタ
+	std::unique_ptr<CNpcBase> m_pNpc;
 };
 

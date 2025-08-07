@@ -146,6 +146,7 @@
     <ClCompile Include="Model_check.cpp" />
     <ClCompile Include="Model_get.cpp" />
     <ClCompile Include="Model_morph.cpp" />
+    <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="SpriteDrawSetting.cpp" />
     <ClCompile Include="SpriteSetting.cpp" />
     <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="TargetNpc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -175,6 +177,7 @@
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelDrawSetting.h" />
+    <ClInclude Include="NpcBase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="SpriteDrawSetting.h" />
     <ClInclude Include="SpriteSetting.h" />
     <ClInclude Include="StructMath.h" />
+    <ClInclude Include="TargetNpc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>

@@ -1,5 +1,6 @@
 #pragma once
 #include "DirectXTex/DirectXTex.h"
+#include <memory>
 
 class Collision
 {
@@ -18,11 +19,20 @@ public:
 
 	enum class Tag
 	{
+		//タグなし
+		None = 0,
+		// プレイヤー
 		Player,
-		Enemy,
+		// ターゲットNPC
+		TargetNpc,
+		// フィールド
 		Field,
-		Object,
-		Attack,
+		// 頭
+		Head,
+		// 体
+		Body,
+		// 足
+		Foot,
 	};
 
 	//--- 当たり判定の形状 
@@ -70,7 +80,7 @@ public:
 	struct Info
 	{
 		Type type;					// 当たり判定の種類
-		Tag tag;
+		std::vector<Tag> tag;
 		union
 		{
 			Box box;
