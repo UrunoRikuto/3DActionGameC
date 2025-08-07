@@ -48,40 +48,79 @@ static const int SCREEN_HEIGHT	= 1080;
 #define SAFE_NULLPTR(p)			do{if(p){p = nullptr;}}while(0)
 
 /* ゲームの値 */
-constexpr float PLAYER_MOVE_SPEED = 0.5f;		// プレイヤーの移動速度
-constexpr float PLAYER_ROTATION_SPEED = 1.0f;	// プレイヤーの回転速度
-constexpr float PLAYER_JUMP_HEIGHT = 3.0f;		// プレイヤーのジャンプの最大高さ
-constexpr int	PLAYER_JUMP_DURATION = 45;		// プレイヤーのジャンプの総フレーム数
+namespace GameValue
+{
+	// プレイヤーの値
+	namespace Player
+	{
+		// プレイヤーの行動モード
+		namespace MoveAction
+		{
+			constexpr float MOVE_SPEED = 0.5f;		// 移動速度
+			constexpr float ROTATION_SPEED = 1.0f;	// 回転速度
+			constexpr float JUMP_HEIGHT = 3.0f;		// ジャンプの最大高さ
+			constexpr int	JUMP_DURATION = 45;		// ジャンプの総フレーム数
+		}
+		// プレイヤーの狙撃モード
+		namespace SnipingAction
+		{
+			constexpr float LOOK_SPEED_VERTICAL = 0.5f;		// 垂直方向の視点移動速度
+			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;	// 水平方向の視点移動速度
+		}
+	}
+}
 
 /* 入力キー */
 namespace InputKey
 {
+	// プレイヤーの入力キー
 	namespace Player
 	{
-		// 前進
-		constexpr BYTE MOVE_FORWARD 
-			= 'W';	
-		// 後退
-		constexpr BYTE MOVE_BACKWARD 
-			= 'S';	
-		// 左移動
-		constexpr BYTE MOVE_LEFT 
-			= 'A';		
-		// 右移動
-		constexpr BYTE MOVE_RIGHT 
-			= 'D';		
-		// ジャンプ
-		constexpr BYTE JUMP 
-			= VK_SPACE;	
-		// 視点 左回転
-		constexpr BYTE LOOK_LEFT 
-			= VK_LEFT;	
-		// 視点 右回転
-		constexpr BYTE LOOK_RIGHT 
-			= VK_RIGHT; 
 		// 行動モード切り替え
-		constexpr BYTE CHANGE_ACTIONMODE 
-			= 'F'; 
+		constexpr BYTE CHANGE_ACTIONMODE
+			= 'F';
+
+		// 移動モードの入力キー
+		namespace MoveAction
+		{
+			// 前進
+			constexpr BYTE MOVE_FORWARD
+				= 'W';
+			// 後退
+			constexpr BYTE MOVE_BACKWARD
+				= 'S';
+			// 左移動
+			constexpr BYTE MOVE_LEFT
+				= 'A';
+			// 右移動
+			constexpr BYTE MOVE_RIGHT
+				= 'D';
+			// ジャンプ
+			constexpr BYTE JUMP
+				= VK_SPACE;
+			// 視点 左回転
+			constexpr BYTE LOOK_LEFT
+				= VK_LEFT;
+			// 視点 右回転
+			constexpr BYTE LOOK_RIGHT
+				= VK_RIGHT;
+		}
+		// 狙撃モードの入力キー
+		namespace SnipingAction
+		{
+			// 狙撃モードの視点 上回転
+			constexpr BYTE SNIPING_LOOK_UP
+				= 'W';
+			// 狙撃モードの視点 下回転
+			constexpr BYTE SNIPING_LOOK_DOWN
+				= 'S';
+			// 狙撃モードの視点 左回転
+			constexpr BYTE SNIPING_LOOK_LEFT
+				= 'A';
+			// 狙撃モードの視点 右回転
+			constexpr BYTE SNIPING_LOOK_RIGHT
+				= 'D';
+		}
 	}
 }
 

@@ -19,7 +19,7 @@ Camera::Camera()
 	, m_fovy(DirectX::XMConvertToRadians(60.0f))
 	, m_aspect(16.0f / 9.0f)
 	, m_near(CMETER(30.0f)), m_far(METER(1000.0f)) 
-	, m_radius(55.5f)
+	, m_radius(20.0f)
 	, m_radY(3.1f)
 { 
 
@@ -96,7 +96,6 @@ void CameraDebug::Update(DirectX::XMFLOAT3 PlayerPos, DirectX::XMFLOAT3 PlayerRo
 		return;
 	}
 #endif // !_DEBUG
-	m_radius = 20.0f;
 	m_look = PlayerPos;
 
 	m_radXZ = DirectX::XMConvertToRadians(PlayerRot.y);
@@ -144,3 +143,4 @@ void CameraDebug::Update(void)
 	m_pos.y = sinf(m_radY) * m_radius + m_look.y;
 	m_pos.z = cosf(m_radY) * cosf(m_radXZ) * m_radius + m_look.z;
 }
+
