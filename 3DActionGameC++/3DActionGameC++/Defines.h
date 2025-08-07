@@ -41,6 +41,18 @@ static const char* APP_TITLE = "3DActionGame";
 static const int SCREEN_WIDTH	= 1920;
 static const int SCREEN_HEIGHT	= 1080;
 
+// ヌルチェック
+template<typename T>
+inline bool SafeNullCheck(T* p)
+{
+	if (p == nullptr)
+	{
+		assert(p != nullptr && "ポインタがnullptrです。");
+		return false;
+	}
+	return true;
+}
+
 //メモリ開放
 #define SAFE_DELETE(p)			do{if(p){delete p; p = nullptr;}}while(0)
 #define SAFE_DELETE_ARRAY(p)	do{if(p){delete[] p; p = nullptr;}}while(0)
@@ -66,7 +78,7 @@ namespace GameValue
 		{
 			constexpr float LOOK_SPEED_VERTICAL = 0.5f;		// 垂直方向の視点移動速度
 			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;	// 水平方向の視点移動速度
-			constexpr float ZOOM_POWER = 1.0f;				// 倍率変更値
+			constexpr float ZOOM_POWER = 0.1f;				// 倍率変更値
 		}
 	}
 

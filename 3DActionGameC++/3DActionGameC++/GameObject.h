@@ -54,12 +54,17 @@ protected:
 	/// <summary>
 	/// 当たり判定情報
 	/// </summary>
-	Collision::Info m_tCollisionInfo;
+	std::vector<Collision::Info> m_tCollisionInfos;
 
 	/// <summary>
 	/// 位置情報
 	///	</summary>
 	XMFLOAT3 m_tPosition;
+
+	/// <summary>
+	/// Y軸の調整位置
+	/// </summary>
+	float m_fAjustPositionY;
 
 	/// <summary>
 	/// 大きさ情報
@@ -76,8 +81,9 @@ public: // メンバ変数のアクセサ
 	/// <summary>
 	/// 当たり判定の取得
 	/// </summary>
+	/// <param name="InTag">当たり判定のタグ</param>
 	/// <returns>当たり判定情報</returns>
-	Collision::Info GetCollisionInfo() const { return m_tCollisionInfo; }
+	Collision::Info GetCollisionInfo(Collision::Tag InTag);
 
 	/// <summary>
 	/// 位置情報の取得

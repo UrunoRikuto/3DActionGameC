@@ -1,33 +1,32 @@
 /*
-* @file Field.h
-* @brief フィールドオブジェクトのクラスのヘッダーファイル
+* @file TargetNpc.h
+* @brief ターゲットNPCのクラスのヘッダーファイル
 * @author 宇留野陸斗
-* @date 2025/08/04 クラスの作成
+* * @date 2025/08/04 ターゲットNPCのクラスの定義
 */
+
 #pragma once
 
 /* 基底クラスのインクルード */
-#include "GameObject.h"
+#include "NpcBase.h"
 
 /// <summary>
-/// フィールドオブジェクトのクラス
+/// ターゲットNPCのクラス
 /// </summary>
-class CField : public CGameObject
+class CTargetNpc : public CNpcBase
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CField();
-	
+	CTargetNpc();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CField();
-	
+	virtual ~CTargetNpc();
 	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update(void) override;
-
 };
+

@@ -1,33 +1,31 @@
 /*
-* @file Field.h
-* @brief フィールドオブジェクトのクラスのヘッダーファイル
+* @file NpcBase.h
+* @brief NPCの基底クラスのヘッダーファイル
 * @author 宇留野陸斗
-* @date 2025/08/04 クラスの作成
+* @date 2025/08/04 NPCの基底クラスの定義
 */
+
 #pragma once
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
 
 /// <summary>
-/// フィールドオブジェクトのクラス
+/// NPCの基底クラス
 /// </summary>
-class CField : public CGameObject
+class CNpcBase : public CGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CField();
-	
+	CNpcBase() = default;
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CField();
-	
+	virtual ~CNpcBase() = default;
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(void) override;
-
+	virtual void Update(void) = 0;
 };

@@ -35,10 +35,18 @@ CField::CField()
 	m_tScale = { FIELD_SIZE, 1.0f, FIELD_SIZE };
 	m_tPosition = { 0.0f, 0.0f - (m_tScale.y / 2), 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
+
 	// 当たり判定情報の初期化
-	m_tCollisionInfo.type = Collision::Type::eBox; // 当たり判定のタイプをボックスに設定
-	m_tCollisionInfo.box.center = m_tPosition; // 中心位置を設定
-	m_tCollisionInfo.box.size = m_tScale; // サイズをスケールに設定
+	// 当たり判定情報のサイズを1に設定
+	m_tCollisionInfos.resize(1);
+	// 当たり判定の種類を設定
+	m_tCollisionInfos[0].type = Collision::Type::eBox;
+	// タグを追加
+	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Field);
+	// 中心位置を設定
+	m_tCollisionInfos[0].box.center = m_tPosition;
+	// ボックスの大きさを設定
+	m_tCollisionInfos[0].box.size = m_tScale;
 }
 
 // @brief デストラクタ
@@ -50,24 +58,5 @@ CField::~CField()
 // @brief 更新処理
 void CField::Update(void)
 {
-
-}
-
-// @brief 描画処理
-void CField::Draw(void)
-{
-	SetRender3D();
-	// 当たり判定の描画
-	Collision::DrawCollision(m_tCollisionInfo);
-	// モデルの描画
-	CreateObject(
-		m_tPosition,	// 位置
-		m_tScale,		// スケール
-		m_tRotation,	// 回転
-		m_pModel.get(),       // モデルポインタ
-		Camera::GetInstance(),// カメラポインタ
-		true,                 // 明るくするかどうか
-		XMFLOAT3(1.0f,1.0f,1.0f) // ライティング色
-	);
 
 }

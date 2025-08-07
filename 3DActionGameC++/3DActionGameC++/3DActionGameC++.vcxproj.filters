@@ -57,6 +57,12 @@
     <Filter Include="コード ファイル\Component\Collision">
       <UniqueIdentifier>{113f264c-cc24-4810-86f6-5b55c7e12ae0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\GameObject\NPC">
+      <UniqueIdentifier>{2f96129e-d4ca-4d7e-8faa-4d9cae62566e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\GameObject\NPC\TargetNPC">
+      <UniqueIdentifier>{c473483d-1e76-41aa-8dbd-2fa97dc56a70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -146,6 +152,10 @@
     <ClCompile Include="Collision.cpp">
       <Filter>コード ファイル\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="NpcBase.cpp">
+      <Filter>コード ファイル\GameObject\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetNpc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -228,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>コード ファイル\Component\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="NpcBase.h">
+      <Filter>コード ファイル\GameObject\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetNpc.h">
+      <Filter>コード ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
