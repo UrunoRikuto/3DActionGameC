@@ -32,7 +32,7 @@ public:
 
 	float GetRadY() { return m_radY; }
 
-	void SetFov(float Add){ m_radius = Add; }
+	void SetFov(float InFov){ m_radius = InFov; }
 
 	DirectX::XMFLOAT3 MoveVector(void);
 

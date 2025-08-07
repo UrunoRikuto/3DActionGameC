@@ -50,34 +50,41 @@ public:
 
 private:
 	/// <summary>
-	/// 移動アクションの更新処理
-	/// </summary>
-	void MoveActionUpdate(void);
-
-	/// <summary>
-	/// 狙撃モードの更新処理
-	/// </summary>
-	void SnipingActionUpdate(void);
-
-	/// <summary>
 	/// 行動モードの切り替え
 	/// </summary>
 	void ChangeActionMode(void);
 
 	/// <summary>
-	/// 移動処理
+	/// 移動アクションの更新処理
 	/// </summary>
-	void Move(void);
+	void MA_Update(void);
 
 	/// <summary>
-	/// 跳躍処理
+	///  移動アクションの移動処理
 	/// </summary>
-	void Jump(void);
+	void MA_Move(void);
 
 	/// <summary>
-	/// 視点移動
+	///  移動アクションの跳躍処理
 	/// </summary>
-	void LookRotation(void);
+	void MA_Jump(void);
+
+	/// <summary>
+	///  移動アクションの視点移動
+	/// </summary>
+	void MA_LookRotation(void);
+
+
+	/// <summary>
+	/// 狙撃モードの更新処理
+	/// </summary>
+	void SA_Update(void);
+
+	/// <summary>
+	/// 狙撃モードの視点移動
+	/// </summary>
+	/// <param name=""></param>
+	void SA_LookRotation(void);
 
 private:
 	/// <summary>

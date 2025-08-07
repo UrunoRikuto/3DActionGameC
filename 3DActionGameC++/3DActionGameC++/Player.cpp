@@ -67,10 +67,10 @@ void CPlayer::Update(void)
 	switch (m_eActionMode)
 	{
 	case PlayerActionMode::Move: // 移動モード
-		MoveActionUpdate();
+		MA_Update();
 		break;
 	case PlayerActionMode::Sniping: // 狙撃モード
-		SnipingActionUpdate();
+		SA_Update();
 		break;
 	default:
 		break;
@@ -80,88 +80,101 @@ void CPlayer::Update(void)
 // @brief 描画処理
 void CPlayer::Draw(void)
 {
-	SetRender3D();
-	// 当たり判定の描画
-	Collision::DrawCollision(m_tCollisionInfo);
+	switch (m_eActionMode)
+	{
+	case PlayerActionMode::Move:
+		SetRender3D();
+		// 当たり判定の描画
+		Collision::DrawCollision(m_tCollisionInfo);
 
-	// モデルの描画
-	CreateObject(
-		m_tPosition,        // 位置
-		m_tScale,			// スケール
-		m_tRotation,		// 回転
-		m_pModel.get(),			// モデルポインタ
-		Camera::GetInstance(), // カメラポインタ
-		true,					// 明るくするかどうか
-		XMFLOAT3(0.5f, 0.5f, 0.5f)// 色
-	);
-}
-
-// @brief 移動アクションの更新処理
-void CPlayer::MoveActionUpdate(void)
-{
-	// 視点の移動処理
-	LookRotation();
-	// 移動処理
-	Move();
-	// 跳躍処理
-	Jump();
-	// カメラの更新処理
-	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
-	// 当たり判定の更新
-	m_tCollisionInfo.box.center = m_tPosition; // 当たり判定の中心位置を更新
-}
-
-// @brief 狙撃モードの更新処理
-void CPlayer::SnipingActionUpdate(void)
-{
-
+		// モデルの描画
+		CreateObject(
+			m_tPosition,        // 位置
+			m_tScale,			// スケール
+			m_tRotation,		// 回転
+			m_pModel.get(),			// モデルポインタ
+			Camera::GetInstance(), // カメラポインタ
+			true,					// 明るくするかどうか
+			XMFLOAT3(0.5f, 0.5f, 0.5f)// 色
+		);
+		break;
+	case PlayerActionMode::Sniping:
+		break;
+	}
 }
 
 // @brief 行動モードの切り替え
 void CPlayer::ChangeActionMode(void)
 {
-	if (IsKeyTrigger(InputKey::Player::CHANGE_ACTIONMODE))
+	using namespace InputKey::Player;
+	// 行動モードの切り替えキーが押されたら
+	if (IsKeyTrigger(CHANGE_ACTIONMODE))
 	{
 		switch (m_eActionMode)
 		{
 		case PlayerActionMode::Move:
 			// 移動モードから狙撃モードに切り替え
 			m_eActionMode = PlayerActionMode::Sniping;
+			// カメラの視野角を狙撃モードに設定
+			Camera::GetInstance()->SetFov(1.0f);
 			break;
 		case PlayerActionMode::Sniping:
 			// 狙撃モードから移動モードに切り替え
 			m_eActionMode = PlayerActionMode::Move;
+			// カメラの視野角を移動モードに設定
+			Camera::GetInstance()->SetFov(20.0f);
+			// プレイヤーの回転をリセット
+			m_tRotation = StructMath::FtoF3(0.0f);
 			break;
 		}
 	}
 }
 
-// @brief 移動処理
-void CPlayer::Move(void)
+// @brief 移動アクションの更新処理
+void CPlayer::MA_Update(void)
 {
+	// 視点の移動処理
+	MA_LookRotation();
+	// 移動処理
+	MA_Move();
+	// 跳躍処理
+	MA_Jump();
+	// カメラの更新処理
+	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
+	// 当たり判定の更新
+	m_tCollisionInfo.box.center = m_tPosition; // 当たり判定の中心位置を更新
+}
+
+// @brief  移動アクションの移動処理
+void CPlayer::MA_Move(void)
+{
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::MoveAction;
+	using namespace GameValue::Player::MoveAction;
+
 	// 前
-	if(IsKeyPress(InputKey::Player::MOVE_FORWARD))
+	if(IsKeyPress(MOVE_FORWARD))
 	{
-		m_tMovePower.x += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x += MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z += MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 後
-	if (IsKeyPress(InputKey::Player::MOVE_BACKWARD))
+	if (IsKeyPress(MOVE_BACKWARD))
 	{
-		m_tMovePower.x -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 左
-	if (IsKeyPress(InputKey::Player::MOVE_LEFT))
+	if (IsKeyPress(MOVE_LEFT))
 	{
-		m_tMovePower.x -= PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z += PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z += MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 	// 右
-	if (IsKeyPress(InputKey::Player::MOVE_RIGHT))
+	if (IsKeyPress(MOVE_RIGHT))
 	{
-		m_tMovePower.x += PLAYER_MOVE_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= PLAYER_MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x += MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 
 	// 移動量を適用
@@ -170,11 +183,15 @@ void CPlayer::Move(void)
 	m_tMovePower = { 0.0f, 0.0f, 0.0f }; 
 }
 
-// @brief 跳躍処理
-void CPlayer::Jump(void)
+// @brief  移動アクションの跳躍処理
+void CPlayer::MA_Jump(void)
 {
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::MoveAction;
+	using namespace GameValue::Player::MoveAction;
+
 	// スペースキーが押されたら
-	if (IsKeyTrigger(InputKey::Player::JUMP) && m_bGround)
+	if (IsKeyTrigger(JUMP) && m_bGround)
 	{
 		// ジャンプ中フラグを立てる
 		m_bJumping = true; 
@@ -187,15 +204,15 @@ void CPlayer::Jump(void)
 	if (m_bJumping) 
 	{
 		// sin波を使ってジャンプの高さを計算
-		float rad = (PI * m_nJumpFrame) / PLAYER_JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
+		float rad = (PI * m_nJumpFrame) / JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tPosition.y = (sin(rad) * PLAYER_JUMP_HEIGHT) + m_fUnderHeight;
+		m_tPosition.y = (sin(rad) * JUMP_HEIGHT) + m_fUnderHeight;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
 
 		// ジャンプの総フレーム数に達したら
-		if (m_nJumpFrame >= PLAYER_JUMP_DURATION) 
+		if (m_nJumpFrame >= JUMP_DURATION)
 		{
 			// 地面の高さに戻す
 			m_tPosition.y = m_fUnderHeight;
@@ -212,15 +229,54 @@ void CPlayer::Jump(void)
 	}
 }
 
-// @brief 視点移動
-void CPlayer::LookRotation(void)
+// @brief  移動アクションの視点移動
+void CPlayer::MA_LookRotation(void)
 {
-	if (IsKeyPress(InputKey::Player::LOOK_LEFT))
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::MoveAction;
+	using namespace GameValue::Player::MoveAction;
+	// 左回転
+	if (IsKeyPress(LOOK_LEFT))
 	{
-		m_tRotation.y -= PLAYER_ROTATION_SPEED; // 左向き
+		m_tRotation.y -= ROTATION_SPEED;
 	}
-	if (IsKeyPress(InputKey::Player::LOOK_RIGHT))
+	// 右回転
+	if (IsKeyPress(LOOK_RIGHT))
 	{
-		m_tRotation.y += PLAYER_ROTATION_SPEED; // 右向き
+		m_tRotation.y += ROTATION_SPEED; // 右向き
+	}
+}
+
+// @brief 狙撃モードの更新処理
+void CPlayer::SA_Update(void)
+{
+	// 視点の移動処理
+	SA_LookRotation();
+	// カメラの更新処理
+	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
+}
+
+// @brief 狙撃モードの視点移動
+void CPlayer::SA_LookRotation(void)
+{
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::SnipingAction;
+	using namespace GameValue::Player::SnipingAction;
+
+	if (IsKeyPress(SNIPING_LOOK_LEFT))
+	{
+		m_tRotation.y -= LOOK_SPEED_HORIZONTAL; // 左向き
+	}
+	if (IsKeyPress(SNIPING_LOOK_RIGHT))
+	{
+		m_tRotation.y += LOOK_SPEED_HORIZONTAL; // 右向き
+	}
+	if (IsKeyPress(SNIPING_LOOK_UP))
+	{
+		m_tRotation.x -= LOOK_SPEED_VERTICAL; // 上向き
+	}
+	if (IsKeyPress(SNIPING_LOOK_DOWN))
+	{
+		m_tRotation.x += LOOK_SPEED_VERTICAL; // 下向き
 	}
 }
