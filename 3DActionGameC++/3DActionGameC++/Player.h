@@ -86,6 +86,10 @@ private:
 	/// <param name=""></param>
 	void SA_LookRotation(void);
 
+	/// <summary>
+	/// 狙撃モードの倍率を変更
+	/// </summary>
+	void SA_ZoomAction(void);
 private:
 	/// <summary>
 	/// プレイヤーの行動モード
@@ -116,5 +120,10 @@ private:
 	/// 真下の高さを保存する変数
 	/// </summary>
 	float m_fUnderHeight;
+
+	/// <summary>
+	/// 狙撃モードのズーム倍率
+	/// </summary>
+	float m_fSnipingZoom;
 };
 

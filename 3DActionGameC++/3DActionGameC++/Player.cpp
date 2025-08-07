@@ -31,6 +31,7 @@ CPlayer::CPlayer()
 	, m_bJumping(false) // ジャンプ中かどうかの初期値
 	, m_nJumpFrame(0) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
+	, m_fSnipingZoom(-1.0f) // 狙撃モードのズーム倍率の初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -115,6 +116,8 @@ void CPlayer::ChangeActionMode(void)
 		case PlayerActionMode::Move:
 			// 移動モードから狙撃モードに切り替え
 			m_eActionMode = PlayerActionMode::Sniping;
+			// 狙撃モードのズーム倍率を設定
+			m_fSnipingZoom = 1.0f;
 			// カメラの視野角を狙撃モードに設定
 			Camera::GetInstance()->SetFov(1.0f);
 			break;
@@ -250,10 +253,10 @@ void CPlayer::MA_LookRotation(void)
 // @brief 狙撃モードの更新処理
 void CPlayer::SA_Update(void)
 {
+	// ズームアクションの処理
+	SA_ZoomAction();
 	// 視点の移動処理
 	SA_LookRotation();
-	// カメラの更新処理
-	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
 }
 
 // @brief 狙撃モードの視点移動
@@ -278,5 +281,42 @@ void CPlayer::SA_LookRotation(void)
 	if (IsKeyPress(SNIPING_LOOK_DOWN))
 	{
 		m_tRotation.x += LOOK_SPEED_VERTICAL; // 下向き
+	}
+
+	// カメラの視点位置を計算
+	XMFLOAT3 CameraLookPos = XMFLOAT3(
+		m_tPosition.x + sinf(TORAD(m_tRotation.y)) * (m_fSnipingZoom * 10.0f),
+		m_tPosition.y,
+		m_tPosition.z + cosf(TORAD(m_tRotation.y)) * (m_fSnipingZoom * 10.0f)
+	);
+
+	// カメラの更新処理
+	Camera::GetInstance()->Update(CameraLookPos, m_tRotation);
+}
+
+void CPlayer::SA_ZoomAction(void)
+{
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::SnipingAction;
+	using namespace GameValue::Player::SnipingAction;
+
+	if (IsKeyTrigger(SNIPING_ZOOM_IN)) //ズームイン
+	{
+		m_fSnipingZoom += ZOOM_POWER;
+	}
+	if (IsKeyTrigger(SNIPING_ZOOM_OUT)) //ズームアウト
+	{
+		m_fSnipingZoom -= ZOOM_POWER;
+	}
+	// ズーム倍率の制限
+	//(仮)武器ごとにズーム制限を作成する
+	//(仮)1.0f以上5.0f以下に制限
+	if (m_fSnipingZoom < 1.0f)
+	{
+		m_fSnipingZoom = 1.0f; // 最小ズーム倍率
+	}
+	else if (m_fSnipingZoom > 10.0f)
+	{
+		m_fSnipingZoom = 10.0f; // 最大ズーム倍率
 	}
 }

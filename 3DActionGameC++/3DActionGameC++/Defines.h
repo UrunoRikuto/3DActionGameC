@@ -66,7 +66,14 @@ namespace GameValue
 		{
 			constexpr float LOOK_SPEED_VERTICAL = 0.5f;		// 垂直方向の視点移動速度
 			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;	// 水平方向の視点移動速度
+			constexpr float ZOOM_POWER = 1.0f;				// 倍率変更値
 		}
+	}
+
+	// フィールドの値
+	namespace Field
+	{
+		constexpr float FIELD_SIZE = 1000.0f;	// フィールドのサイズ
 	}
 }
 
@@ -120,6 +127,12 @@ namespace InputKey
 			// 狙撃モードの視点 右回転
 			constexpr BYTE SNIPING_LOOK_RIGHT
 				= 'D';
+			// 狙撃モードの視点 ズームイン
+			constexpr BYTE SNIPING_ZOOM_IN
+				= VK_UP;
+			// 狙撃モードの視点 ズームアウト
+			constexpr BYTE SNIPING_ZOOM_OUT
+				= VK_DOWN;
 		}
 	}
 }

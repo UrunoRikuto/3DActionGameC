@@ -21,6 +21,8 @@
 CField::CField()
 	: CGameObject() // 基底クラスのコンストラクタを呼び出す
 {
+	using namespace GameValue::Field;
+
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
 	// モデルの読み込み
@@ -30,7 +32,7 @@ CField::CField()
 	}
 
 	// 位置、スケール、回転の設定
-	m_tScale = { 100.0f, 1.0f, 100.0f };   
+	m_tScale = { FIELD_SIZE, 1.0f, FIELD_SIZE };
 	m_tPosition = { 0.0f, 0.0f - (m_tScale.y / 2), 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 	// 当たり判定情報の初期化
