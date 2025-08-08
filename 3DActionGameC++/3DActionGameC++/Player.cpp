@@ -29,7 +29,7 @@ CPlayer::CPlayer()
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
 	, m_bGround(true) // 地面にいるかどうかの初期値
 	, m_bJumping(false) // ジャンプ中かどうかの初期値
-	, m_nJumpFrame(0) // ジャンプフレームの初期値
+	, m_nJumpFrame(GameValue::Player::MoveAction::JUMP_DURATION) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_fSnipingZoom(-1.0f) // 狙撃モードのズーム倍率の初期値
 {
@@ -46,6 +46,10 @@ CPlayer::CPlayer()
 	m_fAjustPositionY = (m_tScale.y * 2) / 2.0f; // プレイヤーの真下の地面の高さを設定
 	m_tPosition = { 0.0f, m_fAjustPositionY, 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
+
+	// レイの生成
+	m_pRay = std::make_unique<CRay>();
+	m_pRay->SetParam(m_tPosition, XMFLOAT3(0.0f, -1.0f, 0.0f)); // レイの始点と方向を設定
 
 	// 当たり判定の設定
 	// 当たり判定情報のサイズを1に設定
@@ -69,6 +73,7 @@ CPlayer::~CPlayer()
 // @brief 更新処理
 void CPlayer::Update(void)
 {
+	m_tOldPosition = m_tPosition; // 現在の位置を前の位置として保存
 	// 行動モードの切り替え処理
 	ChangeActionMode();
 
@@ -81,8 +86,6 @@ void CPlayer::Update(void)
 	case PlayerActionMode::Sniping: // 狙撃モード
 		SA_Update();
 		break;
-	default:
-		break;
 	}
 }
 
@@ -93,6 +96,7 @@ void CPlayer::Draw(void)
 	{
 	case PlayerActionMode::Move:
 		SetRender3D();
+
 #ifdef _DEBUG
 		// 当たり判定の描画
 		for (const auto& collisionInfo : m_tCollisionInfos)
@@ -100,7 +104,6 @@ void CPlayer::Draw(void)
 			Collision::DrawCollision(collisionInfo); // 当たり判定の描画（デバッグ用）
 		}
 #endif // _DEBUG
-
 
 		// モデルの描画
 		CreateObject(
@@ -115,6 +118,38 @@ void CPlayer::Draw(void)
 		break;
 	case PlayerActionMode::Sniping:
 		break;
+	}
+}
+
+// @brief プレイヤーの真下の地面の高さを設定する
+// @param height プレイヤーの真下の地面の高さ
+void CPlayer::SetUnderHeight(float height)
+{
+	if (m_fUnderHeight - m_fAjustPositionY != height )
+	{
+		m_fUnderHeight = height + m_fAjustPositionY; 
+		m_bGround = false;
+	}
+}
+
+// @brief 当たり判定の衝突時の処理
+// @param InCollisionInfo 衝突対象
+void CPlayer::Hit(const Collision::Info& InCollisionInfo)
+{
+	for (auto& tag : InCollisionInfo.tag)
+	{
+		switch (tag)
+		{
+		case Collision::Tag::Field:
+			if (InCollisionInfo.box.center.y - m_tPosition.y > -0.1f)
+			{
+				m_tPosition = m_tOldPosition; // プレイヤーの位置を前の位置に戻す
+				m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
+				m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
+				Camera::GetInstance()->Update(m_tPosition,m_tRotation); // カメラの位置を更新
+			}
+			break;
+		}
 	}
 }
 
@@ -160,9 +195,11 @@ void CPlayer::MA_Update(void)
 	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
 	// 当たり判定の更新
 	m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
+	// レイの更新
+	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
 }
 
-// @brief  移動アクションの移動処理
+// @brief 移動アクションの移動処理
 void CPlayer::MA_Move(void)
 {
 	// 名前空間の使用宣言
@@ -200,7 +237,7 @@ void CPlayer::MA_Move(void)
 	m_tMovePower = { 0.0f, 0.0f, 0.0f }; 
 }
 
-// @brief  移動アクションの跳躍処理
+// @brief 移動アクションの跳躍処理
 void CPlayer::MA_Jump(void)
 {
 	// 名前空間の使用宣言
@@ -216,37 +253,61 @@ void CPlayer::MA_Jump(void)
 		m_nJumpFrame = 0;
 		// 地面にいない状態にする
 		m_bGround = false;
+		// プレイヤーの真下の地面の高さを保存
+		m_fBeforeJumpUnderHeight = m_fUnderHeight;
 	}
+
 	// ジャンプ中の処理
 	if (m_bJumping) 
 	{
 		// sin波を使ってジャンプの高さを計算
 		float rad = (PI * m_nJumpFrame) / JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tPosition.y = (sin(rad) * JUMP_HEIGHT) + m_fUnderHeight + m_fAjustPositionY;
+		m_tPosition.y = (sin(rad) * JUMP_HEIGHT) + m_fBeforeJumpUnderHeight + m_fAjustPositionY;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
 
 		// ジャンプの総フレーム数に達したら
-		if (m_nJumpFrame >= JUMP_DURATION)
+		if (m_nJumpFrame >= JUMP_DURATION || m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
 		{
-			// 地面の高さに戻す
-			m_tPosition.y = m_fUnderHeight + m_fAjustPositionY;
+			m_nJumpFrame = JUMP_DURATION; // ジャンプフレームを最大値に設定
 			// ジャンプ中フラグを下ろす
 			m_bJumping = false;
-			// 地面にいる状態にする
-			m_bGround = true;
 		}
 	}
 	// 地面にいる場合は高さを0にする
-	else if(m_bGround)
+	if(m_bGround)
 	{
 		m_tPosition.y = m_fUnderHeight + m_fAjustPositionY;
 	}
+	else
+	{
+		if (m_tPosition.y >= m_fUnderHeight + m_fAjustPositionY)
+		{
+			if (m_nJumpFrame >= JUMP_DURATION / 2)
+			{
+				m_tPosition.y -= GRAVITY; // 重力を適用
+				if (m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
+				{
+					m_tPosition.y = m_fUnderHeight + m_fAjustPositionY; // 地面の高さに合わせる
+					m_bGround = true; // 地面にいる状態にする
+				}
+			}
+		}
+		else if(m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
+		{
+			m_tPosition.y += 0.2f; // 地面の高さに合わせる
+			if (m_tPosition.y > m_fUnderHeight + m_fAjustPositionY)
+			{
+				m_tPosition.y = m_fUnderHeight + m_fAjustPositionY; // 地面の高さに合わせる
+				m_bGround = true; // 地面にいる状態にする
+			}
+		}
+	}
 }
 
-// @brief  移動アクションの視点移動
+// @brief 移動アクションの視点移動
 void CPlayer::MA_LookRotation(void)
 {
 	// 名前空間の使用宣言
@@ -308,6 +369,7 @@ void CPlayer::SA_LookRotation(void)
 	Camera::GetInstance()->Update(CameraLookPos, m_tRotation);
 }
 
+// @brief 狙撃モードの倍率を変更
 void CPlayer::SA_ZoomAction(void)
 {
 	// 名前空間の使用宣言

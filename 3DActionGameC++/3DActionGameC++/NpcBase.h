@@ -28,4 +28,10 @@ public:
 	/// XVˆ—
 	/// </summary>
 	virtual void Update(void) = 0;
+
+	/// <summary>
+	/// “–‚½‚è”»’è‚ÌÕ“Ë‚Ìˆ—
+	/// </summary>
+	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
+	void Hit(const Collision::Info& InCollisionInfo) override;
 };

@@ -60,6 +60,31 @@ namespace StructMath
 		if (length == 0.0f) return XMFLOAT3(0.0f, 0.0f, 0.0f);
 		return XMFLOAT3(t1.x / length, t1.y / length, t1.z / length);
 	}
+	// í∑Ç≥
+	inline float Length(XMFLOAT3 t1)
+	{
+		return sqrtf(t1.x * t1.x + t1.y * t1.y + t1.z * t1.z);
+	}
+
+	// ê‚ëŒíl
+	inline XMFLOAT3 Abs(XMFLOAT3 t1)
+	{
+		return XMFLOAT3(fabsf(t1.x), fabsf(t1.y), fabsf(t1.z));
+	}
+	// ì‡êœ
+	inline float Dot(XMFLOAT3 t1, XMFLOAT3 t2)
+	{
+		return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
+	}
+	// äOêœ
+	inline XMFLOAT3 Cross(XMFLOAT3 t1, XMFLOAT3 t2)
+	{
+		return XMFLOAT3(
+			t1.y * t2.z - t1.z * t2.y,
+			t1.z * t2.x - t1.x * t2.z,
+			t1.x * t2.y - t1.y * t2.x
+		);
+	}
 
 
 	/*===========================================================
