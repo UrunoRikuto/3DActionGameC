@@ -19,6 +19,8 @@ public:
 
 	enum class Tag
 	{
+		// すべて
+		All = -1,
 		//タグなし
 		None = 0,
 		// プレイヤー
@@ -33,6 +35,8 @@ public:
 		Body,
 		// 足
 		Foot,
+		// レイキャスト
+		RayCast,
 	};
 
 	//--- 当たり判定の形状 
@@ -157,4 +161,13 @@ public:
 	static Result2D Hit2D(Square a,Square b);
 	static Result2D Hit2D(Circle a, Circle b);
 	static void DrawCollision(Collision::Info collision);
+};
+
+// 当たり判定のチェック情報
+struct CollisionCheckInfo
+{
+	// チェックする基準
+	Collision::Info SelfInfo;
+	// チェックする対象
+	std::vector<Collision::Info> TargetInfo;
 };

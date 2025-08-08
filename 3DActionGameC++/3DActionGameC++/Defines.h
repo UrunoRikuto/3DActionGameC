@@ -68,24 +68,39 @@ namespace GameValue
 		// プレイヤーの行動モード
 		namespace MoveAction
 		{
-			constexpr float MOVE_SPEED = 0.5f;		// 移動速度
-			constexpr float ROTATION_SPEED = 1.0f;	// 回転速度
-			constexpr float JUMP_HEIGHT = 3.0f;		// ジャンプの最大高さ
-			constexpr int	JUMP_DURATION = 45;		// ジャンプの総フレーム数
+			// 移動速度
+			constexpr float MOVE_SPEED = 0.5f;
+			// 回転速度
+			constexpr float ROTATION_SPEED = 1.0f;
+			// ジャンプの最大高さ
+			constexpr float JUMP_HEIGHT = 5.0f;
+			// ジャンプの総フレーム数
+			constexpr int	JUMP_DURATION = 45;
 		}
 		// プレイヤーの狙撃モード
 		namespace SnipingAction
 		{
-			constexpr float LOOK_SPEED_VERTICAL = 0.5f;		// 垂直方向の視点移動速度
-			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;	// 水平方向の視点移動速度
-			constexpr float ZOOM_POWER = 0.1f;				// 倍率変更値
+			// 垂直方向の視点移動速度
+			constexpr float LOOK_SPEED_VERTICAL = 0.5f;
+			// 水平方向の視点移動速度
+			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;
+			// 倍率変更値
+			constexpr float ZOOM_POWER = 0.1f;
 		}
 	}
 
 	// フィールドの値
 	namespace Field
 	{
-		constexpr float FIELD_SIZE = 1000.0f;	// フィールドのサイズ
+		// フィールドのサイズ
+		constexpr float FIELD_SIZE = 100.0f;
+	}
+
+	// 当たり判定の値
+	namespace Collision
+	{
+		// 衝突チェックの対象検出距離
+		constexpr float DETECT_DISTANCE = 10.0f;
 	}
 }
 

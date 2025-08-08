@@ -65,8 +65,16 @@ void CGameObject::Draw()
 
 // @brief 当たり判定情報を追加する関数
 // @param InTag 追加する当たり判定情報
-Collision::Info CGameObject::GetCollisionInfo(Collision::Tag InTag)
+std::vector<Collision::Info> CGameObject::GetCollisionInfo(Collision::Tag InTag)
 {
+	if (InTag == Collision::Tag::All)
+	{
+		// 全ての当たり判定情報を返す
+		return m_tCollisionInfos;
+	}
+
+	std::vector<Collision::Info> result; // 結果を格納するベクター
+
 	// 指定されたタグの当たり判定情報を検索
 	for (const auto& collisionInfo : m_tCollisionInfos)
 	{
@@ -74,10 +82,41 @@ Collision::Info CGameObject::GetCollisionInfo(Collision::Tag InTag)
 		{
 			if (tag == InTag)
 			{
-				return collisionInfo; // 見つかった場合はその情報を返す
+				// 見つかった場合はその情報を結果に追加
+				result.push_back(collisionInfo);
 			}
 		}
 	}
-	// 見つからなかった場合は空のCollision::Infoを返す
-	return Collision::Info();
+	// 結果を返す
+	return result;
+}
+
+// @brief 位置情報を設定する関数
+// @param position 設定する位置情報
+void CGameObject::SetPosition(const XMFLOAT3& position)
+{
+	m_tPosition = position; // 位置情報を設定
+	// 当たり判定の中心位置も更新
+	for (auto& collisionInfo : m_tCollisionInfos)
+	{
+		if (collisionInfo.type == Collision::Type::eBox)
+		{
+			collisionInfo.box.center = m_tPosition; // ボックスの中心位置を更新
+		}
+	}
+}
+
+// @brief スケール情報を設定する関数
+// @param scale 設定するスケール情報
+void CGameObject::SetScale(const XMFLOAT3& scale)
+{
+	m_tScale = scale; // スケール情報を設定
+	// 当たり判定の大きさも更新
+	for (auto& collisionInfo : m_tCollisionInfos)
+	{
+		if (collisionInfo.type == Collision::Type::eBox)
+		{
+			collisionInfo.box.size = m_tScale; // ボックスの大きさを更新
+		}
+	}
 }

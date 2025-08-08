@@ -45,6 +45,12 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// 当たり判定の衝突時の処理
+	/// </summary>
+	/// <param name="InCollisionInfo">衝突対象</param>
+	virtual void Hit(const Collision::Info& InCollisionInfo) = 0;
+
 protected:
 	/// <summary>
 	/// モデルのポインタ
@@ -83,7 +89,13 @@ public: // メンバ変数のアクセサ
 	/// </summary>
 	/// <param name="InTag">当たり判定のタグ</param>
 	/// <returns>当たり判定情報</returns>
-	Collision::Info GetCollisionInfo(Collision::Tag InTag);
+	std::vector<Collision::Info> GetCollisionInfo(Collision::Tag InTag);
+
+	/// <summary>
+	/// 位置情報の設定
+	/// </summary>
+	/// <param name="position">新しい位置情報</param>
+	void SetPosition(const XMFLOAT3& position);
 
 	/// <summary>
 	/// 位置情報の取得
@@ -92,10 +104,22 @@ public: // メンバ変数のアクセサ
 	const XMFLOAT3& GetPosition() const { return m_tPosition; }
 
 	/// <summary>
+	/// スケール情報の設定
+	/// </summary>
+	/// <param name="scale">新しいスケール情報</param>
+	void SetScale(const XMFLOAT3& scale);
+
+	/// <summary>
 	/// スケール情報の取得
 	/// </summary>
 	/// <returns>スケール情報</returns>
 	const XMFLOAT3& GetScale() const { return m_tScale; }
+
+	/// <summary>
+	/// 回転情報の設定
+	/// </summary>
+	/// <param name="rotation">新しい回転情報</param>
+	void SetRotation(const XMFLOAT3& rotation) { m_tRotation = rotation; }
 
 	/// <summary>
 	/// 回転情報の取得

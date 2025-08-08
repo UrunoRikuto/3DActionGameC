@@ -12,6 +12,8 @@
 
 /* システム・要素のインクルード */
 #include "Enums.h"
+#include <memory>
+#include "Ray.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -46,8 +48,13 @@ public:
 	/// プレイヤーの真下の地面の高さを設定する関数
 	/// </summary>
 	/// <param name="height">設定するオブジェクトのY軸</param>
-	void SetUnderHeight(float height) { m_fUnderHeight = height + (m_tScale.y / 2.0f); }
+	void SetUnderHeight(float height);
 
+	/// <summary>
+	/// 当たり判定の衝突時の処理
+	/// </summary>
+	/// <param name="InCollisionInfo">衝突対象</param>
+	void Hit(const Collision::Info& InCollisionInfo) override;
 private:
 	/// <summary>
 	/// 行動モードの切り替え
@@ -102,6 +109,16 @@ private:
 	XMFLOAT3 m_tMovePower;
 
 	/// <summary>
+	/// 移動処理の前の位置
+	/// </summary>
+	XMFLOAT3 m_tOldPosition;
+
+	/// <summary>
+	/// レイクラスのポインタ
+	/// </summary>
+	std::unique_ptr<CRay> m_pRay;
+
+	/// <summary>
 	/// 地面に立っているかのフラグ
 	/// </summary>
 	bool m_bGround;
@@ -120,10 +137,18 @@ private:
 	/// 真下の高さを保存する変数
 	/// </summary>
 	float m_fUnderHeight;
+	float m_fBeforeJumpUnderHeight; // ジャンプ前の真下の高さを保存する変数
 
 	/// <summary>
 	/// 狙撃モードのズーム倍率
 	/// </summary>
 	float m_fSnipingZoom;
-};
 
+public: //メンバ変数のアクセサ
+
+	/// <summary>
+	/// レイの取得
+	/// </summary>
+	/// <returns>レイのポインタ</returns>
+	CRay* GetRay(void) { return m_pRay.get(); }
+};

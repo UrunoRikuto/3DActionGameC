@@ -7,7 +7,8 @@
 
 
 /* ヘッダーで利用するシステム・要素のインクルード */
-
+#include "RayCastTarget.h"
+#include <memory>
 /* ヘッダーのインクルード */
 #include "Field.h"
 /* システム・要素のインクルード */
@@ -36,6 +37,11 @@ CField::CField()
 	m_tPosition = { 0.0f, 0.0f - (m_tScale.y / 2), 0.0f };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
+	// レイキャストのターゲットオブジェクトの生成
+	m_pRayCastTarget = std::make_unique<CRayCastTarget>();
+	// レイキャストのターゲットオブジェクトのパラメーターを設定
+	m_pRayCastTarget->SetParam(m_tPosition, m_tScale);
+
 	// 当たり判定情報の初期化
 	// 当たり判定情報のサイズを1に設定
 	m_tCollisionInfos.resize(1);
@@ -58,5 +64,13 @@ CField::~CField()
 // @brief 更新処理
 void CField::Update(void)
 {
+	m_pRayCastTarget->SetPosition(m_tPosition); // レイキャストのターゲットオブジェクトの位置を更新
+	m_pRayCastTarget->SetScale(m_tScale); // レイキャストのターゲットオブジェクトのスケールを更新
+}
 
+// @brief 当たり判定の衝突時の処理
+// @param InCollisionInfo 衝突対象
+void CField::Hit(const Collision::Info& InCollisionInfo)
+{
+	// 今は特に何もしない
 }

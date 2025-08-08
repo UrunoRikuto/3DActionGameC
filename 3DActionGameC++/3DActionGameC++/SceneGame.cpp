@@ -25,13 +25,27 @@ CSceneGame::CSceneGame()
 	:CSceneBase()
 {
 	// フィールドの生成
-	m_pField = std::make_unique<CField>();
+	m_pField.resize(4); // フィールドのポインタを2つ確保
+	m_pField[0] = std::make_unique<CField>();
+	m_pField[1] = std::make_unique<CField>();
+	m_pField[1]->SetPosition(XMFLOAT3(-20.0f, 1.0f, 100.0f));
+	m_pField[1]->SetScale(XMFLOAT3(10.0f, 1.0f, 100.0f));
+	m_pField[2] = std::make_unique<CField>();
+	m_pField[2]->SetPosition(XMFLOAT3(0.0f, 2.0f, 200.0f));
+	m_pField[2]->SetScale(XMFLOAT3(5.0f, 1.0f, 100.0f));
+	m_pField[3] = std::make_unique<CField>();
+	m_pField[3]->SetPosition(XMFLOAT3(10.0f, 3.0f, 300.0f));
+	m_pField[3]->SetScale(XMFLOAT3(100.0f, 1.0f, 100.0f));
+
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
 	// NPCの生成（ターゲットNPC）
 	m_pNpc = std::make_unique<CTargetNpc>();
 
-	g_vNullCheckList.push_back(m_pField.get()); // フィールドのNullチェック用リストに追加
+	for (auto& field : m_pField)
+	{
+		g_vNullCheckList.push_back(field.get()); // フィールドのNullチェック用リストに追加
+	}
 	g_vNullCheckList.push_back(m_pPlayer.get()); // プレイヤーのNullチェック用リストに追加
 	g_vNullCheckList.push_back(m_pNpc.get()); // NPCのNullチェック用リストに追加
 }
@@ -53,15 +67,9 @@ void CSceneGame::Update(void)
 		}
 	}
 
-	//// フィールドの更新処理
-	//if (m_pField)m_pField->Update();
-	//// プレイヤーの更新処理
-	//if (m_pPlayer)m_pPlayer->Update();
-	//// NPCの更新処理
-	//if (m_pNpc)m_pNpc->Update();
+	CollisionCheck(); // 当たり判定の衝突チェック
 
-	//(仮)プレイヤーの真下の地面の高さを設定
-	m_pPlayer->SetUnderHeight(m_pField->GetPosition().y + m_pField->GetScale().y / 2.0f);
+	RayCastCheck(); // レイキャストのチェック
 }
 
 // @brief 描画処理
@@ -74,11 +82,155 @@ void CSceneGame::Draw(void)
 			obj->Draw(); // Nullチェックを行い、オブジェクトが有効な場合のみ描画処理を呼び出す
 		}
 	}
+}
 
-	//// フィールドの描画処理
-	//m_pField->Draw();
-	//// プレイヤーの描画処理
-	//m_pPlayer->Draw();
-	//// NPCの描画処理
-	//m_pNpc->Draw();
+// @brief 当たり判定の衝突チェック
+void CSceneGame::CollisionCheck(void)
+{
+	// すべてのゲームオブジェクトの当たり判定情報を取得し、衝突チェックを行う
+	for (auto& obj : g_vNullCheckList)
+	{
+		if (SafeNullCheck(obj))
+		{
+			auto collisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
+			for (const auto& info : collisionInfo)
+			{
+				// 他のオブジェクトとの衝突チェック
+				for (auto& tag : info.tag)
+				{
+					// レイキャストのタグがあったら処理をスキップする
+					if (tag == Collision::Tag::RayCast)
+					{
+						continue; // レイキャストのタグがあったら処理をスキップ
+					}
+				}
+
+				for (auto& targetObj : g_vNullCheckList)
+				{
+					if (targetObj == obj) continue; // 自分自身は除外
+
+					auto targetCollisionInfo = targetObj->GetCollisionInfo(Collision::Tag::All);
+
+					for (const auto& targetInfo : targetCollisionInfo)
+					{
+						bool IsSkip = false; // レイキャストのタグがあったら処理をスキップするフラグ
+						for (const auto& tag : targetInfo.tag)
+						{
+							// レイキャストのタグがあったら処理しない
+							if (tag == Collision::Tag::RayCast)
+							{
+								IsSkip = true; // レイキャストのタグがあったら処理をスキップする
+								break; // ループを抜ける
+							}
+						}
+
+						if (IsSkip) continue; // レイキャストのタグがあったら処理をスキップ
+
+						Collision::Result result = Collision::Hit(info, targetInfo);
+						if (result.isHit)
+						{
+							obj->Hit(targetInfo); // 衝突時の処理を呼び出す
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 軽量化する際の処理候補(ブロードとナロー)
+	/*
+	using namespace GameValue::Collision;
+
+	/// ブロードフェーズ
+	// 衝突する可能性のある当たり判定をリストアップする処理
+
+	// 格納リスト
+	std::vector<CollisionCheckInfo> collisionList;
+
+	// Nullチェックを行い、オブジェクトが有効な場合のみ処理を行う
+	for (auto& obj : g_vNullCheckList)
+	{
+		if (SafeNullCheck(obj))
+		{
+			// 各オブジェクトの当たり判定情報を取得
+			auto collisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
+			
+			for (const auto& info : collisionInfo)
+			{
+				CollisionCheckInfo checkInfo;
+				checkInfo.SelfInfo = info; // オブジェクトを設定
+
+				for (auto& TargetObject : g_vNullCheckList)
+				{
+					if (TargetObject == obj) continue; // 自分自身は除外
+
+					auto TargetCollisionInfo = TargetObject->GetCollisionInfo(Collision::Tag::All);
+
+					for (const auto& Targetinfo : TargetCollisionInfo)
+					{
+						switch (info.type)
+						{
+						case Collision::Type::eNone:
+							break;
+						case Collision::Type::eBox:
+							if (StructMath::Distance(Targetinfo.box.center,info.box.center) <= DETECT_DISTANCE)
+							{
+								checkInfo.TargetInfo.push_back(Targetinfo); // 対象の当たり判定情報を設定
+							}
+							break;
+						case Collision::Type::eSphere:
+							break;
+						case Collision::Type::ePlane:
+							break;
+						case Collision::Type::eRay:
+							break;
+						case Collision::Type::eLine:
+							break;
+						case Collision::Type::ePoint:
+							break;
+						case Collision::Type::eTriangle:
+							break;
+						}
+					}
+				}
+
+				if (!checkInfo.TargetInfo.empty()) // 対象の当たり判定情報がある場合
+				{
+					collisionList.push_back(checkInfo); // リストに追加
+				}
+			}
+		}
+	}
+
+
+
+	/// ナローフェーズ
+	// リストアップしたオブジェクト同士の詳細な衝突判定
+	for (const auto& checkInfo : collisionList)
+	{
+		for (const auto& targetInfo : checkInfo.TargetInfo)
+		{
+			Collision::Result result = Collision::Hit(checkInfo.SelfInfo, targetInfo);
+			if (result.isHit)
+			{
+				int a = 0;
+			}
+		}
+	}
+	*/
+}
+
+// @brief レイキャストのチェック
+void CSceneGame::RayCastCheck(void)
+{
+	for (auto& obj : m_pField)
+	{
+		if (m_pPlayer->GetRay()->Cast(obj->GetRayCastTarget()))
+		{
+			// レイキャストが当たった場合、プレイヤーの真下の地面の高さを設定
+			m_pPlayer->SetUnderHeight(obj->GetPosition().y + obj->GetScale().y / 2.0f);
+			return;
+		}
+	}
+	m_pPlayer->SetUnderHeight(-3.0f); // レイキャストが当たらなかった場合、-3.0fを設定
 }

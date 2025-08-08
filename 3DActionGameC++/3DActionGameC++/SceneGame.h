@@ -7,6 +7,8 @@
 
 #pragma once
 
+/* システム・要素のインクルード */
+#include <memory>
 /* 基底クラスのインクルード */
 #include "SceneBase.h"
 
@@ -42,8 +44,19 @@ public:
 	void Draw(void)override;
 
 private:
+	/// <summary>
+	/// 当たり判定の衝突チェック
+	/// </summary>
+	void CollisionCheck(void);
+
+	/// <summary>
+	/// レイキャストのチェック
+	/// </summary>
+	void RayCastCheck(void);
+
+private:
 	// フィールドオブジェクトのポインタ
-	std::unique_ptr<CField> m_pField;
+	std::vector<std::unique_ptr<CField>> m_pField;
 	// プレイヤーオブジェクトのポインタ
 	std::unique_ptr<CPlayer> m_pPlayer;
 	// NPCオブジェクトのポインタ
