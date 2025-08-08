@@ -63,6 +63,9 @@
     <Filter Include="コード ファイル\GameObject\NPC\TargetNPC">
       <UniqueIdentifier>{c473483d-1e76-41aa-8dbd-2fa97dc56a70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component\RayCast">
+      <UniqueIdentifier>{fd577ad6-a910-4645-9146-e12a7fe1450c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -155,7 +158,15 @@
     <ClCompile Include="NpcBase.cpp">
       <Filter>コード ファイル\GameObject\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="TargetNpc.cpp" />
+    <ClCompile Include="TargetNpc.cpp">
+      <Filter>コード ファイル\GameObject\NPC\TargetNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Ray.cpp">
+      <Filter>コード ファイル\Component\RayCast</Filter>
+    </ClCompile>
+    <ClCompile Include="RayCastTarget.cpp">
+      <Filter>コード ファイル\Component\RayCast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -243,7 +254,13 @@
       <Filter>コード ファイル\GameObject\NPC</Filter>
     </ClInclude>
     <ClInclude Include="TargetNpc.h">
-      <Filter>コード ファイル</Filter>
+      <Filter>コード ファイル\GameObject\NPC\TargetNPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>コード ファイル\Component\RayCast</Filter>
+    </ClInclude>
+    <ClInclude Include="RayCastTarget.h">
+      <Filter>コード ファイル\Component\RayCast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
