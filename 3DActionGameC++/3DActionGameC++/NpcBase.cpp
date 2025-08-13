@@ -8,10 +8,31 @@
 /* ヘッダーのインクルード */
 #include "NpcBase.h"
 /* システム・要素のインクルード */
+#include "Model.h"
 
-/// <summary>
-/// 描画処理
-/// </summary>
+// @brief コンストラクタ
+CNpcBase::CNpcBase()
+{
+	// モデルの作成
+	m_pModel = std::make_unique<Model>();
+}
+
+// @brief デストラクタ
+CNpcBase::~CNpcBase()
+{
+}
+
+// @brief 更新処理
+void CNpcBase::Update(void)
+{
+	using namespace StructMath;
+
+	// 移動
+	XMFLOAT3 movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
+	SetPosition(Add(m_tPosition, Mul(Direction(m_tPosition, movePoint), m_pMoveSystem->GetMoveSpeed())));
+}
+
+// @brief 描画処理
 void CNpcBase::Draw(void)
 {
 	// 移動システムのデバッグ描画

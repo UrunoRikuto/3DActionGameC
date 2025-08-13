@@ -101,7 +101,7 @@ void CGameObject::SetPosition(const XMFLOAT3& position)
 	{
 		if (collisionInfo.type == Collision::Type::eBox)
 		{
-			collisionInfo.box.center = m_tPosition; // ボックスの中心位置を更新
+			collisionInfo.box.center = StructMath::Add(m_tPosition,collisionInfo.AdjustCenter); // ボックスの中心位置を更新
 		}
 	}
 }

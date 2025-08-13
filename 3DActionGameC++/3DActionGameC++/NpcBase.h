@@ -22,15 +22,15 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CNpcBase() = default;
+	CNpcBase();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~CNpcBase() = default;
+	virtual ~CNpcBase();
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update(void) = 0;
+	virtual void Update(void);
 
 	/// <summary>
 	/// 描画処理

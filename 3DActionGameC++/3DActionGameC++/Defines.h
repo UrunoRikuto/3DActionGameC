@@ -59,6 +59,15 @@ inline bool SafeNullCheck(T* p)
 #define SAFE_RELEASE(p)			do{if(p){p->Release(); p = nullptr;}}while(0)
 #define SAFE_NULLPTR(p)			do{if(p){p = nullptr;}}while(0)
 
+/* モデルのパス定義 */
+namespace ModelPath
+{
+	// ターゲットNPCのモデルパス
+	constexpr const char* TARGET_NPC_PATH = MODEL_PATH("TargetNPC.obj");
+	// 護衛NPCのモデルパス
+	constexpr const char* GUARD_NPC_PATH = MODEL_PATH("GuardNPC.obj");
+}
+
 /* ゲームの値 */
 namespace GameValue
 {
@@ -87,6 +96,11 @@ namespace GameValue
 			// 倍率変更値
 			constexpr float ZOOM_POWER = 0.1f;
 		}
+	}
+
+	// NPCの値
+	namespace Npc
+	{
 	}
 
 	// フィールドの値

@@ -11,6 +11,7 @@
 #include "Field.h"
 #include "Player.h"
 #include "TargetNpc.h"
+#include "GuardNpc.h"
 /* ヘッダーのインクルード */
 #include "SceneGame.h"
 /* システム・要素のインクルード */
@@ -40,14 +41,20 @@ CSceneGame::CSceneGame()
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
 	// NPCの生成（ターゲットNPC）
-	m_pNpc = std::make_unique<CTargetNpc>(XMFLOAT3(10.0f, 0.0f, 0.0f));
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(XMFLOAT3(10.0f, 0.0f, 0.0f)));
+	// NPCの生成（護衛NPC）
+	m_pNpc.push_back(std::make_unique<CGuardNpc>(XMFLOAT3(40.0f, 0.0f, 0.0f)));
+
 
 	for (auto& field : m_pField)
 	{
 		g_vNullCheckList.push_back(field.get()); // フィールドのNullチェック用リストに追加
 	}
 	g_vNullCheckList.push_back(m_pPlayer.get()); // プレイヤーのNullチェック用リストに追加
-	g_vNullCheckList.push_back(m_pNpc.get()); // NPCのNullチェック用リストに追加
+	for (auto& npc : m_pNpc)
+	{
+		g_vNullCheckList.push_back(npc.get()); // NPCのNullチェック用リストに追加
+	}
 }
 
 // @brief デストラクタ
