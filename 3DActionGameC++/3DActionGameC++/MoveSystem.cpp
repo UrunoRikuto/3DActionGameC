@@ -1,0 +1,186 @@
+/*
+* @file MoveSystem.cpp
+* @brief 移動システムの実装ファイル
+* @author 宇留野陸斗
+* @date 2025/08/13 移動システムクラスの実装
+*/
+
+/* ヘッダーのインクルード */
+#include "MoveSystem.h"
+
+/* システム・要素のインクルード */
+#include "Geometory.h"
+#include "Main.h"
+
+// @brief コンストラクタ
+CMoveSystem::CMoveSystem(MoveSystemType In_Type, float In_MoveSpeed)
+	: m_eMoveSystemType(In_Type) // 移動システムの種類を設定
+	, m_fMoveSpeed(In_MoveSpeed) // 移動速度の初期化
+	, m_vtMovePointList()		// 移動ポイントのリストを初期化
+	, m_nCurrentPointIndex(0) // 現在の移動ポイントのインデックスを初期化
+	, m_bIsEndPoint(false)
+{
+	// 移動ポイントのリストを初期化
+	m_vtMovePointList.clear();
+}
+
+// @brief デストラクタ
+CMoveSystem::~CMoveSystem()
+{
+
+}
+
+// @brief 次に移動する移動ポイントを取得
+// @param In_CurrentPos 現在の位置
+// @return 次に移動する移動ポイント
+XMFLOAT3 CMoveSystem::GetMovePoint(const XMFLOAT3& In_CurrentPos)
+{
+	// 移動ポイントのリストが空でない場合
+	if (m_vtMovePointList.empty())
+	{
+		// 移動ポイントがない場合は現在位置を返す
+		return In_CurrentPos;
+	}
+
+	// 現在の位置が移動ポイントの一定距離以内にある場合
+	if (StructMath::Distance(In_CurrentPos,m_vtMovePointList[m_nCurrentPointIndex]) < m_fMoveSpeed)
+	{
+		// 次の移動ポイントに進む
+		switch (m_eMoveSystemType)
+		{
+		case MoveSystemType::Loop:
+			m_nCurrentPointIndex++;
+			break;
+		case MoveSystemType::Reverse:
+			if (!m_bIsEndPoint)
+			{
+				m_nCurrentPointIndex++;
+			}
+			else
+			{
+				// 反転しているのでデクリメント
+				m_nCurrentPointIndex--;
+			}
+			break;
+		}
+	}
+
+	// 現在の移動ポイントのインデックスがリストのサイズを超えている場合
+	if (m_nCurrentPointIndex > static_cast<int>(m_vtMovePointList.size()) - 1) 
+	{
+		// ループ移動システムの場合は最初のポイントに戻る
+		if (m_eMoveSystemType == MoveSystemType::Loop)
+		{
+			// 最初のポイントに設定
+			m_nCurrentPointIndex = 0;
+			// 終点フラグを下ろす
+			m_bIsEndPoint = false;
+		}
+		else if (m_eMoveSystemType == MoveSystemType::Reverse)
+		{
+			// 最後のポイントに設定
+			m_nCurrentPointIndex = static_cast<int>(m_vtMovePointList.size()) - 1;
+			// 終点フラグを立てる
+			m_bIsEndPoint = true; 
+		}
+	}
+	// 現在のポイントのインデックスが0未満の場合
+	else if(m_nCurrentPointIndex < 0)
+	{
+		//最初のポイントに戻す
+		m_nCurrentPointIndex = 0;
+		// 終点フラグを下ろす
+		m_bIsEndPoint = false;
+	}
+
+	// どの条件にも当てはまらない場合は現在位置を返す
+	return m_vtMovePointList[m_nCurrentPointIndex];
+}
+
+// @brief 移動ポイントをリストに追加
+// @param In_MovePoint 追加する位置
+void CMoveSystem::AddMovePoint(const XMFLOAT3& In_MovePoint)
+{
+	// 移動ポイントをリストに追加
+	m_vtMovePointList.push_back(In_MovePoint);
+}
+
+// @brief 複数の移動ポイントをリストに追加
+// @param In_MovePoints 追加する移動ポイントリスト(並びはそのまま)
+void CMoveSystem::AddMovePoints(const std::vector<XMFLOAT3>& In_MovePoints)
+{
+	// 複数の移動ポイントをリストに追加
+	m_vtMovePointList.insert(m_vtMovePointList.end(), In_MovePoints.begin(), In_MovePoints.end());
+}
+
+// @brief 移動ポイントのリストを新しく設定
+// @param In_MovePoints 設定する移動ポイントリスト
+// @param In_CurrentPos 現在の位置
+void CMoveSystem::SetMovePoints(const std::vector<XMFLOAT3>& In_MovePoints, const XMFLOAT3& In_CurrentPos)
+{
+	// 移動ポイントのリストを新しく設定
+	m_vtMovePointList = In_MovePoints;
+
+	// 現在位置から最も近い移動ポイントを探す
+	float minDistance = StructMath::Abs(StructMath::Distance(In_CurrentPos, m_vtMovePointList[0]));
+	int closestIndex = 0;
+
+	for (size_t i = 1; i < m_vtMovePointList.size(); ++i)
+	{
+		float distance = StructMath::Abs(StructMath::Distance(In_CurrentPos, m_vtMovePointList[i]));
+		if (distance < minDistance)
+		{
+			minDistance = distance;
+			closestIndex = static_cast<int>(i);
+		}
+	}
+
+	// 最も近い移動ポイントのインデックスを現在のポイントのインデックスに設定
+	m_nCurrentPointIndex = closestIndex;
+
+	// 現在のポイントのインデックスをリセット
+	m_nCurrentPointIndex = 0;
+}
+
+// @brief デバッグ描画処理(移動ルートの描画)
+// @param In_Color 描画する線の色
+void CMoveSystem::DebugDraw(XMFLOAT4 In_Color)
+{
+#ifdef _DEBUG
+	SetRender3D();
+
+	// 移動ポイントのリストが空でない場合
+	if (!m_vtMovePointList.empty())
+	{
+		switch (m_eMoveSystemType)
+		{
+		case MoveSystemType::Loop:
+			// 移動ポイントを線で結ぶ
+			for (size_t i = 0; i < m_vtMovePointList.size(); ++i)
+			{
+				if (i == m_vtMovePointList.size() - 1)
+				{
+					// 最後のポイントから最初のポイントに線を引く
+					Geometory::AddLine(m_vtMovePointList[i], m_vtMovePointList[0], In_Color);
+				}
+				else
+				{
+					// 移動ポイントを線で結ぶ
+					Geometory::AddLine(m_vtMovePointList[i], m_vtMovePointList[i + 1], In_Color);
+				}
+			}
+			break;
+		case MoveSystemType::Reverse:
+			// 移動ポイントを線で結ぶ
+			for (size_t i = 0; i < m_vtMovePointList.size() - 1; ++i)
+			{
+				Geometory::AddLine(m_vtMovePointList[i], m_vtMovePointList[i + 1], In_Color);
+			}
+			break;
+		}
+	}
+	// 描画を実行
+	Geometory::DrawLines(); 
+
+#endif // _DEBUG
+}

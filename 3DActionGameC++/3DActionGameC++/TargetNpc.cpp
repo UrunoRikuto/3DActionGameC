@@ -9,9 +9,10 @@
 #include "TargetNpc.h"
 /* システム・要素のインクルード */
 #include "Model.h"
+#include "MoveSystem.h"
 
 // @brief コンストラクタ
-CTargetNpc::CTargetNpc()
+CTargetNpc::CTargetNpc(XMFLOAT3 In_SpawnPoint)
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -22,7 +23,7 @@ CTargetNpc::CTargetNpc()
 	}
 	// 位置、スケール、回転の設定
 	m_tScale = { 2.0f,2.0f,2.0f };
-	m_tPosition = { 0.0f, (m_tScale.y * 3) / 2, 0.0f };
+	m_tPosition = { In_SpawnPoint.x, In_SpawnPoint.y + (m_tScale.y * 3) / 2, In_SpawnPoint.z };
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
 	// 当たり判定の設定
@@ -59,6 +60,17 @@ CTargetNpc::CTargetNpc()
 	m_tCollisionInfos[2].box.center = StructMath::Sub(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;
+
+	// 移動システムの初期化
+	m_pMoveSystem = std::make_unique<CMoveSystem>(MoveSystemType::Loop, 0.1f);
+	// 移動ポイントの追加
+	std::vector<XMFLOAT3> movePoints = {
+		m_tPosition,
+		{ 40.0f, m_tPosition.y, 40.0f },
+		{ 40.0f, m_tPosition.y,  0.0f }
+	};
+
+	m_pMoveSystem->AddMovePoints(movePoints);
 }
 
 // @brief デストラクタ
@@ -70,5 +82,9 @@ CTargetNpc::~CTargetNpc()
 // @brief 更新処理
 void CTargetNpc::Update(void)
 {
+	using namespace StructMath;
 
+	// 移動
+	XMFLOAT3 movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
+	SetPosition(Add(m_tPosition, Mul(Direction(m_tPosition, movePoint), m_pMoveSystem->GetMoveSpeed())));
 }

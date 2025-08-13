@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CTargetNpc();
+	CTargetNpc(XMFLOAT3 In_SpawnPoint);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
