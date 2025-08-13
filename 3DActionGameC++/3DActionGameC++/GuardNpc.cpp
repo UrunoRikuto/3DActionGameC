@@ -1,23 +1,22 @@
 /*
-* @file TargetNpc.cpp
-* @brief ターゲットNPCのクラスのCppファイル
+* @file GuardNpc.cpp
+* @brief 護衛NPCのクラスの実装ファイル
 * @author 宇留野陸斗
-* * @date 2025/08/04 ターゲットNPCのクラスの実装
+* @date 2025/08/14 護衛NPCのクラスの実装
 */
 
 /* ヘッダーのインクルード */
-#include "TargetNpc.h"
+#include "GuardNpc.h"
 /* システム・要素のインクルード */
 #include "Model.h"
 #include "Defines.h"
-#include "MoveSystem.h"
 
-// @brief コンストラクタ
-CTargetNpc::CTargetNpc(XMFLOAT3 In_SpawnPoint)
-	: CNpcBase() // 基底クラスのコンストラクタを呼び出す
-{
+// @briefコンストラクタ
+CGuardNpc::CGuardNpc(XMFLOAT3 In_SpawnPoint)
+	:CNpcBase() // 基底クラスのコンストラクタを呼び出す
+{	
 	// モデルの読み込み
-	if (!m_pModel->Load(ModelPath::TARGET_NPC_PATH))
+	if (!m_pModel->Load(ModelPath::GUARD_NPC_PATH))
 	{
 		MessageBox(NULL, "ターゲットNPCモデルの読み込みに失敗しました。", "Error", MB_OK);
 	}
@@ -28,7 +27,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 In_SpawnPoint)
 
 	// 当たり判定の設定
 	// 当たり判定情報のサイズを3に設定
-	m_tCollisionInfos.resize(3); 
+	m_tCollisionInfos.resize(3);
 	//--- 頭の当たり判定情報の初期化
 	// 当たり判定の種類を設定
 	m_tCollisionInfos[0].type = Collision::eBox;
@@ -64,25 +63,26 @@ CTargetNpc::CTargetNpc(XMFLOAT3 In_SpawnPoint)
 	m_tCollisionInfos[2].box.size = m_tScale;
 
 	// 移動システムの初期化
-	m_pMoveSystem = std::make_unique<CMoveSystem>(MoveSystemType::Loop, 0.1f);
+	m_pMoveSystem = std::make_unique<CMoveSystem>(MoveSystemType::Reverse, 0.1f);
 	// 移動ポイントの追加
 	std::vector<XMFLOAT3> movePoints = {
 		m_tPosition,
-		{ 40.0f, m_tPosition.y, 40.0f },
-		{ 40.0f, m_tPosition.y,  0.0f }
+		XMFLOAT3(m_tPosition.x - 40.0f,m_tPosition.y,m_tPosition.z),
+		XMFLOAT3(m_tPosition.x - 40.0f,m_tPosition.y,m_tPosition.z - 40.0f),
+		XMFLOAT3(m_tPosition.x,m_tPosition.y,m_tPosition.z - 40.0f)
 	};
 
 	m_pMoveSystem->AddMovePoints(movePoints);
 }
 
-// @brief デストラクタ
-CTargetNpc::~CTargetNpc()
+// @briefデストラクタ
+CGuardNpc::~CGuardNpc()
 {
 
 }
 
 // @brief 更新処理
-void CTargetNpc::Update(void)
+void CGuardNpc::Update(void)
 {
 	// 基底クラスの更新処理(NPC共通処理)
 	CNpcBase::Update();

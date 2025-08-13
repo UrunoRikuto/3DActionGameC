@@ -137,6 +137,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Geometory.cpp" />
+    <ClCompile Include="GuardNpc.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshBuffer.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geometory.h" />
+    <ClInclude Include="GuardNpc.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MeshBuffer.h" />

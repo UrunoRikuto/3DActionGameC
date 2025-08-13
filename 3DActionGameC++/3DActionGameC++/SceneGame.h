@@ -60,6 +60,6 @@ private:
 	// プレイヤーオブジェクトのポインタ
 	std::unique_ptr<CPlayer> m_pPlayer;
 	// NPCオブジェクトのポインタ
-	std::unique_ptr<CNpcBase> m_pNpc;
+	std::vector<std::unique_ptr<CNpcBase>> m_pNpc;
 };
 

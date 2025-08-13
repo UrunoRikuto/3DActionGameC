@@ -95,7 +95,7 @@ public:
 			Point point;
 			Triangle triangle;
 		};
-
+		DirectX::XMFLOAT3 AdjustCenter = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);	// 調整用のオフセット値
 	};
 
 	//--- 当たり判定の結果 
