@@ -10,6 +10,9 @@
 /* 基底クラスのインクルード */
 #include "GameObject.h"
 
+/* システム・要素のインクルード */
+#include "MoveSystem.h"
+
 /// <summary>
 /// NPCの基底クラス
 /// </summary>
@@ -30,8 +33,20 @@ public:
 	virtual void Update(void) = 0;
 
 	/// <summary>
+	/// 描画処理
+	/// </summary>
+	virtual void Draw(void);
+
+	/// <summary>
 	/// 当たり判定の衝突時の処理
 	/// </summary>
 	/// <param name="InCollisionInfo">衝突対象</param>
 	void Hit(const Collision::Info& InCollisionInfo) override;
+
+protected:
+	/// <summary>
+	/// 移動システム
+	/// </summary>
+	std::unique_ptr<CMoveSystem> m_pMoveSystem;
+
 };

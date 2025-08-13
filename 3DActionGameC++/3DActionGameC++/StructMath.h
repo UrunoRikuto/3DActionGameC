@@ -6,6 +6,8 @@
 
 #pragma once
 #include <DirectXMath.h>
+#include <math.h>
+
 using namespace DirectX;
 
 namespace StructMath
@@ -33,26 +35,7 @@ namespace StructMath
 	{
 		return XMFLOAT3(t1.x / t2.x, t1.y / t2.y, t1.z / t2.z);
 	}
-	// “™‚µ‚¢
-	inline bool Equal(XMFLOAT3 t1, XMFLOAT3 t2)
-	{
-		return t1.x == t2.x && t1.y == t2.y && t1.z == t2.z;
-	}
-	// ˆÈ‰º
-	inline bool LessEqual(XMFLOAT3 t1, XMFLOAT3 t2)
-	{
-		return t1.x <= t2.x && t1.y <= t2.y && t1.z <= t2.z;
-	}
-	// ˆÈã
-	inline bool MoreEqual(XMFLOAT3 t1, XMFLOAT3 t2)
-	{
-		return t1.x >= t2.x && t1.y >= t2.y && t1.z >= t2.z;
-	}
-	// ‹——£
-	inline float Distance(XMFLOAT3 t1, XMFLOAT3 t2)
-	{
-		return sqrtf((t1.x - t2.x) * (t1.x - t2.x) + (t1.y - t2.y) * (t1.y - t2.y) + (t1.z - t2.z) * (t1.z - t2.z));
-	}
+
 	// ³‹K‰»
 	inline XMFLOAT3 Normalize(XMFLOAT3 t1)
 	{
@@ -84,6 +67,23 @@ namespace StructMath
 			t1.z * t2.x - t1.x * t2.z,
 			t1.x * t2.y - t1.y * t2.x
 		);
+	}
+
+	// “™‚µ‚¢
+	inline bool Equal(XMFLOAT3 t1, XMFLOAT3 t2)
+	{
+		return t1.x == t2.x && t1.y == t2.y && t1.z == t2.z;
+	}
+	// ‹——£
+	inline float Distance(XMFLOAT3 t1, XMFLOAT3 t2)
+	{
+		return sqrtf((t1.x - t2.x) * (t1.x - t2.x) + (t1.y - t2.y) * (t1.y - t2.y) + (t1.z - t2.z) * (t1.z - t2.z));
+	}
+	// •ûŒü
+	inline XMFLOAT3 Direction(XMFLOAT3 t1, XMFLOAT3 t2)
+	{
+		XMFLOAT3 dir = Sub(t2, t1);
+		return Normalize(dir);
 	}
 
 
@@ -207,4 +207,12 @@ namespace StructMath
 		return XMFLOAT4(f, f, f, f);
 	}
 
+	/*===========================================================
+	* float‚Ì‰‰Z(d—l‚Ì“ˆê)
+	===========================================================*/
+	// â‘Î’l
+	inline float Abs(float f)
+	{
+		return fabsf(f);
+	}
 }

@@ -40,7 +40,7 @@ CSceneGame::CSceneGame()
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
 	// NPCの生成（ターゲットNPC）
-	m_pNpc = std::make_unique<CTargetNpc>();
+	m_pNpc = std::make_unique<CTargetNpc>(XMFLOAT3(10.0f, 0.0f, 0.0f));
 
 	for (auto& field : m_pField)
 	{

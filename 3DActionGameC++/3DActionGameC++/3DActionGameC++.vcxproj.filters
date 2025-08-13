@@ -66,6 +66,9 @@
     <Filter Include="コード ファイル\Component\RayCast">
       <UniqueIdentifier>{fd577ad6-a910-4645-9146-e12a7fe1450c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component\MoveSystem">
+      <UniqueIdentifier>{3ed1e997-ef55-43cc-859b-3ea9429791e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -167,6 +170,9 @@
     <ClCompile Include="RayCastTarget.cpp">
       <Filter>コード ファイル\Component\RayCast</Filter>
     </ClCompile>
+    <ClCompile Include="MoveSystem.cpp">
+      <Filter>コード ファイル\Component\MoveSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -261,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="RayCastTarget.h">
       <Filter>コード ファイル\Component\RayCast</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSystem.h">
+      <Filter>コード ファイル\Component\MoveSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
