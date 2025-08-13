@@ -49,4 +49,10 @@ protected:
 	/// </summary>
 	std::unique_ptr<CMoveSystem> m_pMoveSystem;
 
+public:
+	/// <summary>
+	/// 移動システムの取得
+	/// </summary>
+	/// <returns>移動システムのポインタ</returns>
+	CMoveSystem* GetMoveSystem(void) { return m_pMoveSystem.get(); }
 };

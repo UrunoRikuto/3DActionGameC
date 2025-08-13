@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CGuardNpc(XMFLOAT3 In_SpawnPoint);
+	CGuardNpc(int PointIndex);
 
 	/// <summary>
 	/// デストラクタ

@@ -17,6 +17,7 @@
 /* ƒVƒXƒeƒ€E—v‘f‚ÌƒCƒ“ƒNƒ‹[ƒh */
 #include "Camera.h"
 #include "Defines.h"
+#include "MovePointManager.h"
 
 /* ƒOƒ[ƒoƒ‹•Ï” */
 std::vector<CGameObject*> g_vNullCheckList; // Nullƒ`ƒFƒbƒN—p‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg
@@ -25,25 +26,27 @@ std::vector<CGameObject*> g_vNullCheckList; // Nullƒ`ƒFƒbƒN—p‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒ
 CSceneGame::CSceneGame()
 	:CSceneBase()
 {
+	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // ˆÚ“®ƒ|ƒCƒ“ƒg‚Ì¶¬
+
 	// ƒtƒB[ƒ‹ƒh‚Ì¶¬
-	m_pField.resize(4); // ƒtƒB[ƒ‹ƒh‚Ìƒ|ƒCƒ“ƒ^‚ğ2‚ÂŠm•Û
+	m_pField.resize(1);
 	m_pField[0] = std::make_unique<CField>();
-	m_pField[1] = std::make_unique<CField>();
-	m_pField[1]->SetPosition(XMFLOAT3(-20.0f, 1.0f, 100.0f));
-	m_pField[1]->SetScale(XMFLOAT3(10.0f, 1.0f, 100.0f));
-	m_pField[2] = std::make_unique<CField>();
-	m_pField[2]->SetPosition(XMFLOAT3(0.0f, 2.0f, 200.0f));
-	m_pField[2]->SetScale(XMFLOAT3(5.0f, 1.0f, 100.0f));
-	m_pField[3] = std::make_unique<CField>();
-	m_pField[3]->SetPosition(XMFLOAT3(10.0f, 3.0f, 300.0f));
-	m_pField[3]->SetScale(XMFLOAT3(100.0f, 1.0f, 100.0f));
+	m_pField[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
 
 	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	m_pPlayer = std::make_unique<CPlayer>();
+
+	//- ˆÚ“®ƒ|ƒCƒ“ƒgƒ}ƒl[ƒWƒƒ[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
+
 	// NPC‚Ì¶¬iƒ^[ƒQƒbƒgNPCj
-	m_pNpc.push_back(std::make_unique<CTargetNpc>(XMFLOAT3(10.0f, 0.0f, 0.0f)));
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(0));
+	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+
 	// NPC‚Ì¶¬iŒì‰qNPCj
-	m_pNpc.push_back(std::make_unique<CGuardNpc>(XMFLOAT3(40.0f, 0.0f, 0.0f)));
+	m_pNpc.push_back(std::make_unique<CGuardNpc>(2));
+	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
+	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
 
 	for (auto& field : m_pField)
@@ -82,6 +85,9 @@ void CSceneGame::Update(void)
 // @brief •`‰æˆ—
 void CSceneGame::Draw(void)
 {
+	// ˆÚ“®ƒ|ƒCƒ“ƒg‚ÌƒfƒoƒbƒO•`‰æ
+	CMovePointManager::GetInstance()->DebugDraw(); // ˆÚ“®ƒ|ƒCƒ“ƒg‚ÌƒfƒoƒbƒO•`‰æ
+
 	for (auto& obj : g_vNullCheckList)
 	{
 		if (SafeNullCheck(obj))
