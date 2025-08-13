@@ -12,7 +12,7 @@
 #include "Defines.h"
 
 // @briefコンストラクタ
-CGuardNpc::CGuardNpc(XMFLOAT3 In_SpawnPoint)
+CGuardNpc::CGuardNpc(int PointIndex)
 	:CNpcBase() // 基底クラスのコンストラクタを呼び出す
 {	
 	// モデルの読み込み
@@ -20,9 +20,20 @@ CGuardNpc::CGuardNpc(XMFLOAT3 In_SpawnPoint)
 	{
 		MessageBox(NULL, "ターゲットNPCモデルの読み込みに失敗しました。", "Error", MB_OK);
 	}
-	// 位置、スケール、回転の設定
+
+	// 大きさの設定
 	m_tScale = { 2.0f,2.0f,2.0f };
-	m_tPosition = { In_SpawnPoint.x, In_SpawnPoint.y + (m_tScale.y * 3) / 2, In_SpawnPoint.z };
+
+	// 移動システムの初期化
+	m_pMoveSystem = std::make_unique<CMoveSystem>(MoveSystemType::Loop, 0.1f);
+	// Y座標の調整値を設定
+	m_pMoveSystem->SetAdjustY(m_tScale.y / 2.0f); // NPCの高さの半分を調整値に設定
+	// 移動ポイントの追加
+	m_pMoveSystem->AddMovePoint(CMovePointManager::GetInstance()->GetMovePoints()[PointIndex]);
+
+	// 位置
+	m_tPosition = m_pMoveSystem->GetMovePointList()[0];
+	// 回転
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
 	// 当たり判定の設定
@@ -61,18 +72,6 @@ CGuardNpc::CGuardNpc(XMFLOAT3 In_SpawnPoint)
 	m_tCollisionInfos[2].AdjustCenter = XMFLOAT3(0.0f, -m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;
-
-	// 移動システムの初期化
-	m_pMoveSystem = std::make_unique<CMoveSystem>(MoveSystemType::Reverse, 0.1f);
-	// 移動ポイントの追加
-	std::vector<XMFLOAT3> movePoints = {
-		m_tPosition,
-		XMFLOAT3(m_tPosition.x - 40.0f,m_tPosition.y,m_tPosition.z),
-		XMFLOAT3(m_tPosition.x - 40.0f,m_tPosition.y,m_tPosition.z - 40.0f),
-		XMFLOAT3(m_tPosition.x,m_tPosition.y,m_tPosition.z - 40.0f)
-	};
-
-	m_pMoveSystem->AddMovePoints(movePoints);
 }
 
 // @briefデストラクタ

@@ -62,6 +62,8 @@ inline bool SafeNullCheck(T* p)
 /* モデルのパス定義 */
 namespace ModelPath
 {
+	// 移動ポイントのモデルパス
+	constexpr const char* MOVE_POINT_PATH = MODEL_PATH("Debug/MovePoint.obj");
 	// ターゲットNPCのモデルパス
 	constexpr const char* TARGET_NPC_PATH = MODEL_PATH("TargetNPC.obj");
 	// 護衛NPCのモデルパス

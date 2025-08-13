@@ -3,6 +3,7 @@
 * @brief 移動システムの定義ファイル
 * @author 宇留野陸斗
 * @date 2025/08/13 移動システムクラスの定義
+*            08/14 Y座標の調整値を追加
 */
 #pragma once
 
@@ -11,6 +12,7 @@
 #include <vector>
 #include "StructMath.h"
 #include "Enums.h"
+#include "MovePointManager.h"
 
 /// <summary>
 /// 移動システムクラス
@@ -87,6 +89,11 @@ private:
 	/// </summary>
 	bool m_bIsEndPoint;
 
+	/// <summary>
+	/// Y軸の調整値
+	/// </summary>
+	float m_fAdjustY;
+
 public:// アクセサー
 
 	/// <summary>
@@ -100,5 +107,11 @@ public:// アクセサー
 	/// </summary>
 	/// <returns>移動ポイントのリスト</returns>
 	const std::vector<XMFLOAT3>& GetMovePointList() const { return m_vtMovePointList; }
+
+	/// <summary>
+	/// Y座標の調整値を取得
+	/// </summary>
+	/// <param name="In_AdjustY">調整値</param>
+	void SetAdjustY(float In_AdjustY) { m_fAdjustY = In_AdjustY; }
 };
 

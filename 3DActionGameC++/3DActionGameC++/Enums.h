@@ -42,3 +42,13 @@ enum class MoveSystemType
 	Loop,
 	Reverse,
 };
+
+/*
+* @brief フィールドの種類
+* @param 0：平原
+*/
+enum class FieldType
+{
+	Plain,	// 平原
+	MAX,
+};

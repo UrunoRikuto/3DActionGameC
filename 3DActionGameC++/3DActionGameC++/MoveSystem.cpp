@@ -3,6 +3,7 @@
 * @brief 移動システムの実装ファイル
 * @author 宇留野陸斗
 * @date 2025/08/13 移動システムクラスの実装
+* 			 08/14 Y座標の調整値を追加
 */
 
 /* ヘッダーのインクルード */
@@ -19,6 +20,7 @@ CMoveSystem::CMoveSystem(MoveSystemType In_Type, float In_MoveSpeed)
 	, m_vtMovePointList()		// 移動ポイントのリストを初期化
 	, m_nCurrentPointIndex(0) // 現在の移動ポイントのインデックスを初期化
 	, m_bIsEndPoint(false)
+	, m_fAdjustY(0.0f) // Y座標の調整値を初期化
 {
 	// 移動ポイントのリストを初期化
 	m_vtMovePointList.clear();
@@ -101,16 +103,28 @@ XMFLOAT3 CMoveSystem::GetMovePoint(const XMFLOAT3& In_CurrentPos)
 // @param In_MovePoint 追加する位置
 void CMoveSystem::AddMovePoint(const XMFLOAT3& In_MovePoint)
 {
+	// Y座標の調整を行う
+	XMFLOAT3 AdjustedPoint = StructMath::Add(In_MovePoint, XMFLOAT3(0.0f, m_fAdjustY, 0.0f)); 
+
 	// 移動ポイントをリストに追加
-	m_vtMovePointList.push_back(In_MovePoint);
+	m_vtMovePointList.push_back(AdjustedPoint);
 }
 
 // @brief 複数の移動ポイントをリストに追加
 // @param In_MovePoints 追加する移動ポイントリスト(並びはそのまま)
 void CMoveSystem::AddMovePoints(const std::vector<XMFLOAT3>& In_MovePoints)
 {
-	// 複数の移動ポイントをリストに追加
-	m_vtMovePointList.insert(m_vtMovePointList.end(), In_MovePoints.begin(), In_MovePoints.end());
+	// Y座標の調整を行う
+	std::vector<XMFLOAT3> AdjustedPoints;
+	for (const auto& point : In_MovePoints)
+	{
+		// 各移動ポイントにY座標の調整を適用
+		XMFLOAT3 adjustedPoint = StructMath::Add(point, XMFLOAT3(0.0f, m_fAdjustY, 0.0f));
+		AdjustedPoints.push_back(adjustedPoint);
+	}
+
+	// 移動ポイントのリストに追加
+	m_vtMovePointList.insert(m_vtMovePointList.end(), AdjustedPoints.begin(), AdjustedPoints.end());
 }
 
 // @brief 移動ポイントのリストを新しく設定
@@ -118,8 +132,18 @@ void CMoveSystem::AddMovePoints(const std::vector<XMFLOAT3>& In_MovePoints)
 // @param In_CurrentPos 現在の位置
 void CMoveSystem::SetMovePoints(const std::vector<XMFLOAT3>& In_MovePoints, const XMFLOAT3& In_CurrentPos)
 {
+	//Y座標の調整を行う
+	std::vector<XMFLOAT3> AdjustedPoints;
+	for (const auto& point : In_MovePoints)
+	{
+		// 各移動ポイントにY座標の調整を適用
+		XMFLOAT3 adjustedPoint = StructMath::Add(point, XMFLOAT3(0.0f, m_fAdjustY, 0.0f));
+		AdjustedPoints.push_back(adjustedPoint);
+	}
+
+
 	// 移動ポイントのリストを新しく設定
-	m_vtMovePointList = In_MovePoints;
+	m_vtMovePointList = AdjustedPoints;
 
 	// 現在位置から最も近い移動ポイントを探す
 	float minDistance = StructMath::Abs(StructMath::Distance(In_CurrentPos, m_vtMovePointList[0]));
