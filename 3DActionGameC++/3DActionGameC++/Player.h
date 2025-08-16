@@ -96,7 +96,12 @@ private:
 	/// <summary>
 	/// 狙撃モードの倍率を変更
 	/// </summary>
-	void SA_ZoomAction(void);
+	void SA_Zoom(void);
+
+	/// <summary>
+	/// 狙撃モードの射撃処理
+	/// </summary>
+	void SA_Shoot(void);
 private:
 	/// <summary>
 	/// プレイヤーの行動モード

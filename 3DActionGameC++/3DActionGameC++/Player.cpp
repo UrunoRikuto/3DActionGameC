@@ -331,9 +331,11 @@ void CPlayer::MA_LookRotation(void)
 void CPlayer::SA_Update(void)
 {
 	// ズームアクションの処理
-	SA_ZoomAction();
+	SA_Zoom();
 	// 視点の移動処理
 	SA_LookRotation();
+	// 射撃処理
+	SA_Shoot();
 }
 
 // @brief 狙撃モードの視点移動
@@ -372,7 +374,7 @@ void CPlayer::SA_LookRotation(void)
 }
 
 // @brief 狙撃モードの倍率を変更
-void CPlayer::SA_ZoomAction(void)
+void CPlayer::SA_Zoom(void)
 {
 	// 名前空間の使用宣言
 	using namespace InputKey::Player::SnipingAction;
@@ -396,5 +398,19 @@ void CPlayer::SA_ZoomAction(void)
 	else if (m_fSnipingZoom > 10.0f)
 	{
 		m_fSnipingZoom = 10.0f; // 最大ズーム倍率
+	}
+}
+
+// @brief 狙撃モードの射撃処理
+void CPlayer::SA_Shoot(void)
+{
+	// 名前空間の使用宣言
+	using namespace InputKey::Player::SnipingAction;
+
+	// 射撃キーが押されたら
+	if (IsKeyTrigger(SNIPING_SHOOT))
+	{
+		// @todo 弾丸の生成処理を実装する
+
 	}
 }

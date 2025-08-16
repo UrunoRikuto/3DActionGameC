@@ -100,6 +100,12 @@ namespace GameValue
 		}
 	}
 
+	namespace Bullet
+	{
+		// 弾の生存時間
+		constexpr float LIFE_TIME = 5.0f; // 秒
+	}
+
 	// NPCの値
 	namespace Npc
 	{
@@ -133,19 +139,19 @@ namespace InputKey
 		// 移動モードの入力キー
 		namespace MoveAction
 		{
-			// 前進
+			// 動作 前進
 			constexpr BYTE MOVE_FORWARD
 				= 'W';
-			// 後退
+			// 動作 後退
 			constexpr BYTE MOVE_BACKWARD
 				= 'S';
-			// 左移動
+			// 動作 左移動
 			constexpr BYTE MOVE_LEFT
 				= 'A';
-			// 右移動
+			// 動作 右移動
 			constexpr BYTE MOVE_RIGHT
 				= 'D';
-			// ジャンプ
+			// 動作 ジャンプ
 			constexpr BYTE JUMP
 				= VK_SPACE;
 			// 視点 左回転
@@ -158,24 +164,27 @@ namespace InputKey
 		// 狙撃モードの入力キー
 		namespace SnipingAction
 		{
-			// 狙撃モードの視点 上回転
+			// 視点 上回転
 			constexpr BYTE SNIPING_LOOK_UP
 				= 'W';
-			// 狙撃モードの視点 下回転
+			// 視点 下回転
 			constexpr BYTE SNIPING_LOOK_DOWN
 				= 'S';
-			// 狙撃モードの視点 左回転
+			// 視点 左回転
 			constexpr BYTE SNIPING_LOOK_LEFT
 				= 'A';
-			// 狙撃モードの視点 右回転
+			// 視点 右回転
 			constexpr BYTE SNIPING_LOOK_RIGHT
 				= 'D';
-			// 狙撃モードの視点 ズームイン
+			// 視点 ズームイン
 			constexpr BYTE SNIPING_ZOOM_IN
 				= VK_UP;
-			// 狙撃モードの視点 ズームアウト
+			// 視点 ズームアウト
 			constexpr BYTE SNIPING_ZOOM_OUT
 				= VK_DOWN;
+			// 動作 射撃
+			constexpr BYTE SNIPING_SHOOT
+				= VK_SPACE;
 		}
 	}
 }
