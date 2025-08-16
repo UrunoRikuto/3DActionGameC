@@ -82,6 +82,11 @@ protected:
 	/// </summary>
 	XMFLOAT3 m_tRotation;
 
+	/// <summary>
+	/// オブジェクトが破棄されるかどうかのフラグ
+	/// </summary>
+	bool m_bDestroy;
+
 public: // メンバ変数のアクセサ
 
 	/// <summary>
@@ -127,5 +132,10 @@ public: // メンバ変数のアクセサ
 	/// <returns>回転情報</returns>
 	const XMFLOAT3& GetRotation() const { return m_tRotation; }
 
+	/// <summary>
+	/// オブジェクトが破棄されるかどうかのフラグの取得
+	/// </summary>
+	/// <returns>オブジェクトが破棄されるかどうか</returns>
+	bool IsDestroy() const { return m_bDestroy; }
 };
 

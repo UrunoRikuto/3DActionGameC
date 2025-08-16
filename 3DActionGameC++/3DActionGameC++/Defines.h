@@ -184,7 +184,7 @@ namespace InputKey
 				= VK_DOWN;
 			// “®ì ËŒ‚
 			constexpr BYTE SNIPING_SHOOT
-				= VK_SPACE;
+				= VK_RETURN;
 		}
 	}
 }

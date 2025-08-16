@@ -75,6 +75,9 @@ CPlayer::~CPlayer()
 // @brief 更新処理
 void CPlayer::Update(void)
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+	
 	m_tOldPosition = m_tPosition; // 現在の位置を前の位置として保存
 	// 行動モードの切り替え処理
 	ChangeActionMode();
@@ -94,6 +97,9 @@ void CPlayer::Update(void)
 // @brief 描画処理
 void CPlayer::Draw(void)
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+	
 	switch (m_eActionMode)
 	{
 	case PlayerActionMode::Move:

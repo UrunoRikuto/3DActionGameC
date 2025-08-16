@@ -52,6 +52,9 @@ CBullet::~CBullet()
 // @brief 更新処理
 void CBullet::Update(void)
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+
 	// 名前空間の仕様
 	using namespace GameValue::Bullet;
 
@@ -64,8 +67,8 @@ void CBullet::Update(void)
 	// 生存時間が一定時間を超えたら弾丸を削除
 	if (m_fLifeTime > LIFE_TIME) // 5秒で弾丸を削除
 	{
-		// 自分を削除
-		delete this; // メモリリークを防ぐために自分自身を削除
+		// 削除フラグを立てる
+		m_bDestroy = true;
 		return;
 	}
 }
@@ -83,6 +86,6 @@ void CBullet::SetParam(const XMFLOAT3& direction, float movePower)
 // @param InCollisionInfo 衝突対象
 void CBullet::Hit(const Collision::Info& InCollisionInfo)
 {
-	// 衝突した場合、弾丸を削除
-	delete this; // メモリリークを防ぐために自分自身を削除
+	// 弾丸を削除フラグを立てる
+	m_bDestroy = true;
 }

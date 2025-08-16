@@ -64,6 +64,10 @@ CField::~CField()
 // @brief 更新処理
 void CField::Update(void)
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+
+
 	m_pRayCastTarget->SetPosition(m_tPosition); // レイキャストのターゲットオブジェクトの位置を更新
 	m_pRayCastTarget->SetScale(m_tScale); // レイキャストのターゲットオブジェクトのスケールを更新
 }

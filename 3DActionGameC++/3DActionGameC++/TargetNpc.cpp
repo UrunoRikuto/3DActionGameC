@@ -85,6 +85,9 @@ CTargetNpc::~CTargetNpc()
 // @brief 更新処理
 void CTargetNpc::Update(void)
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+	
 	// 基底クラスの更新処理(NPC共通処理)
 	CNpcBase::Update();
 }

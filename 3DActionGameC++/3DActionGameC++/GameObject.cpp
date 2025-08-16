@@ -22,6 +22,7 @@ CGameObject::CGameObject()
 	, m_tScale(1.0f, 1.0f, 1.0f) // 初期スケール
 	, m_tRotation(0.0f, 0.0f, 0.0f) // 初期回転
 	, m_tCollisionInfos{} // 当たり判定情報の初期化
+	, m_bDestroy(false) // 破棄フラグの初期化
 {
 	
 }
@@ -35,12 +36,17 @@ CGameObject::~CGameObject()
 // @brief 更新処理
 void CGameObject::Update()
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
 
 }
 
 // @brief 描画処理
 void CGameObject::Draw()
 {
+	// 破棄フラグが立っている場合は更新を行わない
+	if (m_bDestroy)return;
+
 	SetRender3D();
 #ifdef _DEBUG
 	// デバッグモードでの当たり判定の描画
