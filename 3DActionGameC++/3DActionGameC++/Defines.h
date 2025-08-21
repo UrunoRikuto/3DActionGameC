@@ -109,6 +109,39 @@ namespace GameValue
 	// NPCの値
 	namespace Npc
 	{
+		// 通常NPCの値
+		namespace Normal
+		{
+			// 視野角
+			constexpr float VIEW_ANGLE = 60.0f; // 度
+			// 視野距離
+			constexpr float VIEW_DISTANCE = 20.0f; // メートル
+		}
+		// ターゲットNPCの値
+		namespace Target
+		{
+			// 視野角
+			constexpr float VIEW_ANGLE = 60.0f; // 度
+			// 視野距離
+			constexpr float VIEW_DISTANCE = 20.0f; // メートル
+		}
+		// 巡回NPCの値
+		namespace Patrol
+		{
+			// 視野角
+			constexpr float VIEW_ANGLE = 60.0f; // 度
+			// 視野距離
+			constexpr float VIEW_DISTANCE = 20.0f; // メートル
+		}
+		// スナイパーNPCの値
+		namespace Sniper
+		{
+			// 視野角
+			constexpr float VIEW_ANGLE = 40.0f; // 度
+			// 視野距離
+			constexpr float VIEW_DISTANCE = 40.0f; // メートル
+
+		}
 	}
 
 	// フィールドの値
@@ -123,6 +156,19 @@ namespace GameValue
 	{
 		// 衝突チェックの対象検出距離
 		constexpr float DETECT_DISTANCE = 10.0f;
+	}
+
+	// ステルス補正の値(プレイヤーの姿勢による視認距離の補正)
+	namespace StealthCorrection
+	{
+		// 立ち姿勢の視認距離補正
+		constexpr float STAND_CORRECTION = 1.0f;
+		// しゃがみ姿勢の視認距離補正
+		constexpr float CROUCH_CORRECTION = 0.8f;
+		// 伏せ姿勢の視認距離補正
+		constexpr float PRONE_CORRECTION = 0.5f;
+		// 潜伏姿勢の視認距離補正
+		constexpr float HIDE_CORRECTION = 0.3f;
 	}
 }
 

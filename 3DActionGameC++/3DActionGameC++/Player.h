@@ -55,6 +55,7 @@ public:
 	/// </summary>
 	/// <param name="InCollisionInfo">衝突対象</param>
 	void Hit(const Collision::Info& InCollisionInfo) override;
+
 private:
 	/// <summary>
 	/// 行動モードの切り替え
@@ -104,12 +105,17 @@ private:
 	void SA_Shoot(void);
 private:
 	/// <summary>
-	/// プレイヤーの行動モード
+	/// 行動モード
 	/// </summary>
 	PlayerActionMode m_eActionMode;
 
 	/// <summary>
-	/// プレイヤーの移動量
+	/// 姿勢状態
+	/// </summary>
+	PlayerPosture m_ePosture;
+
+	/// <summary>
+	/// 移動量
 	/// </summary>
 	XMFLOAT3 m_tMovePower;
 
@@ -156,4 +162,10 @@ public: //メンバ変数のアクセサ
 	/// </summary>
 	/// <returns>レイのポインタ</returns>
 	CRay* GetRay(void) { return m_pRay.get(); }
+
+	/// <summary>
+	/// 姿勢状態の取得
+	/// </summary>
+	/// <returns>姿勢状態</returns>
+	PlayerPosture GetPosture(void) const { return m_ePosture; }
 };

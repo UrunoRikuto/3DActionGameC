@@ -168,6 +168,7 @@
     <ClCompile Include="TargetNpc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VisionSearch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="TargetNpc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VisionSearch.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\設計\クリーンアップメモ.txt" />

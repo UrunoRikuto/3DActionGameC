@@ -34,6 +34,7 @@ CPlayer::CPlayer()
 	, m_nJumpFrame(GameValue::Player::MoveAction::JUMP_DURATION) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_fSnipingZoom(-1.0f) // 狙撃モードのズーム倍率の初期値
+	, m_ePosture(PlayerPosture::Stand) // プレイヤーの姿勢状態を立っている状態に設定
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();

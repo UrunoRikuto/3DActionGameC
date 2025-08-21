@@ -44,12 +44,35 @@ public:
 	void Hit(const Collision::Info& InCollisionInfo) override;
 
 protected:
+
+	/// <summary>
+	/// NCPの種類
+	/// </summary>
+	NpcType m_eNpcType;
+
+	/// <summary>
+	/// 現在の索敵状態
+	/// </summary>
+	VisionSearchState m_eSearchState;
+
 	/// <summary>
 	/// 移動システム
 	/// </summary>
 	std::unique_ptr<CMoveSystem> m_pMoveSystem;
 
 public:
+	/// <summary>
+	/// NPCの種類の取得
+	/// </summary>
+	/// <returns> NCPの種類</returns>
+	NpcType GetNpcType(void) const { return m_eNpcType; }
+
+	/// <summary>
+	/// 現在の索敵状態の取得
+	/// </summary>
+	/// <returns>現在の索敵状態</returns>
+	VisionSearchState GetSearchState(void) const { return m_eSearchState; }
+
 	/// <summary>
 	/// 移動システムの取得
 	/// </summary>

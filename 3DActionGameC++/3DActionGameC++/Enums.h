@@ -52,3 +52,51 @@ enum class FieldType
 	Plain,	// 平原
 	MAX,
 };
+
+/*
+* @brief 視覚索敵の状態
+* @param 0：異常なし
+* @param 1：疑問
+* @param 2: 見失う
+* @param 3：発見
+*/
+enum class VisionSearchState
+{
+	None,		// 異常なし
+	Doubt,		// 疑問
+	Lost,		// 見失う
+	Discovery,	// 発見
+	MAX,
+};
+
+/*
+* @brief プレイヤーの姿勢の種類
+* @param 0：立ち
+* @param 1：しゃがみ
+* @param 2：伏せ
+* @param 3：潜伏
+*/
+enum class PlayerPosture
+{
+	Stand,		// 立ち
+	Crouch,		// しゃがみ
+	Prone,		// 伏せ
+	Hide,		// 潜伏
+	MAX,
+};
+
+/*
+* @brief NPCの種類
+* @param 0：通常NPC
+* @param 1：ターゲットNPC
+* @param 2：スナイパーNPC
+* @param 3：巡回NPC
+*/
+enum class NpcType
+{
+	Normal,		// 通常NPC
+	Target,		// ターゲットNPC
+	Sniper,		// スナイパーNPC
+	Patrol,		// 巡回NPC
+	MAX,
+};
