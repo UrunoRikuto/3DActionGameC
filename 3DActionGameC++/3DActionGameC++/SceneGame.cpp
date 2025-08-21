@@ -29,9 +29,12 @@ CSceneGame::CSceneGame()
 	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // 移動ポイントの生成
 
 	// フィールドの生成
-	m_pField.resize(1);
+	m_pField.resize(2);
 	m_pField[0] = std::make_unique<CField>();
 	m_pField[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
+	m_pField[1] = std::make_unique<CField>();
+	m_pField[1]->SetPosition(XMFLOAT3(0.0f, 1.0f, 1000.0f)); // 2つ目のフィールドを配置
+	m_pField[1]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
 
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
@@ -238,7 +241,7 @@ void CSceneGame::RayCastCheck(void)
 {
 	for (auto& obj : m_pField)
 	{
-		if (m_pPlayer->GetRay()->Cast(obj->GetRayCastTarget()))
+		if (m_pPlayer->GetRay()->Cast(obj->GetCollisionInfo()))
 		{
 			// レイキャストが当たった場合、プレイヤーの真下の地面の高さを設定
 			m_pPlayer->SetUnderHeight(obj->GetPosition().y + obj->GetScale().y / 2.0f);

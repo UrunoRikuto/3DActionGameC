@@ -8,7 +8,7 @@
 
 /* システム・要素のインクルード */
 #include "StructMath.h"
-#include "RayCastTarget.h"
+#include "Collision.h"
 
 
 /// <summary>
@@ -29,9 +29,9 @@ public:
 	/// <summary>
 	/// レイキャストの実行
 	/// </summary>
-	/// <param name="InTarget">ターゲットオブジェクト</param>
+	/// <param name="In_TargetInfos">ターゲットコリジョン</param>
 	/// <returns>レイが当たっているかどうか</returns>
-	bool Cast(CRayCastTarget* InTarget);
+	bool Cast(std::vector<Collision::Info> In_TargetInfos);
 
 	/// <summary>
 	/// パラメーターの設定

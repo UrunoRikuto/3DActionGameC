@@ -153,7 +153,6 @@
     <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="RayCastTarget.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
@@ -191,7 +190,6 @@
     <ClInclude Include="NpcBase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ray.h" />
-    <ClInclude Include="RayCastTarget.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneTitle.h" />

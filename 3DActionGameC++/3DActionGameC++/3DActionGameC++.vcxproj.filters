@@ -63,9 +63,6 @@
     <Filter Include="コード ファイル\GameObject\NPC\TargetNPC">
       <UniqueIdentifier>{c473483d-1e76-41aa-8dbd-2fa97dc56a70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\Component\RayCast">
-      <UniqueIdentifier>{fd577ad6-a910-4645-9146-e12a7fe1450c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="コード ファイル\Component\MoveSystem">
       <UniqueIdentifier>{3ed1e997-ef55-43cc-859b-3ea9429791e3}</UniqueIdentifier>
     </Filter>
@@ -77,6 +74,9 @@
     </Filter>
     <Filter Include="コード ファイル\Component\Search">
       <UniqueIdentifier>{78533d31-7ff6-4773-a2dc-349e78fbfc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Component\Ray">
+      <UniqueIdentifier>{fd577ad6-a910-4645-9146-e12a7fe1450c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,10 +174,7 @@
       <Filter>コード ファイル\GameObject\NPC\TargetNPC</Filter>
     </ClCompile>
     <ClCompile Include="Ray.cpp">
-      <Filter>コード ファイル\Component\RayCast</Filter>
-    </ClCompile>
-    <ClCompile Include="RayCastTarget.cpp">
-      <Filter>コード ファイル\Component\RayCast</Filter>
+      <Filter>コード ファイル\Component\Ray</Filter>
     </ClCompile>
     <ClCompile Include="MoveSystem.cpp">
       <Filter>コード ファイル\Component\MoveSystem</Filter>
@@ -284,10 +281,7 @@
       <Filter>コード ファイル\GameObject\NPC\TargetNPC</Filter>
     </ClInclude>
     <ClInclude Include="Ray.h">
-      <Filter>コード ファイル\Component\RayCast</Filter>
-    </ClInclude>
-    <ClInclude Include="RayCastTarget.h">
-      <Filter>コード ファイル\Component\RayCast</Filter>
+      <Filter>コード ファイル\Component\Ray</Filter>
     </ClInclude>
     <ClInclude Include="MoveSystem.h">
       <Filter>コード ファイル\Component\MoveSystem</Filter>
