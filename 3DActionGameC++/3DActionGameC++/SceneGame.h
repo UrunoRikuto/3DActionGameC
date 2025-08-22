@@ -13,6 +13,7 @@
 #include "SceneBase.h"
 
 /* 前方宣言 */
+class CGameObject;
 class CField;
 class CPlayer;
 class CNpcBase;
@@ -42,6 +43,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw(void)override;
+
+	/// <summary>
+	/// すべてのフィールドオブジェクトを取得
+	/// </summary>
+	/// <returns>すべてのフィールドオブジェクトリスト</returns>
+	std::vector<CGameObject*> GetAllFieldObjects(void);
 
 private:
 	/// <summary>

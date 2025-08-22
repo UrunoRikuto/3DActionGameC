@@ -5,7 +5,6 @@
 #include "Geometory.h"
 #include "Input.h"
 #include "Defines.h"
-#include "SceneBase.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
 #include "ShaderList.h"
@@ -15,7 +14,7 @@ RenderTarget* pRTV;
 DepthStencil* pDSV;
 
 bool IsLoop = true;
-CSceneBase* m_pScene;
+CSceneBase* g_pScene;
 
 HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 {
@@ -43,14 +42,14 @@ HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 	Camera::CreataeInstance();
 
 	// ƒV[ƒ“ì¬
-	m_pScene = new CSceneTitle();
+	g_pScene = new CSceneTitle();
 
 	return hr;
 }
 
 void Uninit()
 {
-	SAFE_DELETE(m_pScene);
+	SAFE_DELETE(g_pScene);
 	UninitInput();
 	ShaderList::Uninit();
 	Sprite::Uninit();
@@ -62,7 +61,7 @@ void Uninit()
 void Update()
 {
 	UpdateInput();
-	m_pScene->Update();
+	g_pScene->Update();
 }
 
 void Draw()
@@ -71,7 +70,7 @@ void Draw()
 
 	Geometory::SetProjection(Camera::GetInstance()->GetProjectionMatrix());
 	Geometory::SetView(Camera::GetInstance()->GetViewMatrix());
-	m_pScene->Draw();
+	g_pScene->Draw();
 
 	EndDrawDirectX();
 }
@@ -102,17 +101,22 @@ void SetGameEnd(void)
 
 void ChangeScene(SceneType Next)
 {
-	SAFE_DELETE(m_pScene);
+	SAFE_DELETE(g_pScene);
 
 	switch (Next)
 	{
 	case SceneType::Title:
-		m_pScene = new CSceneTitle();
+		g_pScene = new CSceneTitle();
 		break;
 	case SceneType::Game:
-		m_pScene = new CSceneGame();
+		g_pScene = new CSceneGame();
 		break;
 	}
+}
+
+CSceneBase* GetCurrentScene(void)
+{
+	return g_pScene;
 }
 
 // EOF

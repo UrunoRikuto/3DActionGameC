@@ -100,6 +100,30 @@ void CSceneGame::Draw(void)
 	}
 }
 
+// @brief すべてのフィールドオブジェクトを取得する
+// @return すべてのフィールドオブジェクトのリスト
+std::vector<CGameObject*> CSceneGame::GetAllFieldObjects(void)
+{
+	// 格納するリストを作成
+	std::vector<CGameObject*> fieldObjects;
+
+	for (auto& obj : g_vNullCheckList)
+	{
+		// Nullチェックを行う
+		if (SafeNullCheck(obj))
+		{
+			// 当たり判定を走査
+			if (!obj->GetCollisionInfo(Collision::Tag::FieldObject).empty())
+			{
+				fieldObjects.push_back(obj); // 当たり判定が存在する場合、リストに追加
+			}
+		}
+	}
+
+	// リストを返す
+	return fieldObjects;
+}
+
 // @brief 当たり判定の衝突チェック
 void CSceneGame::CollisionCheck(void)
 {

@@ -12,6 +12,8 @@
 
 /* システム・要素のインクルード */
 #include "Defines.h"
+#include "Main.h"
+#include "SceneGame.h"
 
 // @brief コンストラクタ
 // @param In_Self 自分自身のオブジェクト
@@ -96,6 +98,8 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	float distance = StructMath::Distance(In_SelfPosition, TargetPos);
 
 	// ターゲットが視野距離内にいるかどうかをチェック
+	CSceneGame* pSceneGame = static_cast<CSceneGame*>(GetCurrentScene());
+
 	if (distance < m_fViewDistance)
 	{
 		switch (In_CurrentSearchState)
@@ -108,6 +112,12 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			/// レイキャストを使用してオブジェクトを検知する
 			/// 検知できなかったら状態を疑問に変更
 			/// 検知した場合何もしない
+			
+			// フィールドオブジェクトのリストを取得
+			for (auto object : pSceneGame->GetAllFieldObjects())
+			{
+
+			}
 			
 			// ターゲットのいる位置
 			m_pRay->SetOrigin(In_SelfPosition);
