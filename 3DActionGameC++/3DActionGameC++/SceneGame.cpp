@@ -33,7 +33,7 @@ CSceneGame::CSceneGame()
 	m_pField[0] = std::make_unique<CField>();
 	m_pField[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
 	m_pField[1] = std::make_unique<CField>();
-	m_pField[1]->SetPosition(XMFLOAT3(0.0f, 1.0f, 1000.0f)); // 2つ目のフィールドを配置
+	m_pField[1]->SetPosition(XMFLOAT3(0.0f, 1.0f, 10.0f)); // 2つ目のフィールドを配置
 	m_pField[1]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
 
 	// プレイヤーの生成
@@ -111,16 +111,6 @@ void CSceneGame::CollisionCheck(void)
 			auto collisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
 			for (const auto& info : collisionInfo)
 			{
-				// 他のオブジェクトとの衝突チェック
-				for (auto& tag : info.tag)
-				{
-					// レイキャストのタグがあったら処理をスキップする
-					if (tag == Collision::Tag::RayCast)
-					{
-						continue; // レイキャストのタグがあったら処理をスキップ
-					}
-				}
-
 				for (auto& targetObj : g_vNullCheckList)
 				{
 					if (targetObj == obj) continue; // 自分自身は除外
@@ -129,19 +119,6 @@ void CSceneGame::CollisionCheck(void)
 
 					for (const auto& targetInfo : targetCollisionInfo)
 					{
-						bool IsSkip = false; // レイキャストのタグがあったら処理をスキップするフラグ
-						for (const auto& tag : targetInfo.tag)
-						{
-							// レイキャストのタグがあったら処理しない
-							if (tag == Collision::Tag::RayCast)
-							{
-								IsSkip = true; // レイキャストのタグがあったら処理をスキップする
-								break; // ループを抜ける
-							}
-						}
-
-						if (IsSkip) continue; // レイキャストのタグがあったら処理をスキップ
-
 						Collision::Result result = Collision::Hit(info, targetInfo);
 						if (result.isHit)
 						{

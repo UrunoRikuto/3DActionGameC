@@ -50,6 +50,11 @@ public:
 	void DebugDraw(void);
 
 private:
+	
+	/// <summary>
+	/// ƒŒƒC(Œõü)
+	/// </summary>
+	CRay* m_pRay;
 
 	/// <summary>
 	/// Œ©‚Ä‚¢‚é•ûŒü

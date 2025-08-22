@@ -125,7 +125,7 @@ private:
 	XMFLOAT3 m_tOldPosition;
 
 	/// <summary>
-	/// レイクラスのポインタ
+	/// レイ(光線)
 	/// </summary>
 	std::unique_ptr<CRay> m_pRay;
 

@@ -23,7 +23,7 @@ CVisionSearch::CVisionSearch(CNpcBase* In_Self)
 	, m_pTargetObject(nullptr) // 索敵対象のオブジェクトを初期化
 	, m_fLostTimer(0.0f) // 見失いタイマーを初期化
 {
-
+	m_pRay = new CRay(); // レイ(光線)のインスタンスを生成
 }
 
 // @brief デストラクタ
@@ -109,6 +109,17 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			/// 検知できなかったら状態を疑問に変更
 			/// 検知した場合何もしない
 			
+			// ターゲットのいる位置
+			m_pRay->SetOrigin(In_SelfPosition);
+			// ターゲットの方向を計算
+			m_pRay->SetDirection(StructMath::Normalize(StructMath::Sub(TargetPos, In_SelfPosition)));
+
+			// レイキャストを実行して、ターゲットとの間に障害物があるかどうかをチェック
+
+			/// @Todo: フィールドオブジェクトのタグをもつオブジェクトをまとめる処理を作成する
+
+			// if(m_pRay->Cast())
+
 			return VisionSearchState::Doubt;
 			break;
 		case VisionSearchState::Doubt:

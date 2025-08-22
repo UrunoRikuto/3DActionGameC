@@ -54,4 +54,21 @@ private:
 	/// レイの方向
 	/// </summary>
 	XMFLOAT3 m_tDirection;
+
+public:
+	/// <summary>
+	/// レイの始点の取得
+	/// </summary>
+	/// <returns>レイの始点</returns>
+	const XMFLOAT3& GetOrigin() const { return m_tOrigin; }
+	/// <summary>
+	/// レイの方向の取得
+	/// </summary>
+	/// <returns>レイの方向</returns>
+	const XMFLOAT3& GetDirection() const { return m_tDirection; }
+	/// <summary>
+	/// レイの方向の設定
+	/// </summary>
+	/// <param name="direction">新しく設定する方向</param>
+	void SetDirection(const XMFLOAT3& direction) { m_tDirection = direction; }
 };
