@@ -18,7 +18,9 @@
 #include "Player.h"
 /* システム・要素のインクルード */
 #include "Model.h"
+#include "GameValues.h"
 #include "Defines.h"
+#include "GameValues.h"
 #include "Main.h"
 #include "ModelDrawSetting.h"
 #include "Camera.h"

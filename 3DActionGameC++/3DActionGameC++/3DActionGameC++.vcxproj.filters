@@ -298,6 +298,9 @@
     <ClInclude Include="Bullet.h">
       <Filter>コード ファイル\GameObject\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="GameValues.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\設計\クリーンアップメモ.txt">

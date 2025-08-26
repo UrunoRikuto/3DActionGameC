@@ -17,6 +17,7 @@
 /* ƒVƒXƒeƒ€E—v‘f‚ÌƒCƒ“ƒNƒ‹[ƒh */
 #include "Camera.h"
 #include "Defines.h"
+#include "GameValues.h"
 #include "MovePointManager.h"
 
 /* ƒOƒ[ƒoƒ‹•Ï” */
@@ -26,6 +27,8 @@ std::vector<CGameObject*> g_vNullCheckList; // Nullƒ`ƒFƒbƒN—p‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒ
 CSceneGame::CSceneGame()
 	:CSceneBase()
 {
+	using namespace GameValue;
+
 	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // ˆÚ“®ƒ|ƒCƒ“ƒg‚Ì¶¬
 
 	// ƒtƒB[ƒ‹ƒh‚Ì¶¬
@@ -43,14 +46,19 @@ CSceneGame::CSceneGame()
 	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
 
 	// NPC‚Ì¶¬iƒ^[ƒQƒbƒgNPCj
-	m_pNpc.push_back(std::make_unique<CTargetNpc>(0));
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Target));
 	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
 
 	// NPC‚Ì¶¬iŒì‰qNPCj
-	m_pNpc.push_back(std::make_unique<CGuardNpc>(2));
+	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Patrol));
 	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
 	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
+	// ‹Šoõ“Gˆ—‚Ìƒ^[ƒQƒbƒgİ’è
+	for (auto& npc : m_pNpc)
+	{
+		npc->GetVisionSearch()->SetTarget(m_pPlayer.get());
+	}
 
 	for (auto& field : m_pField)
 	{

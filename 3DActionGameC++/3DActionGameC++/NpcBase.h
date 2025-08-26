@@ -12,6 +12,7 @@
 
 /* システム・要素のインクルード */
 #include "MoveSystem.h"
+#include "VisionSearch.h"
 
 /// <summary>
 /// NPCの基底クラス
@@ -22,7 +23,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CNpcBase();
+	CNpcBase(NpcType InType);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -56,6 +57,11 @@ protected:
 	VisionSearchState m_eSearchState;
 
 	/// <summary>
+	/// 視覚索敵システム
+	/// </summary>
+	std::unique_ptr<CVisionSearch> m_pVisionSearch;
+
+	/// <summary>
 	/// 移動システム
 	/// </summary>
 	std::unique_ptr<CMoveSystem> m_pMoveSystem;
@@ -72,6 +78,12 @@ public:
 	/// </summary>
 	/// <returns>現在の索敵状態</returns>
 	VisionSearchState GetSearchState(void) const { return m_eSearchState; }
+
+	/// <summary>
+	/// 視覚索敵システムの取得
+	/// </summary>
+	/// <returns>視覚索敵システムのポインタ</returns>
+	CVisionSearch* GetVisionSearch(void) { return m_pVisionSearch.get(); }
 
 	/// <summary>
 	/// 移動システムの取得

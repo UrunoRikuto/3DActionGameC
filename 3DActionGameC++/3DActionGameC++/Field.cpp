@@ -13,6 +13,7 @@
 /* システム・要素のインクルード */
 #include "Model.h"
 #include "Defines.h"
+#include "GameValues.h"
 #include "Main.h"
 #include "ModelDrawSetting.h"
 #include "Geometory.h"

@@ -9,8 +9,11 @@
 /* システム・要素のインクルード */
 #include "StructMath.h"
 #include "Enums.h"
-#include "Player.h"
-#include "NpcBase.h"
+
+/* 前方宣言 */
+class CNpcBase;
+class CPlayer;
+class CRay;
 
 /// <summary>
 /// 視覚索敵クラス
@@ -30,11 +33,10 @@ public:
 	~CVisionSearch();
 
 	/// <summary>
-	/// パラメーターの初期設定
+	/// ターゲットの設定
 	/// </summary>
-	/// <param name="In_ViewDistance">視認距離</param>
 	/// <param name="In_TargetObject">索敵対象のオブジェクト</param>
-	void InitParam(float In_ViewDistance, CPlayer* In_TargetObject);
+	void SetTarget(CPlayer* In_TargetObject);
 
 	/// <summary>
 	/// 索敵処理
@@ -50,6 +52,26 @@ public:
 	void DebugDraw(void);
 
 private:
+
+	/// <summary>
+	///ターゲットとの間に障害物があるかどうかのチェック
+	/// </summary>
+	/// <returns>あった場合trueなかった場合false</returns>
+	bool CheckObstacle(void) const;
+
+	/// <summary>
+	/// 視野角の範囲内にターゲットがいるかどうかのチェック
+	/// </summary>
+	/// <returns>居た場合trueいなかった場合場合false</returns>
+	bool CheckTargetInViewAngle(void) ;
+
+	/// <summary>
+	/// 視野角の範囲内にポイントがあるかどうかのチェック
+	/// </summary>
+	/// <param name="P">確認するポイント</param>
+	/// <returns>ある場合true,ない場合false</returns>
+	bool CheckPointInTriangle(const XMFLOAT3& Point) const;
+private:
 	
 	/// <summary>
 	/// レイ(光線)
@@ -60,6 +82,11 @@ private:
 	/// 見ている方向
 	/// </summary>
 	XMFLOAT3 m_tDirection;
+
+	/// <summary>
+	/// 三角形の頂点ポイント
+	/// </summary>
+	XMFLOAT3 m_TrianglePoint[3];
 
 	/// <summary>
 	/// 視認距離

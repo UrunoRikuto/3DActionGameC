@@ -19,7 +19,9 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CTargetNpc(int PointIndex);
+	/// <param name="FirstMovePoint">最初の移動ポイント</param>
+	/// <param name="NpcType">NPCの種類</param>
+	CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType);
 	/// <summary>
 	/// デストラクタ
 	/// </summary>

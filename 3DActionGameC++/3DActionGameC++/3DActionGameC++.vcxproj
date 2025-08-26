@@ -178,6 +178,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameValues.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="GuardNpc.h" />
     <ClInclude Include="Input.h" />

@@ -9,6 +9,7 @@
 #include "Bullet.h"
 /* システム・要素のインクルード */
 #include "Model.h"
+#include "GameValues.h"
 
 // @brief コンストラクタ
 CBullet::CBullet()

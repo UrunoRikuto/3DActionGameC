@@ -10,11 +10,14 @@
 /* システム・要素のインクルード */
 #include "Model.h"
 #include "Defines.h"
+#include "GameValues.h"
 #include "MoveSystem.h"
 
 // @brief コンストラクタ
-CTargetNpc::CTargetNpc(int PointIndex)
-	: CNpcBase() // 基底クラスのコンストラクタを呼び出す
+// @param FirstMovePoint 最初の移動ポイント
+// @param NpcType NPCの種類
+CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
+	: CNpcBase(NpcType) // 基底クラスのコンストラクタを呼び出す
 {
 	// モデルの読み込み
 	if (!m_pModel->Load(ModelPath::TARGET_NPC_PATH))
@@ -30,7 +33,7 @@ CTargetNpc::CTargetNpc(int PointIndex)
 	// Y座標の調整値を設定
 	m_pMoveSystem->SetAdjustY(m_tScale.y / 2.0f); // NPCの高さの半分を調整値に設定
 	// 移動ポイントの追加
-	m_pMoveSystem->AddMovePoint(CMovePointManager::GetInstance()->GetMovePoints()[PointIndex]);
+	m_pMoveSystem->AddMovePoint(FirstMovePoint);
 
 	// 位置
 	m_tPosition = m_pMoveSystem->GetMovePointList()[0];

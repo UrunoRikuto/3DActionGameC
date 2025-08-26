@@ -9,6 +9,8 @@
 
 /* 基底クラスのインクルード */
 #include "NpcBase.h"
+/* システム・要素のインクルード */
+#include "Enums.h"
 
 /// <summary>
 /// 護衛NPCのクラス
@@ -19,7 +21,9 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CGuardNpc(int PointIndex);
+	/// <param name="FirstMovePoint">最初の移動ポイント</param>
+	/// <param name="NpcType">NPCの種類</param>
+	CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType);
 
 	/// <summary>
 	/// デストラクタ
