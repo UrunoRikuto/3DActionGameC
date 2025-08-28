@@ -50,6 +50,9 @@ XMFLOAT3 CMoveSystem::GetMovePoint(const XMFLOAT3& In_CurrentPos)
 		// 次の移動ポイントに進む
 		switch (m_eMoveSystemType)
 		{
+		case MoveSystemType::Once:
+			m_nCurrentPointIndex++;
+			break;
 		case MoveSystemType::Loop:
 			m_nCurrentPointIndex++;
 			break;
@@ -70,20 +73,29 @@ XMFLOAT3 CMoveSystem::GetMovePoint(const XMFLOAT3& In_CurrentPos)
 	// 現在の移動ポイントのインデックスがリストのサイズを超えている場合
 	if (m_nCurrentPointIndex > static_cast<int>(m_vtMovePointList.size()) - 1) 
 	{
-		// ループ移動システムの場合は最初のポイントに戻る
-		if (m_eMoveSystemType == MoveSystemType::Loop)
+		switch (m_eMoveSystemType)
 		{
+		case MoveSystemType::Once:
+			// 最後のポイントに設定
+			m_nCurrentPointIndex = static_cast<int>(m_vtMovePointList.size()) - 1;
+			// 終点フラグを立てる
+			m_bIsEndPoint = true;
+
+			// もう動かないので現在位置を返す
+			return In_CurrentPos; 
+			break;
+		case MoveSystemType::Loop:
 			// 最初のポイントに設定
 			m_nCurrentPointIndex = 0;
 			// 終点フラグを下ろす
 			m_bIsEndPoint = false;
-		}
-		else if (m_eMoveSystemType == MoveSystemType::Reverse)
-		{
+			break;
+		case MoveSystemType::Reverse:
 			// 最後のポイントに設定
 			m_nCurrentPointIndex = static_cast<int>(m_vtMovePointList.size()) - 1;
 			// 終点フラグを立てる
-			m_bIsEndPoint = true; 
+			m_bIsEndPoint = true;
+			break;
 		}
 	}
 	// 現在のポイントのインデックスが0未満の場合
@@ -166,6 +178,39 @@ void CMoveSystem::SetMovePoints(const std::vector<XMFLOAT3>& In_MovePoints, cons
 	m_nCurrentPointIndex = 0;
 }
 
+// @brief 移動ポイントのリストのルート復元
+// @param In_CurrentPos 現在の位置
+void CMoveSystem::RestorationMovePoints(XMFLOAT3 In_CurrentPos)
+{
+	// 変更前の移動ポイントのリストが空でない場合
+	if (!m_vOldRouteMemory.MovePointList.empty())
+	{
+		// 移動ポイントのリストを復元
+		SetMovePoints(m_vOldRouteMemory.MovePointList, In_CurrentPos);
+		// 移動システムの種類を復元
+		m_eMoveSystemType = m_vOldRouteMemory.MoveType;
+
+		// 変更前の移動ポイントのリストをクリア
+		m_vOldRouteMemory.MovePointList.clear();
+		m_vOldRouteMemory.MoveType = MoveSystemType::Once; // デフォルト値にリセット
+	}
+}
+
+// @brief 移動ポイントを復元用に保存してリストをクリア
+void CMoveSystem::SaveAndClearMovePoints()
+{
+	// 変更前の移動ポイントのリストに現在のリストを保存
+	m_vOldRouteMemory.MovePointList = m_vtMovePointList;
+	// 変更前の移動システムの種類を保存
+	m_vOldRouteMemory.MoveType = m_eMoveSystemType;
+	// 移動ポイントのリストをクリア
+	m_vtMovePointList.clear();
+	// 現在のポイントのインデックスをリセット
+	m_nCurrentPointIndex = 0;
+	// 終点フラグを下ろす
+	m_bIsEndPoint = false;
+}
+
 // @brief デバッグ描画処理(移動ルートの描画)
 // @param In_Color 描画する線の色
 void CMoveSystem::DebugDraw(XMFLOAT4 In_Color)
@@ -178,6 +223,13 @@ void CMoveSystem::DebugDraw(XMFLOAT4 In_Color)
 	{
 		switch (m_eMoveSystemType)
 		{
+		case MoveSystemType::Once:
+			// 移動ポイントを線で結ぶ
+			for (size_t i = 0; i < m_vtMovePointList.size() - 1; ++i)
+			{
+				Geometory::AddLine(m_vtMovePointList[i], m_vtMovePointList[i + 1], In_Color);
+			}
+			break;
 		case MoveSystemType::Loop:
 			// 移動ポイントを線で結ぶ
 			for (size_t i = 0; i < m_vtMovePointList.size(); ++i)

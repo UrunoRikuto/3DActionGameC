@@ -13,6 +13,8 @@
 /* システム・要素のインクルード */
 #include "MoveSystem.h"
 #include "VisionSearch.h"
+#include "Player.h"
+
 
 /// <summary>
 /// NPCの基底クラス
@@ -66,6 +68,11 @@ protected:
 	/// </summary>
 	std::unique_ptr<CMoveSystem> m_pMoveSystem;
 
+	/// <summary>
+	/// 標的対象のゲームオブジェクト
+	/// </summary>
+	CPlayer* m_pTargetObject;
+
 public:
 	/// <summary>
 	/// NPCの種類の取得
@@ -80,6 +87,12 @@ public:
 	VisionSearchState GetSearchState(void) const { return m_eSearchState; }
 
 	/// <summary>
+	/// 現在の索敵状態の設定
+	/// </summary>
+	/// <param name="InState"></param>
+	void SetSearchState(VisionSearchState InState);
+
+	/// <summary>
 	/// 視覚索敵システムの取得
 	/// </summary>
 	/// <returns>視覚索敵システムのポインタ</returns>
@@ -90,4 +103,16 @@ public:
 	/// </summary>
 	/// <returns>移動システムのポインタ</returns>
 	CMoveSystem* GetMoveSystem(void) { return m_pMoveSystem.get(); }
+
+	/// <summary>
+	/// ターゲットの設定
+	/// </summary>
+	/// <param name="In_TargetObject">索敵対象のオブジェクト</param>
+	void SetTarget(CPlayer* In_TargetObject) { m_pTargetObject = In_TargetObject; }
+
+	/// <summary>
+	/// ターゲットの取得
+	/// </summary>
+	/// <returns>ターゲットのポインタ</returns>
+	CPlayer* GetTarget(void) { return m_pTargetObject; }
 };

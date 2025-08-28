@@ -53,6 +53,20 @@ public:
 	/// </summary>
 	void DebugDraw(void);
 
+	/// <summary>
+	/// 近くの移動ポイントを取得
+	/// </summary>
+	/// <param name="In_Point">指定位置</param>
+	/// <returns>指定位置の近くの移動ポイント</returns>
+	XMFLOAT3 NearMovePoint(const XMFLOAT3& In_Point) const;
+
+	/// <summary>
+	/// 移動ルートの作成
+	/// </summary>
+	/// <param name="In_CurrentPoint">現在の位置</param>
+	/// <param name="In_TargetPoint">目的地</param>
+	/// <returns>現在位置から目的地までの移動ルート</returns>
+	std::vector<XMFLOAT3> CreateMoveRoute(const XMFLOAT3& In_CurrentPoint, const XMFLOAT3& In_TargetPoint) const;
 private:
 	/// <summary>
 	/// 移動ポイントの座標

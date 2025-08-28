@@ -37,27 +37,7 @@ void CNpcBase::Update(void)
 	using namespace StructMath;
 
 	// 索敵システムの更新(索敵)
-	m_eSearchState = m_pVisionSearch->Search(m_tPosition, m_eSearchState);
-
-	// 移動
-	XMFLOAT3 movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
-	XMFLOAT3 moveDir = Direction(m_tPosition, movePoint);
-	SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
-	// 向きの更新
-	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
-
-	// 索敵状態による処理
-	switch (m_eSearchState)
-	{
-	case VisionSearchState::None:
-		break;
-	case VisionSearchState::Doubt:
-		break;
-	case VisionSearchState::Lost:
-		break;
-	case VisionSearchState::Discovery:
-		break;
-	}
+	SetSearchState(m_pVisionSearch->Search(m_tPosition, m_eSearchState));
 }
 
 // @brief 描画処理
@@ -80,4 +60,54 @@ void CNpcBase::Draw(void)
 void CNpcBase::Hit(const Collision::Info& InCollisionInfo)
 {
 	// 今は何もしない
+}
+
+// @brief 現在の索敵状態の設定
+// @param InState 設定する索敵状態
+void CNpcBase::SetSearchState(VisionSearchState InState)
+{
+	/// @Todo 索敵状態に応じた処理を追加する
+	/// 例: Noneから状態が変化した場合はMoveSystemの移動ポイントを仮保存しておくなど
+	/// (次にNoneに戻ったときに同じルートを回れるように)
+
+	// 状態が変化していない場合は何もしない
+	if (m_eSearchState == InState)return;
+
+	// 現在の状態による処理
+	switch (m_eSearchState)
+	{
+	case VisionSearchState::None:
+		/// 移動ルートを保存してクリア
+		m_pMoveSystem->SaveAndClearMovePoints();
+		break;
+	case VisionSearchState::Doubt:
+		/// 移動ルートをクリア
+		m_pMoveSystem->ClearMovePoints();
+		break;
+	case VisionSearchState::Lost:
+		break;
+	case VisionSearchState::Discovery:
+		break;
+	}
+
+	// 状態の更新
+	m_eSearchState = InState;
+
+	// 新しい状態による処理
+	switch (InState)
+	{
+	case VisionSearchState::None:
+		/// 移動ルートを復元
+		m_pMoveSystem->RestorationMovePoints(m_tPosition);
+		break;
+	case VisionSearchState::Doubt:
+		/// プレイヤーの位置までの移動ルートを設定
+		m_pMoveSystem->SetMovePoints(CMovePointManager::GetInstance()->CreateMoveRoute(m_tPosition, m_pTargetObject->GetPosition()), m_tPosition);
+		m_pMoveSystem->SetMoveSystemType(MoveSystemType::Once);
+		break;
+	case VisionSearchState::Lost:
+		break;
+	case VisionSearchState::Discovery:
+		break;
+	}
 }

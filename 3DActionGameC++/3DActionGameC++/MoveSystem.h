@@ -15,6 +15,15 @@
 #include "MovePointManager.h"
 
 /// <summary>
+/// 復元用の保存構造体
+/// </summary>
+struct MovePointListMemory
+{
+	std::vector<XMFLOAT3> MovePointList = {};
+	MoveSystemType MoveType = MoveSystemType::Once;
+};
+
+/// <summary>
 /// 移動システムクラス
 /// </summary>
 class CMoveSystem
@@ -63,6 +72,22 @@ public:
 	/// <param name="In_MovePoints">設定する移動ポイント</param>
 	/// <param name="In_CurrentPos">現在の位置</param>
 	void SetMovePoints(const std::vector<XMFLOAT3>& In_MovePoints , const XMFLOAT3& In_CurrentPos);
+
+	/// <summary>
+	/// 移動ポイントのリストのルート復元
+	/// </summary>
+	/// <param name="In_CurrentPos">現在の位置</param>
+	void RestorationMovePoints(XMFLOAT3 In_CurrentPos);
+
+	/// <summary>
+	/// 移動ポイントを復元用に保存してリストをクリア
+	/// </summary>
+	void SaveAndClearMovePoints();
+
+	/// <summary>
+	/// 移動ポイントのリストをクリア
+	/// </summary>
+	void ClearMovePoints() { m_vtMovePointList.clear(); }
 private:
 	/// <summary>
 	/// 移動システムの種類
@@ -73,6 +98,11 @@ private:
 	/// 移動ポイントのリスト
 	/// </summary>
 	std::vector<XMFLOAT3> m_vtMovePointList;
+
+	/// <summary>
+	/// ルート復元用の保存
+	/// </summary>
+	MovePointListMemory m_vOldRouteMemory;
 
 	/// <summary>
 	/// 移動量
@@ -113,5 +143,10 @@ public:// アクセサー
 	/// </summary>
 	/// <param name="In_AdjustY">調整値</param>
 	void SetAdjustY(float In_AdjustY) { m_fAdjustY = In_AdjustY; }
-};
 
+	/// <summary>
+	/// 移動システムの種類を設定
+	/// </summary>
+	/// <param name="In_Type">設定する移動システム</param>
+	void SetMoveSystemType(MoveSystemType In_Type) { m_eMoveSystemType = In_Type; }
+};

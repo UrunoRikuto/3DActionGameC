@@ -7,7 +7,6 @@
 
 
 /* ヘッダーで使用するインクルード */
-#include "Player.h"
 #include "NpcBase.h"
 #include "Ray.h"
 
@@ -27,7 +26,6 @@ CVisionSearch::CVisionSearch(CNpcBase* In_Self)
 	: m_tDirection(0.0f, 0.0f, 1.0f) // 初期方向をZ軸正方向に設定
 	, m_fDetectionValue(0.0f) // 初期発見値を0に設定
 	, m_pSelfObject(In_Self)// 索敵を行うオブジェクトを設定
-	, m_pTargetObject(nullptr) // 索敵対象のオブジェクトを初期化
 	, m_fLostTimer(0.0f) // 見失いタイマーを初期化
 	, m_TrianglePoint{} // 三角形の頂点ポイントを初期化
 {
@@ -40,13 +38,6 @@ CVisionSearch::~CVisionSearch()
 
 }
 
-// @brief ターゲットの設定
-// @param In_TargetObject 索敵対象のオブジェクト
-void CVisionSearch::SetTarget(CPlayer* In_TargetObject)
-{
-	m_pTargetObject = In_TargetObject; // 索敵対象のオブジェクトを設定
-}
-
 // @brief 索敵処理
 // @param In_SelfPosition 自身の位置
 // @param In_CurrentSearchState 現在の索敵状態
@@ -56,6 +47,9 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	// 名前空間の使用
 	using namespace GameValue::Npc;
 	using namespace GameValue::VisionSearch;
+
+	// 視野角の更新
+	UpdateViewAngle();
 
 	// NPCの種類を取得
 	NpcType npcType = m_pSelfObject->GetNpcType();
@@ -77,7 +71,8 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	}
 
 	// プレイヤーの姿勢状態を取得
-	PlayerPosture playerPosture = m_pTargetObject->GetPosture();
+	CPlayer* pTarget = m_pSelfObject->GetTarget();
+	PlayerPosture playerPosture = pTarget->GetPosture();
 	// プレイヤーの姿勢状態に応じて視認距離を調整
 	switch (playerPosture)
 	{
@@ -96,7 +91,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	}
 
 	// ターゲットの位置を取得
-	XMFLOAT3 TargetPos = m_pTargetObject->GetPosition();
+	XMFLOAT3 TargetPos = pTarget->GetPosition();
 
 	// ターゲットとの距離を計算
 	float distance = StructMath::Distance(In_SelfPosition, TargetPos);
@@ -134,7 +129,6 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			// 視野角内にターゲットがいるかどうかのチェック
 			if (CheckTargetInViewAngle())
 			{
-
 				// ターゲットとの間に障害物があるかどうかのチェック
 				if (CheckObstacle())
 				{
@@ -187,26 +181,33 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 					// 発見値を増加
 					m_fDetectionValue += 1.0f / fFPS * (m_fViewDistance / distance);
 				}
-
-				// 見失い値が一定時間を超えた場合は異常なし状態に遷移
-				if (m_fLostTimer > LOST_TIME)
-				{
-					// LostTimerをリセット
-					m_fLostTimer = 0.0f;
-					// 発見値をリセット
-					m_fDetectionValue = 0.0f;
-
-					return VisionSearchState::None;
-				}
-				// 発見値が最大値を超えた場合は発見状態に遷移
-				if (m_fDetectionValue > 1.0f)
-				{
-					// 発見値を最大値に制限
-					m_fDetectionValue = 1.0f;
-					// 発見状態に遷移
-					return VisionSearchState::Discovery;
-				}
 			}
+		}
+		else
+		{
+			// LostTimerを加算
+			m_fLostTimer += 1.0f / fFPS;
+			// 発見値をリセット
+			m_fDetectionValue = 0.0f;
+		}
+
+		// 見失い値が一定時間を超えた場合は異常なし状態に遷移
+		if (m_fLostTimer > LOST_TIME)
+		{
+			// LostTimerをリセット
+			m_fLostTimer = 0.0f;
+			// 発見値をリセット
+			m_fDetectionValue = 0.0f;
+
+			return VisionSearchState::None;
+		}
+		// 発見値が最大値を超えた場合は発見状態に遷移
+		if (m_fDetectionValue > 1.0f)
+		{
+			// 発見値を最大値に制限
+			m_fDetectionValue = 1.0f;
+			// 発見状態に遷移
+			return VisionSearchState::Discovery;
 		}
 		break;
 	case VisionSearchState::Discovery:
@@ -241,7 +242,7 @@ void CVisionSearch::DebugDraw(void)
 
 	// ターゲットとの距離
 	XMFLOAT3 selfPos = m_pSelfObject->GetPosition();
-	XMFLOAT3 targetPos = m_pTargetObject->GetPosition();
+	XMFLOAT3 targetPos = m_pSelfObject->GetTarget()->GetPosition();
 	XMFLOAT4 Color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	// 視認距離内にいる場合は赤色、いない場合は緑色で線を描画
@@ -257,31 +258,8 @@ void CVisionSearch::DebugDraw(void)
 #endif // _DEBUG
 }
 
-// @brief ターゲットが視認距離内にいるかどうかをチェック
-// @return あった場合trueなかった場合false
-bool CVisionSearch::CheckObstacle(void) const
-{
-	// 現在のシーンを取得
-	CSceneGame* pSceneGame = static_cast<CSceneGame*>(GetCurrentScene());
-
-	// フィールドオブジェクトのリストを取得
-	for (auto object : pSceneGame->GetAllFieldObjects())
-	{
-		// オブジェクトのコリジョン情報を取得
-		if (m_pRay->Cast(object->GetCollisionInfo()))
-		{
-			// 障害物があることを示す
-			return true;
-		}
-	}
-
-	// 障害物がないことを示す
-	return false;
-}
-
-// @brief 視野角の範囲内にターゲットがいるかどうかをチェック
-// @return 居た場合trueいなかった場合場合false
-bool CVisionSearch::CheckTargetInViewAngle(void)
+// @brief 視野角の更新
+void CVisionSearch::UpdateViewAngle(void)
 {
 	// 名前空間の使用
 	using namespace GameValue::Npc;
@@ -297,7 +275,7 @@ bool CVisionSearch::CheckTargetInViewAngle(void)
 	switch (npcType)
 	{
 	case NpcType::Normal:
-		viewAngle = Normal::VIEW_ANGLE; 
+		viewAngle = Normal::VIEW_ANGLE;
 		viewDistance = Normal::VIEW_DISTANCE;
 		break;
 	case NpcType::Target:
@@ -347,14 +325,41 @@ bool CVisionSearch::CheckTargetInViewAngle(void)
 		XMStoreFloat3(&limitPos[i], pos);
 	}
 
-	// ターゲットの位置を取得
-	XMFLOAT3 targetPos = m_pTargetObject->GetPosition();
-
 	// ターゲットの座標が視野角の範囲内にあるかどうかをチェック
 	// 三角形の内外判定を使用して、視野角の範囲内にターゲットがいるかどうかを確認する
 	m_TrianglePoint[0] = selfPos;
 	m_TrianglePoint[1] = limitPos[0];
 	m_TrianglePoint[2] = limitPos[1];
+}
+
+// @brief ターゲットが視認距離内にいるかどうかをチェック
+// @return あった場合trueなかった場合false
+bool CVisionSearch::CheckObstacle(void) const
+{
+	// 現在のシーンを取得
+	CSceneGame* pSceneGame = static_cast<CSceneGame*>(GetCurrentScene());
+
+	// フィールドオブジェクトのリストを取得
+	for (auto object : pSceneGame->GetAllFieldObjects())
+	{
+		// オブジェクトのコリジョン情報を取得
+		if (m_pRay->Cast(object->GetCollisionInfo()))
+		{
+			// 障害物があることを示す
+			return true;
+		}
+	}
+
+	// 障害物がないことを示す
+	return false;
+}
+
+// @brief 視野角の範囲内にターゲットがいるかどうかをチェック
+// @return 居た場合trueいなかった場合場合false
+bool CVisionSearch::CheckTargetInViewAngle(void)
+{
+	// ターゲットの位置を取得
+	XMFLOAT3 targetPos = m_pSelfObject->GetTarget()->GetPosition();
 
 	// ターゲットが視野角の範囲内にあるかどうかをチェック
 	if (CheckPointInTriangle(targetPos))

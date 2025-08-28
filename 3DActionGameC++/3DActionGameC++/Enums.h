@@ -32,13 +32,16 @@ enum class PlayerActionMode
 
 /*
 * @brief 移動システムの種類
-* @param 0：ループ移動
+* @param 0：一回移動
+* ...最終ポイントまで行ったら止まる
+* @param 1：ループ移動
 * ...最終ポイントまで行ったら最終ポイントから最初のポイントまで移動して再度移動 
-* @param 1：反転移動
+* @param 2：反転移動
 * ...最終ポイントまで行ったら反転して最初のポイントまで移動して移動
 */
 enum class MoveSystemType
 {
+	Once,
 	Loop,
 	Reverse,
 };

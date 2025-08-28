@@ -88,9 +88,33 @@ CTargetNpc::~CTargetNpc()
 // @brief 更新処理
 void CTargetNpc::Update(void)
 {
+	// 名前空間の使用
+	using namespace StructMath;
+
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 	
+
 	// 基底クラスの更新処理(NPC共通処理)
 	CNpcBase::Update();
+
+	// 移動
+	XMFLOAT3 movePoint = XMFLOAT3();
+
+	switch (m_eSearchState)
+	{
+	case VisionSearchState::None:
+	case VisionSearchState::Doubt:
+	case VisionSearchState::Lost:
+		movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
+		break;
+	case VisionSearchState::Discovery:
+		movePoint = m_pTargetObject->GetPosition();
+		break;
+	}
+
+	XMFLOAT3 moveDir = Direction(m_tPosition, movePoint);
+	SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
+	// 向きの更新
+	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
 }

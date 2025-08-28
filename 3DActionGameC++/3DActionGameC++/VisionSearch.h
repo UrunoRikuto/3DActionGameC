@@ -12,7 +12,6 @@
 
 /* 前方宣言 */
 class CNpcBase;
-class CPlayer;
 class CRay;
 
 /// <summary>
@@ -33,12 +32,6 @@ public:
 	~CVisionSearch();
 
 	/// <summary>
-	/// ターゲットの設定
-	/// </summary>
-	/// <param name="In_TargetObject">索敵対象のオブジェクト</param>
-	void SetTarget(CPlayer* In_TargetObject);
-
-	/// <summary>
 	/// 索敵処理
 	/// </summary>
 	/// <param name="In_SelfPosition">自身の位置</param>
@@ -52,6 +45,10 @@ public:
 	void DebugDraw(void);
 
 private:
+	/// <summary>
+	/// 視野角の更新
+	/// </summary>
+	void UpdateViewAngle(void);
 
 	/// <summary>
 	///ターゲットとの間に障害物があるかどうかのチェック
@@ -107,11 +104,6 @@ private:
 	/// 索敵を行うゲームオブジェクト
 	/// </summary>
 	CNpcBase* m_pSelfObject;
-
-	/// <summary>
-	/// 索敵対象のゲームオブジェクト
-	/// </summary>
-	CPlayer* m_pTargetObject;
 
 public:// アクセサ
 	/// <summary>

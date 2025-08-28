@@ -32,12 +32,8 @@ CSceneGame::CSceneGame()
 	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // 移動ポイントの生成
 
 	// フィールドの生成
-	m_pField.resize(2);
-	m_pField[0] = std::make_unique<CField>();
+	m_pField.push_back(std::make_unique<CField>());
 	m_pField[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
-	m_pField[1] = std::make_unique<CField>();
-	m_pField[1]->SetPosition(XMFLOAT3(0.0f, 1.0f, 10.0f)); // 2つ目のフィールドを配置
-	m_pField[1]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
 
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
@@ -57,7 +53,7 @@ CSceneGame::CSceneGame()
 	// 視覚索敵処理のターゲット設定
 	for (auto& npc : m_pNpc)
 	{
-		npc->GetVisionSearch()->SetTarget(m_pPlayer.get());
+		npc->SetTarget(m_pPlayer.get());
 	}
 
 	for (auto& field : m_pField)
