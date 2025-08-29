@@ -1,18 +1,8 @@
-/*
+/*=====================================================================
 * @file Player.cpp
-* @brief プレイヤークラスのCppファイル
-* @author 宇留野陸斗
-* @date 2025/08/04 クラスの実装
-*                  移動処理の追加
-*                  視点移動処理の追加
-*            08/05 ジャンプ処理の追加
-*            08/07 プレイヤーの行動モードの実装
-*                  操作キーをDefines.hで一括管理化
-*		     08/08 プレイヤーの真下の地面の高さを設定する関数の追加
-*                  地面に立っていないときの処理の追加
-*/
+* @brief プレイヤーの実装ファイル
+=====================================================================*/
 
-/* ヘッダーで利用するシステム・要素のインクルード */
 
 /* ヘッダーのインクルード */
 #include "Player.h"
@@ -29,13 +19,11 @@
 // @brief コンストラクタ
 CPlayer::CPlayer()
 	:CGameObject()// 基底クラスのコンストラクタを呼び出す
-	, m_eActionMode(PlayerActionMode::Move) // プレイヤーの行動モードを移動モードに設定
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
 	, m_bGround(true) // 地面にいるかどうかの初期値
 	, m_bJumping(false) // ジャンプ中かどうかの初期値
 	, m_nJumpFrame(GameValue::Player::MoveAction::JUMP_DURATION) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
-	, m_fSnipingZoom(-1.0f) // 狙撃モードのズーム倍率の初期値
 	, m_ePosture(PlayerPosture::Stand) // プレイヤーの姿勢状態を立っている状態に設定
 {
 	// モデルの生成
@@ -80,21 +68,23 @@ void CPlayer::Update(void)
 {
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
-	
-	m_tOldPosition = m_tPosition; // 現在の位置を前の位置として保存
-	// 行動モードの切り替え処理
-	ChangeActionMode();
+
+	// 現在の位置を前の位置として保存
+	m_tOldPosition = m_tPosition; 
 
 	// プレイヤーの行動モードによって更新処理を分岐
-	switch (m_eActionMode)
-	{
-	case PlayerActionMode::Move: // 移動モード
-		MA_Update();
-		break;
-	case PlayerActionMode::Sniping: // 狙撃モード
-		SA_Update();
-		break;
-	}
+	// 視点の移動処理
+	LookRotation();
+	// 移動処理
+	Move();
+	// 跳躍処理
+	Jump();
+	// カメラの更新処理
+	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
+	// 当たり判定の更新
+	m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
+	// レイの更新
+	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
 }
 
 // @brief 描画処理
@@ -102,34 +92,27 @@ void CPlayer::Draw(void)
 {
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
-	
-	switch (m_eActionMode)
-	{
-	case PlayerActionMode::Move:
-		SetRender3D();
+
+	SetRender3D();
 
 #ifdef _DEBUG
-		// 当たり判定の描画
-		for (const auto& collisionInfo : m_tCollisionInfos)
-		{
-			Collision::DrawCollision(collisionInfo); // 当たり判定の描画（デバッグ用）
-		}
+	// 当たり判定の描画
+	for (const auto& collisionInfo : m_tCollisionInfos)
+	{
+		Collision::DrawCollision(collisionInfo); // 当たり判定の描画（デバッグ用）
+	}
 #endif // _DEBUG
 
-		// モデルの描画
-		CreateObject(
-			m_tPosition,        // 位置
-			m_tScale,			// スケール
-			m_tRotation,		// 回転
-			m_pModel.get(),			// モデルポインタ
-			Camera::GetInstance(), // カメラポインタ
-			true,					// 明るくするかどうか
-			XMFLOAT3(0.5f, 0.5f, 0.5f)// 色
-		);
-		break;
-	case PlayerActionMode::Sniping:
-		break;
-	}
+	// モデルの描画
+	CreateObject(
+		m_tPosition,        // 位置
+		m_tScale,			// スケール
+		m_tRotation,		// 回転
+		m_pModel.get(),			// モデルポインタ
+		Camera::GetInstance(), // カメラポインタ
+		true,					// 明るくするかどうか
+		XMFLOAT3(0.5f, 0.5f, 0.5f)// 色
+	);
 }
 
 // @brief プレイヤーの真下の地面の高さを設定する
@@ -164,54 +147,8 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 	}
 }
 
-// @brief 行動モードの切り替え
-void CPlayer::ChangeActionMode(void)
-{
-	using namespace InputKey::Player;
-	// 行動モードの切り替えキーが押されたら
-	if (IsKeyTrigger(CHANGE_ACTIONMODE))
-	{
-		switch (m_eActionMode)
-		{
-		case PlayerActionMode::Move:
-			// 移動モードから狙撃モードに切り替え
-			m_eActionMode = PlayerActionMode::Sniping;
-			// 狙撃モードのズーム倍率を設定
-			m_fSnipingZoom = 1.0f;
-			// カメラの視野角を狙撃モードに設定
-			Camera::GetInstance()->SetFov(1.0f);
-			break;
-		case PlayerActionMode::Sniping:
-			// 狙撃モードから移動モードに切り替え
-			m_eActionMode = PlayerActionMode::Move;
-			// カメラの視野角を移動モードに設定
-			Camera::GetInstance()->SetFov(20.0f);
-			// プレイヤーの回転をリセット
-			m_tRotation = StructMath::FtoF3(0.0f);
-			break;
-		}
-	}
-}
-
-// @brief 移動アクションの更新処理
-void CPlayer::MA_Update(void)
-{
-	// 視点の移動処理
-	MA_LookRotation();
-	// 移動処理
-	MA_Move();
-	// 跳躍処理
-	MA_Jump();
-	// カメラの更新処理
-	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
-	// 当たり判定の更新
-	m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
-	// レイの更新
-	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
-}
-
-// @brief 移動アクションの移動処理
-void CPlayer::MA_Move(void)
+// @brief 移動処理
+void CPlayer::Move(void)
 {
 	// 名前空間の使用宣言
 	using namespace InputKey::Player::MoveAction;
@@ -248,8 +185,8 @@ void CPlayer::MA_Move(void)
 	m_tMovePower = { 0.0f, 0.0f, 0.0f }; 
 }
 
-// @brief 移動アクションの跳躍処理
-void CPlayer::MA_Jump(void)
+// @brief 跳躍処理
+void CPlayer::Jump(void)
 {
 	// 名前空間の使用宣言
 	using namespace InputKey::Player::MoveAction;
@@ -318,8 +255,8 @@ void CPlayer::MA_Jump(void)
 	}
 }
 
-// @brief 移動アクションの視点移動
-void CPlayer::MA_LookRotation(void)
+// @brief 視点移動
+void CPlayer::LookRotation(void)
 {
 	// 名前空間の使用宣言
 	using namespace InputKey::Player::MoveAction;
@@ -333,93 +270,5 @@ void CPlayer::MA_LookRotation(void)
 	if (IsKeyPress(LOOK_RIGHT))
 	{
 		m_tRotation.y += ROTATION_SPEED; // 右向き
-	}
-}
-
-// @brief 狙撃モードの更新処理
-void CPlayer::SA_Update(void)
-{
-	// ズームアクションの処理
-	SA_Zoom();
-	// 視点の移動処理
-	SA_LookRotation();
-	// 射撃処理
-	SA_Shoot();
-}
-
-// @brief 狙撃モードの視点移動
-void CPlayer::SA_LookRotation(void)
-{
-	// 名前空間の使用宣言
-	using namespace InputKey::Player::SnipingAction;
-	using namespace GameValue::Player::SnipingAction;
-
-	if (IsKeyPress(SNIPING_LOOK_LEFT))
-	{
-		m_tRotation.y -= LOOK_SPEED_HORIZONTAL; // 左向き
-	}
-	if (IsKeyPress(SNIPING_LOOK_RIGHT))
-	{
-		m_tRotation.y += LOOK_SPEED_HORIZONTAL; // 右向き
-	}
-	if (IsKeyPress(SNIPING_LOOK_UP))
-	{
-		m_tRotation.x -= LOOK_SPEED_VERTICAL; // 上向き
-	}
-	if (IsKeyPress(SNIPING_LOOK_DOWN))
-	{
-		m_tRotation.x += LOOK_SPEED_VERTICAL; // 下向き
-	}
-
-	// カメラの視点位置を計算
-	XMFLOAT3 CameraLookPos = XMFLOAT3(
-		m_tPosition.x + sinf(TORAD(m_tRotation.y)) * (m_fSnipingZoom * 10.0f),
-		m_tPosition.y,
-		m_tPosition.z + cosf(TORAD(m_tRotation.y)) * (m_fSnipingZoom * 10.0f)
-	);
-
-	// カメラの更新処理
-	Camera::GetInstance()->Update(CameraLookPos, m_tRotation);
-}
-
-// @brief 狙撃モードの倍率を変更
-void CPlayer::SA_Zoom(void)
-{
-	// 名前空間の使用宣言
-	using namespace InputKey::Player::SnipingAction;
-	using namespace GameValue::Player::SnipingAction;
-
-	if (IsKeyPress(SNIPING_ZOOM_IN)) //ズームイン
-	{
-		m_fSnipingZoom += ZOOM_POWER;
-	}
-	if (IsKeyPress(SNIPING_ZOOM_OUT)) //ズームアウト
-	{
-		m_fSnipingZoom -= ZOOM_POWER;
-	}
-	// ズーム倍率の制限
-	//(仮)武器ごとにズーム制限を作成する
-	//(仮)1.0f以上5.0f以下に制限
-	if (m_fSnipingZoom < 1.0f)
-	{
-		m_fSnipingZoom = 1.0f; // 最小ズーム倍率
-	}
-	else if (m_fSnipingZoom > 10.0f)
-	{
-		m_fSnipingZoom = 10.0f; // 最大ズーム倍率
-	}
-}
-
-// @brief 狙撃モードの射撃処理
-void CPlayer::SA_Shoot(void)
-{
-	// 名前空間の使用宣言
-	using namespace InputKey::Player::SnipingAction;
-
-	// 射撃キーが押されたら
-	if (IsKeyTrigger(SNIPING_SHOOT))
-	{
-		// @todo 弾丸の生成処理を実装する
-
 	}
 }

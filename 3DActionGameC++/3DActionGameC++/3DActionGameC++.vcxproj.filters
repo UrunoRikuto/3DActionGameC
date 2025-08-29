@@ -69,9 +69,6 @@
     <Filter Include="コード ファイル\GameObject\NPC\GuardNPC">
       <UniqueIdentifier>{cb737a93-1d4c-400a-afc9-60032c7d4e62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\GameObject\Bullet">
-      <UniqueIdentifier>{01f69b92-b5ed-410a-9f64-6dfc2f60ee1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="コード ファイル\Component\Search">
       <UniqueIdentifier>{78533d31-7ff6-4773-a2dc-349e78fbfc2e}</UniqueIdentifier>
     </Filter>
@@ -188,9 +185,6 @@
     <ClCompile Include="MovePointManager.cpp">
       <Filter>コード ファイル\Component\MoveSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>コード ファイル\GameObject\Bullet</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -294,9 +288,6 @@
     </ClInclude>
     <ClInclude Include="MovePointManager.h">
       <Filter>コード ファイル\Component\MoveSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>コード ファイル\GameObject\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="GameValues.h">
       <Filter>コード ファイル\Global</Filter>
