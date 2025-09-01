@@ -5,9 +5,11 @@
 #pragma once
 
 /* システム・要素のインクルード */
+#include "Structs.h"
 #include "Enums.h"
 #include <memory>
 #include "Ray.h"
+#include "StatusParameter.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -68,6 +70,11 @@ private:
 	void LookRotation(void);
 
 private:
+
+	/// <summary>
+	/// ステータスパラメーター
+	/// </summary>
+	std::unique_ptr<CStatusParameter> m_pStatusParameter;
 
 	/// <summary>
 	/// 姿勢状態

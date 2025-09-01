@@ -4,7 +4,7 @@
 =====================================================================*/
 
 #pragma once
-#include <DirectXMath.h>
+#include "Structs.h"
 #include <math.h>
 
 using namespace DirectX;

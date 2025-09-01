@@ -163,6 +163,7 @@
     <ClCompile Include="SpriteDrawSetting.cpp" />
     <ClCompile Include="SpriteSetting.cpp" />
     <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="StatusParameter.cpp" />
     <ClCompile Include="TargetNpc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -199,7 +200,9 @@
     <ClInclude Include="SpriteDrawer.h" />
     <ClInclude Include="SpriteDrawSetting.h" />
     <ClInclude Include="SpriteSetting.h" />
+    <ClInclude Include="StatusParameter.h" />
     <ClInclude Include="StructMath.h" />
+    <ClInclude Include="Structs.h" />
     <ClInclude Include="TargetNpc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />

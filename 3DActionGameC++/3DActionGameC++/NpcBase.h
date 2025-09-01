@@ -11,7 +11,9 @@
 /* システム・要素のインクルード */
 #include "MoveSystem.h"
 #include "VisionSearch.h"
+#include "StatusParameter.h"
 #include "Player.h"
+#include "Structs.h"
 
 
 /// <summary>
@@ -47,6 +49,11 @@ public:
 protected:
 
 	/// <summary>
+	/// ステータスパラメーター
+	/// </summary>
+	std::unique_ptr<CStatusParameter> m_pStatusParameter;
+
+	/// <summary>
 	/// NCPの種類
 	/// </summary>
 	NpcType m_eNpcType;
@@ -72,6 +79,7 @@ protected:
 	CPlayer* m_pTargetObject;
 
 public:
+
 	/// <summary>
 	/// NPCの種類の取得
 	/// </summary>
