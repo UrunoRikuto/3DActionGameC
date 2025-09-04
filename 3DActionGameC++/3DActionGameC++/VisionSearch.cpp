@@ -135,8 +135,10 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 				}
 				else
 				{
-					// 発見値を増加させる
+					// 発見値を増加
+					// 発見値を増加させる。距離が近いほど増加量が大きくなるように調整
 					m_fDetectionValue += 1.0f / fFPS * (m_fViewDistance / distance);
+					
 					// LostTimerをリセット
 					m_fLostTimer = 0.0f;
 				}
@@ -153,9 +155,9 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 					return VisionSearchState::Lost;
 				}
 				// 発見値が最大値を超えた場合は発見状態に遷移
-				if (m_fDetectionValue > 1.0f)
+				if (m_fDetectionValue > MAX_DETECTION_TIME)
 				{
-					m_fDetectionValue = 1.0f; // 発見値を最大値に制限
+					m_fDetectionValue = MAX_DETECTION_TIME; // 発見値を最大値に制限
 					return VisionSearchState::Discovery; // 発見状態に遷移
 				}
 			}
@@ -200,10 +202,10 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			return VisionSearchState::None;
 		}
 		// 発見値が最大値を超えた場合は発見状態に遷移
-		if (m_fDetectionValue > 1.0f)
+		if (m_fDetectionValue > MAX_DETECTION_TIME)
 		{
 			// 発見値を最大値に制限
-			m_fDetectionValue = 1.0f;
+			m_fDetectionValue = MAX_DETECTION_TIME;
 			// 発見状態に遷移
 			return VisionSearchState::Discovery;
 		}

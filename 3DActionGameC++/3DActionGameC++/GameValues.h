@@ -121,6 +121,9 @@ namespace GameValue
 			constexpr float HIDE = 0.3f;
 		}
 
+
+		// õ“G’l‚ªÅ‘å’l‚É‚È‚é‚Ü‚Å‚ÌŠÔ
+		constexpr float MAX_DETECTION_TIME = 3.0f; // •b
 		// Œ©¸‚¤‚Ü‚Å‚ÌŠÔ
 		constexpr float LOST_TIME = 3.0f; // •b
 		// Œ©¸‚Á‚½‚Æ‚«‚Ìõ“G’l‚ÌŒ¸­—¦
