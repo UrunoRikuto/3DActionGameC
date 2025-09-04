@@ -20,7 +20,6 @@ static const float fFPS = static_cast<float>(FPS);
 #define ASSET_PATH(path) ("Assets/" path)
 #define MODEL_PATH(path) (ASSET_PATH("Model/" path))
 #define TEXTURE_PATH(path) (ASSET_PATH("Texture/" path))
-#define DATA_PATH(path) (ASSET_PATH("Data/" path))
 
 // 3D‹óŠÔ’è‹`
 #define CMETER(value) (value * 0.01f)

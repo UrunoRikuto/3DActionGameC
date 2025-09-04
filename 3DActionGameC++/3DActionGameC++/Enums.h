@@ -102,21 +102,3 @@ enum class NpcType
 	Patrol,		// 巡回NPC
 	MAX,
 };
-
-/*
-* @brief ステータスパラメータの種類
-* @param 0：生命力
-* @param 1：筋力
-* @param 2：精神力
-* @param 3：持久力
-* @param 4：技量
-*/
-enum class StatusParameterType
-{
-	Vitality,	// 生命力
-	Muscle,		// 筋  力
-	Mental,		// 精神力
-	Endurance,	// 持久力
-	Skill,		// 技  量
-	MAX,
-};
