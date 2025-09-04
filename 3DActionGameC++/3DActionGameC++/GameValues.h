@@ -17,6 +17,26 @@ namespace ModelPath
 	constexpr const char* GUARD_NPC_PATH = MODEL_PATH("GuardNPC.obj");
 }
 
+/* データのパス定義 */
+namespace DataPath
+{
+	// プレイヤーのデータのパス
+	namespace Player
+	{
+		// セーブデータのパス
+		constexpr const char* SAVE_DATA = DATA_PATH("Player/SaveData.json");
+		// ステータスデータのパス
+		constexpr const char* STATUS_DATA = DATA_PATH("Player/StatusData.json");
+	}
+
+	// 武器データのパス
+	namespace Weapon
+	{
+		// こぶし(人型武器なし)
+		constexpr const char* FIST = DATA_PATH("Weapon/Fist.json");
+	}
+}
+
 /* ゲームの値 */
 namespace GameValue
 {
