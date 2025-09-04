@@ -78,9 +78,6 @@
     <Filter Include="コード ファイル\Component\StatusParameter">
       <UniqueIdentifier>{14ba15fe-f469-4823-800c-7df833a353eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\Component\Weapon">
-      <UniqueIdentifier>{1ce80084-e0e5-4ed6-a5bd-f9188e193e9f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -194,9 +191,6 @@
     <ClCompile Include="StatusParameter.cpp">
       <Filter>コード ファイル\Component\StatusParameter</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>コード ファイル\Component\Weapon</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -309,9 +303,6 @@
     </ClInclude>
     <ClInclude Include="StatusParameter.h">
       <Filter>コード ファイル\Component\StatusParameter</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>コード ファイル\Component\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

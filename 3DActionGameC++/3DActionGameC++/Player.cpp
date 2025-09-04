@@ -147,27 +147,6 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 	}
 }
 
-// @brief プレイヤーのデータの読み込み
-// @param In_DataPath セーブデータのフォルダパス
-void CPlayer::LoadPlayerData(void)
-{
-	//DataPath::Player::SAVE_DATA
-
-	// 今は未実装
-	// 将来的にファイルからプレイヤーデータを読み込む処理を実装する予定
-	// JSONでの読み込みを想定
-	// 仮のデータを設定
-	
-	// ステータスパラメーターの生成
-	m_pStatusParameter = std::make_unique<CStatusParameter>();
-	// ステータスパラメーターデータの読み込み
-	m_pStatusParameter->LoadStatus(DataPath::Player::STATUS_DATA);
-	// 武器の生成
-	m_pWeapon = std::make_unique<CWeapon>();
-	// 武器データの読み込み
-	m_pWeapon->LoadWeaponData(DataPath::Weapon::FIST);
-}
-
 // @brief 移動処理
 void CPlayer::Move(void)
 {

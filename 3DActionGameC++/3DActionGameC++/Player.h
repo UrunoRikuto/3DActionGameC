@@ -10,7 +10,6 @@
 #include <memory>
 #include "Ray.h"
 #include "StatusParameter.h"
-#include "Weapon.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -54,10 +53,6 @@ public:
 	void Hit(const Collision::Info& InCollisionInfo) override;
 
 private:
-	/// <summary>
-	/// プレイヤーのデータの読み込み
-	/// </summary>
-	void LoadPlayerData(void);
 
 	/// <summary>
 	///  移動アクションの移動処理
@@ -85,11 +80,6 @@ private:
 	/// 姿勢状態
 	/// </summary>
 	PlayerPosture m_ePosture;
-
-	/// <summary>
-	/// 所持している武器
-	/// </summary>
-	std::unique_ptr<CWeapon> m_pWeapon;
 
 	/// <summary>
 	/// 移動量

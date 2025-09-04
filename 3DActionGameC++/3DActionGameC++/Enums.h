@@ -120,18 +120,3 @@ enum class StatusParameterType
 	Skill,		// ‹Z  —Ê
 	MAX,
 };
-
-/*
-* @brief UŒ‚‚Ìí—Ş
-* @param 0Fa‚é
-* @param 1Fh‚·
-* @param 2F‘Å‚Â
-* @param 3FŒ‚‚Â
-*/
-enum class AttackType
-{
-	Slash,	// a‚é
-	Stab,	// h‚·
-	Blow,	// ‘Å‚Â
-	Shoot,	// Œ‚‚Â
-};
