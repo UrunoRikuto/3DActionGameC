@@ -15,6 +15,7 @@
 #include "ModelDrawSetting.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Fist.h"
 
 // @brief コンストラクタ
 CPlayer::CPlayer()
@@ -55,6 +56,9 @@ CPlayer::CPlayer()
 	m_tCollisionInfos[0].box.center = m_tPosition;
 	// ボックスの大きさを設定
 	m_tCollisionInfos[0].box.size = StructMath::Add(m_tScale, XMFLOAT3(0.0f, m_tScale.y * 2, 0.0f));
+
+	// データの読み込み
+	LoadData();
 }
 
 // @brief デストラクタ

@@ -135,6 +135,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Fist.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="GuardNpc.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VisionSearch.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="Fist.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameValues.h" />
     <ClInclude Include="Geometory.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VisionSearch.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\設計\クリーンアップメモ.txt" />

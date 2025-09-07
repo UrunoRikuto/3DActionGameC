@@ -102,3 +102,18 @@ enum class NpcType
 	Patrol,		// „‰ñNPC
 	MAX,
 };
+
+/*
+* @brief UŒ‚‚Ìí—Ş
+* @param 0F‘ÅŒ‚
+* @param 1FaŒ‚
+* @param 2F”šŒ‚
+* @param 3FhŒ‚
+*/
+enum class AttackType
+{
+	Blow,		// ‘ÅŒ‚
+	Slash,		// aŒ‚
+	Blast,		// ”šŒ‚
+	Pierce,		// hŒ‚
+};
