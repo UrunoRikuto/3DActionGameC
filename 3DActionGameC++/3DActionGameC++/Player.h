@@ -81,6 +81,11 @@ private:
 	CWeapon* m_pWeapon;
 
 	/// <summary>
+	/// 攻撃のクールタイム
+	/// </summary>
+	float m_fAttackCD;
+
+	/// <summary>
 	/// 姿勢状態
 	/// </summary>
 	PlayerPosture m_ePosture;

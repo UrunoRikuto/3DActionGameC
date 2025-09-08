@@ -25,6 +25,7 @@ CPlayer::CPlayer()
 	, m_nJumpFrame(GameValue::Player::JUMP_DURATION) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_ePosture(PlayerPosture::Stand) // プレイヤーの姿勢状態を立っている状態に設定
+	, m_fAttackCD(0.0f) // 攻撃のクールタイムの初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -169,17 +170,29 @@ void CPlayer::Attack(void)
 		m_tPosition.z + cosf(TORAD(m_tRotation.y) + (weaponCollisionSize.z * 2))
 		});
 
-	// 攻撃キーが押されたら
-	if (IsKeyTrigger(ATTACK))
+	// クールタイムが残っている場合はクールタイムを減らす
+	if (m_fAttackCD > 0.0f)
 	{
-		// シーンの取得
-		auto scene = (CSceneGame*)GetCurrentScene();
+		m_fAttackCD -= 1.0f / fFPS;
+		if (m_fAttackCD < 0.0f)m_fAttackCD = 0.0f;
+	}
+	else
+	{
+		// 攻撃キーが押されたら
+		if (IsKeyTrigger(ATTACK))
+		{
+			// シーンの取得
+			auto scene = (CSceneGame*)GetCurrentScene();
 
-		// シーンがなければ何もしない
-		if (scene == nullptr)return;
+			// シーンがなければ何もしない
+			if (scene == nullptr)return;
 
-		// 攻撃を生成
-		scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame() });
+			// 攻撃を生成
+			scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame() });
+
+			// クールタイムを設定
+			m_fAttackCD = m_pWeapon->GetAttackSpeed();
+		}
 	}
 }
 

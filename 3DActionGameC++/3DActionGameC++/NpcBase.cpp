@@ -9,14 +9,16 @@
 #include "Model.h"
 
 // @brief コンストラクタ
+// @param InType NPCの種類
 CNpcBase::CNpcBase(NpcType InType)
 	:CGameObject() // 基底クラスのコンストラクタを呼び出す
-	,m_eNpcType(InType) // NPCの種類を設定
+	, m_eNpcType(InType) // NPCの種類を設定
 	, m_eSearchState(VisionSearchState::None) // 索敵状態を初期化
+	, m_fAttackCD(0.0f) // 攻撃のクールタイムを初期化
+	, m_bAttack(false) // 攻撃中かどうかの初期化
 {
 	// モデルの作成
 	m_pModel = std::make_unique<Model>();
-
 	// 視覚索敵の作成
 	m_pVisionSearch = std::make_unique<CVisionSearch>(this);
 }

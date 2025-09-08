@@ -104,6 +104,7 @@ void CGuardNpc::Update(void)
 // @brief 移動処理
 void CGuardNpc::Move(void)
 {
+
 	// 名前空間の使用
 	using namespace StructMath;
 
@@ -122,7 +123,9 @@ void CGuardNpc::Move(void)
 	}
 
 	XMFLOAT3 moveDir = Direction(m_tPosition, movePoint);
-	SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
+
+	// 攻撃中でない場合は移動量を適用
+	if (!m_bAttack)SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
 	// 向きの更新
 	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
 }
@@ -130,39 +133,54 @@ void CGuardNpc::Move(void)
 // @brief 攻撃処理
 void CGuardNpc::Attack(void)
 {
-	// 索敵状態が発見以外なら何もしない
-	if (m_eSearchState != VisionSearchState::Discovery)return;
+	// 名前空間の使用宣言
+	using namespace StructMath;
 
-	// プレイヤーが攻撃範囲内にいるかどうかを判定
-	// プレイヤーの位置を取得
-	XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
-	// 攻撃範囲外なら何もしない
-	XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
-
-	if (StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
-		StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
+	// クールタイムが残っている場合はクールタイムを減らす
+	if (m_fAttackCD > 0.0f)
 	{
-		return;
+		m_fAttackCD -= 1.0f / fFPS;
+		if (m_fAttackCD < 0.0f)m_fAttackCD = 0.0f;
 	}
+	else
+	{
+		// 索敵状態が発見以外なら何もしない
+		if (m_eSearchState != VisionSearchState::Discovery)return;
 
+		// プレイヤーが攻撃範囲内にいるかどうかを判定
+		// プレイヤーの位置を取得
+		XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
+		// 攻撃範囲外なら何もしない
+		XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
 
+		if (StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
+			StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
+		{
+			m_bAttack = false;
+			return;
+		}
 
-	// 武器があれば攻撃
-	if (m_pWeapon == nullptr)return;
-	// 武器の更新処理
-	// 向きを参照して前に出す
-	m_pWeapon->Update({
-		m_tPosition.x + sinf(TORAD(m_tRotation.y)) + (weaponCollisionSize.x * 2),
-		m_tPosition.y,
-		m_tPosition.z + cosf(TORAD(m_tRotation.y)) + (weaponCollisionSize.z * 2)
-		});
+		// 武器があれば攻撃
+		if (m_pWeapon == nullptr)return;
+		// 武器の更新処理
+		// 向きを参照して前に出す
+		XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, playerPos);
 
-	// シーンの取得
-	auto scene = (CSceneGame*)GetCurrentScene();
+		m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, m_pWeapon->GetAttackRange().box.size.x)));
 
-	// シーンがない場合は何もしない
-	if (scene == nullptr)return;
+		// シーンの取得
+		auto scene = (CSceneGame*)GetCurrentScene();
 
-	// 攻撃を生成
-	scene->AttackCreate({ m_pWeapon->GetAttackRange(), m_pWeapon->GetAttackDurationFrame() });
+		// シーンがない場合は何もしない
+		if (scene == nullptr)return;
+
+		// 攻撃を生成
+		scene->AttackCreate({ m_pWeapon->GetAttackRange(), m_pWeapon->GetAttackDurationFrame() });
+
+		// クールタイムを設定
+		m_fAttackCD = m_pWeapon->GetAttackSpeed();
+
+		// 攻撃中フラグを立てる
+		m_bAttack = true;
+	}
 }

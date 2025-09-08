@@ -65,6 +65,16 @@ protected:
 	CWeapon* m_pWeapon;
 
 	/// <summary>
+	/// 攻撃のクールタイム
+	/// </summary>
+	float m_fAttackCD;
+
+	/// <summary>
+	/// 攻撃中かどうか
+	/// </summary>
+	bool m_bAttack;
+
+	/// <summary>
 	/// NCPの種類
 	/// </summary>
 	NpcType m_eNpcType;
