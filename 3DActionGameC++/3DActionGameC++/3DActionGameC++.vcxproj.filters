@@ -75,6 +75,12 @@
     <Filter Include="コード ファイル\Component\Ray">
       <UniqueIdentifier>{fd577ad6-a910-4645-9146-e12a7fe1450c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component\Weapon">
+      <UniqueIdentifier>{0be347bb-d67f-4f02-ad4c-16cf3873940c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Component\Weapon\Base">
+      <UniqueIdentifier>{db15166d-9ab6-4d20-82b5-f59790739374}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -185,6 +191,15 @@
     <ClCompile Include="MovePointManager.cpp">
       <Filter>コード ファイル\Component\MoveSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>コード ファイル\Component\Weapon\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Fist.cpp">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -291,6 +306,18 @@
     </ClInclude>
     <ClInclude Include="GameValues.h">
       <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>コード ファイル\Component\Weapon\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Fist.h">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponInclude.h">
+      <Filter>コード ファイル\Component\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
