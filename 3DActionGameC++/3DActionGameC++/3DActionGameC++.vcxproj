@@ -164,6 +164,7 @@
     <ClCompile Include="SpriteDrawSetting.cpp" />
     <ClCompile Include="SpriteSetting.cpp" />
     <ClCompile Include="Startup.cpp" />
+    <ClCompile Include="Sword.cpp" />
     <ClCompile Include="TargetNpc.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -203,11 +204,13 @@
     <ClInclude Include="SpriteDrawSetting.h" />
     <ClInclude Include="SpriteSetting.h" />
     <ClInclude Include="StructMath.h" />
+    <ClInclude Include="Sword.h" />
     <ClInclude Include="TargetNpc.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VisionSearch.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponInclude.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\設計\クリーンアップメモ.txt" />

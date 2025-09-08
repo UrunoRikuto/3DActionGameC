@@ -197,6 +197,9 @@
     <ClCompile Include="Fist.cpp">
       <Filter>コード ファイル\Component\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -308,6 +311,12 @@
       <Filter>コード ファイル\Component\Weapon\Base</Filter>
     </ClInclude>
     <ClInclude Include="Fist.h">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponInclude.h">
       <Filter>コード ファイル\Component\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
