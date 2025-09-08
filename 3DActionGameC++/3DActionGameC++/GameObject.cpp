@@ -9,7 +9,6 @@
 /* ヘッダーのインクルード */
 #include "GameObject.h"
 /* システム・要素のインクルード */
-#include "Main.h"
 #include "ModelDrawSetting.h"
 
 // @brief コンストラクタ

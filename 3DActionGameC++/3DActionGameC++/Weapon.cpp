@@ -12,6 +12,7 @@ CWeapon::CWeapon()
 	, m_fAttackPower(0.0f)
 	, m_fAttackSpeed(0.0f)
 	, m_tAttackRange()
+	, m_fAttackDurationTime(0.0f)
 {
 
 }

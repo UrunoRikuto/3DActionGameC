@@ -8,6 +8,8 @@
 #include <memory>
 #include "StructMath.h"
 #include "Collision.h"
+#include "Main.h"
+#include "SceneGame.h"
 
 /* ‘O•ûéŒ¾ */
 class Model;

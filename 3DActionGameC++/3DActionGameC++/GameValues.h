@@ -23,28 +23,14 @@ namespace GameValue
 	// プレイヤーの値
 	namespace Player
 	{
-		// プレイヤーの行動モード
-		namespace MoveAction
-		{
-			// 移動速度
-			constexpr float MOVE_SPEED = 0.5f;
-			// 回転速度
-			constexpr float ROTATION_SPEED = 1.0f;
-			// ジャンプの最大高さ
-			constexpr float JUMP_HEIGHT = 5.0f;
-			// ジャンプの総フレーム数
-			constexpr int	JUMP_DURATION = 45;
-		}
-		// プレイヤーの狙撃モード
-		namespace SnipingAction
-		{
-			// 垂直方向の視点移動速度
-			constexpr float LOOK_SPEED_VERTICAL = 0.5f;
-			// 水平方向の視点移動速度
-			constexpr float LOOK_SPEED_HORIZONTAL = 0.5f;
-			// 倍率変更値
-			constexpr float ZOOM_POWER = 0.1f;
-		}
+		// 移動速度
+		constexpr float MOVE_SPEED = 0.5f;
+		// 回転速度
+		constexpr float ROTATION_SPEED = 1.0f;
+		// ジャンプの最大高さ
+		constexpr float JUMP_HEIGHT = 5.0f;
+		// ジャンプの総フレーム数
+		constexpr int	JUMP_DURATION = 45;
 	}
 
 	namespace Bullet
@@ -138,59 +124,30 @@ namespace InputKey
 	// プレイヤーの入力キー
 	namespace Player
 	{
-		// 行動モード切り替え
-		constexpr BYTE CHANGE_ACTIONMODE
-			= 'F';
+		// 動作 前進
+		constexpr BYTE MOVE_FORWARD
+			= 'W';
+		// 動作 後退
+		constexpr BYTE MOVE_BACKWARD
+			= 'S';
+		// 動作 左移動
+		constexpr BYTE MOVE_LEFT
+			= 'A';
+		// 動作 右移動
+		constexpr BYTE MOVE_RIGHT
+			= 'D';
+		// 動作 ジャンプ
+		constexpr BYTE JUMP
+			= VK_SPACE;
+		// 視点 左回転
+		constexpr BYTE LOOK_LEFT
+			= VK_LEFT;
+		// 視点 右回転
+		constexpr BYTE LOOK_RIGHT
+			= VK_RIGHT;
 
-		// 移動モードの入力キー
-		namespace MoveAction
-		{
-			// 動作 前進
-			constexpr BYTE MOVE_FORWARD
-				= 'W';
-			// 動作 後退
-			constexpr BYTE MOVE_BACKWARD
-				= 'S';
-			// 動作 左移動
-			constexpr BYTE MOVE_LEFT
-				= 'A';
-			// 動作 右移動
-			constexpr BYTE MOVE_RIGHT
-				= 'D';
-			// 動作 ジャンプ
-			constexpr BYTE JUMP
-				= VK_SPACE;
-			// 視点 左回転
-			constexpr BYTE LOOK_LEFT
-				= VK_LEFT;
-			// 視点 右回転
-			constexpr BYTE LOOK_RIGHT
-				= VK_RIGHT;
-		}
-		// 狙撃モードの入力キー
-		namespace SnipingAction
-		{
-			// 視点 上回転
-			constexpr BYTE SNIPING_LOOK_UP
-				= 'W';
-			// 視点 下回転
-			constexpr BYTE SNIPING_LOOK_DOWN
-				= 'S';
-			// 視点 左回転
-			constexpr BYTE SNIPING_LOOK_LEFT
-				= 'A';
-			// 視点 右回転
-			constexpr BYTE SNIPING_LOOK_RIGHT
-				= 'D';
-			// 視点 ズームイン
-			constexpr BYTE SNIPING_ZOOM_IN
-				= VK_UP;
-			// 視点 ズームアウト
-			constexpr BYTE SNIPING_ZOOM_OUT
-				= VK_DOWN;
-			// 動作 射撃
-			constexpr BYTE SNIPING_SHOOT
-				= VK_RETURN;
-		}
+		// 攻撃
+		constexpr BYTE ATTACK
+			= VK_UP;
 	}
 }

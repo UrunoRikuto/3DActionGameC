@@ -17,19 +17,6 @@ enum class SceneType
 };
 
 /*
-* @brief プレイヤーの行動モード
-* @param 0：移動モード
-* @param 1：狙撃モード
-*/
-enum class PlayerActionMode
-{
-	Move,		// 移動モード
-	Sniping,	// 狙撃モード
-	MAX,
-};
-
-
-/*
 * @brief 移動システムの種類
 * @param 0：一回移動
 * ...最終ポイントまで行ったら止まる

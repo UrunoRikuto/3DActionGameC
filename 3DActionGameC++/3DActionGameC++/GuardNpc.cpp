@@ -73,6 +73,10 @@ CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	m_tCollisionInfos[2].AdjustCenter = XMFLOAT3(0.0f, -m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;
+
+	// 武器の生成
+	m_pWeapon = new CSword();
+
 }
 
 // @briefデストラクタ
@@ -84,9 +88,6 @@ CGuardNpc::~CGuardNpc()
 // @brief 更新処理
 void CGuardNpc::Update(void)
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 
@@ -94,6 +95,18 @@ void CGuardNpc::Update(void)
 	CNpcBase::Update();
 
 	// 移動
+	Move();
+
+	// 攻撃
+	Attack();
+}
+
+// @brief 移動処理
+void CGuardNpc::Move(void)
+{
+	// 名前空間の使用
+	using namespace StructMath;
+
 	XMFLOAT3 movePoint = XMFLOAT3();
 
 	switch (m_eSearchState)
@@ -112,4 +125,44 @@ void CGuardNpc::Update(void)
 	SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
 	// 向きの更新
 	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
+}
+
+// @brief 攻撃処理
+void CGuardNpc::Attack(void)
+{
+	// 索敵状態が発見以外なら何もしない
+	if (m_eSearchState != VisionSearchState::Discovery)return;
+
+	// プレイヤーが攻撃範囲内にいるかどうかを判定
+	// プレイヤーの位置を取得
+	XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
+	// 攻撃範囲外なら何もしない
+	XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
+
+	if (StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
+		StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
+	{
+		return;
+	}
+
+
+
+	// 武器があれば攻撃
+	if (m_pWeapon == nullptr)return;
+	// 武器の更新処理
+	// 向きを参照して前に出す
+	m_pWeapon->Update({
+		m_tPosition.x + sinf(TORAD(m_tRotation.y)) + (weaponCollisionSize.x * 2),
+		m_tPosition.y,
+		m_tPosition.z + cosf(TORAD(m_tRotation.y)) + (weaponCollisionSize.z * 2)
+		});
+
+	// シーンの取得
+	auto scene = (CSceneGame*)GetCurrentScene();
+
+	// シーンがない場合は何もしない
+	if (scene == nullptr)return;
+
+	// 攻撃を生成
+	scene->AttackCreate({ m_pWeapon->GetAttackRange(), m_pWeapon->GetAttackDurationFrame() });
 }

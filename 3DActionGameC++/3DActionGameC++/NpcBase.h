@@ -12,6 +12,7 @@
 #include "MoveSystem.h"
 #include "VisionSearch.h"
 #include "Player.h"
+#include "WeaponInclude.h"
 
 
 /// <summary>
@@ -47,6 +48,23 @@ public:
 protected:
 
 	/// <summary>
+	/// ˆÚ“®ˆ—
+	/// </summary>
+	virtual void Move(void) = 0;
+
+	/// <summary>
+	/// UŒ‚ˆ—
+	/// </summary>
+	virtual void Attack(void) = 0;
+
+protected:
+
+	/// <summary>
+	/// Š‚µ‚Ä‚¢‚é•Ší
+	/// </summary>
+	CWeapon* m_pWeapon;
+
+	/// <summary>
 	/// NCP‚Ìí—Ş
 	/// </summary>
 	NpcType m_eNpcType;
@@ -72,6 +90,13 @@ protected:
 	CPlayer* m_pTargetObject;
 
 public:
+
+	/// <summary>
+	/// Š‚µ‚Ä‚¢‚é•Ší‚Ìæ“¾
+	/// </summary>
+	/// <returns>Š‚µ‚Ä‚¢‚é•Ší</returns>
+	CWeapon* GetWeapon(void) const { return m_pWeapon; }
+
 	/// <summary>
 	/// NPC‚Ìí—Ş‚Ìæ“¾
 	/// </summary>

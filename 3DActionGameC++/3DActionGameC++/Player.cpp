@@ -15,7 +15,6 @@
 #include "ModelDrawSetting.h"
 #include "Camera.h"
 #include "Input.h"
-#include "Fist.h"
 
 // @brief コンストラクタ
 CPlayer::CPlayer()
@@ -23,7 +22,7 @@ CPlayer::CPlayer()
 	, m_tMovePower(0.0f, 0.0f, 0.0f)	// 初期移動量
 	, m_bGround(true) // 地面にいるかどうかの初期値
 	, m_bJumping(false) // ジャンプ中かどうかの初期値
-	, m_nJumpFrame(GameValue::Player::MoveAction::JUMP_DURATION) // ジャンプフレームの初期値
+	, m_nJumpFrame(GameValue::Player::JUMP_DURATION) // ジャンプフレームの初期値
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_ePosture(PlayerPosture::Stand) // プレイヤーの姿勢状態を立っている状態に設定
 {
@@ -57,8 +56,8 @@ CPlayer::CPlayer()
 	// ボックスの大きさを設定
 	m_tCollisionInfos[0].box.size = StructMath::Add(m_tScale, XMFLOAT3(0.0f, m_tScale.y * 2, 0.0f));
 
-	// データの読み込み
-	LoadData();
+	// 武器の生成
+	m_pWeapon = new CFist();
 }
 
 // @brief デストラクタ
@@ -76,13 +75,14 @@ void CPlayer::Update(void)
 	// 現在の位置を前の位置として保存
 	m_tOldPosition = m_tPosition; 
 
-	// プレイヤーの行動モードによって更新処理を分岐
 	// 視点の移動処理
 	LookRotation();
 	// 移動処理
 	Move();
 	// 跳躍処理
 	Jump();
+	// 攻撃処理
+	Attack();
 	// カメラの更新処理
 	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
 	// 当たり判定の更新
@@ -151,12 +151,44 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 	}
 }
 
+// @brief 攻撃処理
+void CPlayer::Attack(void)
+{
+	// 名前空間の使用宣言
+	using namespace InputKey::Player;
+
+	// 武器を設定していない場合は何もしない
+	if (!m_pWeapon)return;
+
+	// 武器の更新処理
+	// 向きを考慮して更新
+	XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
+	m_pWeapon->Update({
+		m_tPosition.x + sinf(TORAD(m_tRotation.y) + (weaponCollisionSize.x * 2)),
+		m_tPosition.y,
+		m_tPosition.z + cosf(TORAD(m_tRotation.y) + (weaponCollisionSize.z * 2))
+		});
+
+	// 攻撃キーが押されたら
+	if (IsKeyTrigger(ATTACK))
+	{
+		// シーンの取得
+		auto scene = (CSceneGame*)GetCurrentScene();
+
+		// シーンがなければ何もしない
+		if (scene == nullptr)return;
+
+		// 攻撃を生成
+		scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame() });
+	}
+}
+
 // @brief 移動処理
 void CPlayer::Move(void)
 {
 	// 名前空間の使用宣言
-	using namespace InputKey::Player::MoveAction;
-	using namespace GameValue::Player::MoveAction;
+	using namespace InputKey::Player;
+	using namespace GameValue::Player;
 
 	// 前
 	if(IsKeyPress(MOVE_FORWARD))
@@ -193,8 +225,8 @@ void CPlayer::Move(void)
 void CPlayer::Jump(void)
 {
 	// 名前空間の使用宣言
-	using namespace InputKey::Player::MoveAction;
-	using namespace GameValue::Player::MoveAction;
+	using namespace InputKey::Player;
+	using namespace GameValue::Player;
 
 	// スペースキーが押されたら
 	if (IsKeyTrigger(JUMP) && m_bGround)
@@ -215,7 +247,7 @@ void CPlayer::Jump(void)
 		// sin波を使ってジャンプの高さを計算
 		float rad = (PI * m_nJumpFrame) / JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tPosition.y = (sin(rad) * JUMP_HEIGHT) + m_fBeforeJumpUnderHeight + m_fAjustPositionY;
+		m_tPosition.y = (sinf(rad) * JUMP_HEIGHT) + m_fBeforeJumpUnderHeight + m_fAjustPositionY;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
@@ -263,8 +295,8 @@ void CPlayer::Jump(void)
 void CPlayer::LookRotation(void)
 {
 	// 名前空間の使用宣言
-	using namespace InputKey::Player::MoveAction;
-	using namespace GameValue::Player::MoveAction;
+	using namespace InputKey::Player;
+	using namespace GameValue::Player;
 	// 左回転
 	if (IsKeyPress(LOOK_LEFT))
 	{

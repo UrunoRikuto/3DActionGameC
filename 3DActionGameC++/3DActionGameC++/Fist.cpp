@@ -9,6 +9,8 @@
 // @brief コンストラクタ
 CFist::CFist()
 {
+	// パラメータの設定
+	SetParam();
 }
 
 // @brief デストラクタ
@@ -20,7 +22,7 @@ CFist::~CFist()
 void CFist::Update(XMFLOAT3 In_Position)
 {
 	// 攻撃範囲の中心座標をキャラクターの位置に設定
-	m_tAttackRange.sphere.center = In_Position;
+	m_tAttackRange.box.center = In_Position;
 }
 
 // @brief パラメータの設定
@@ -37,4 +39,6 @@ void CFist::SetParam(void)
 	// ボックスの中心座標とサイズを設定
 	m_tAttackRange.box.center = { 0.0f, 0.0f, 0.0f };
 	m_tAttackRange.box.size = { 3.0f, 3.0f, 3.0f };
+	// 攻撃の持続時間
+	m_fAttackDurationTime = 0.1f;
 }

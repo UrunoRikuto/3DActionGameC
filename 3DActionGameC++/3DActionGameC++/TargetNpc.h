@@ -28,5 +28,15 @@ public:
 	/// XVˆ—
 	/// </summary>
 	void Update(void) override;
+
+private:
+	/// <summary>
+	/// ˆÚ“®ˆ—
+	/// </summary>
+	void Move(void) override;
+	/// <summary>
+	/// UŒ‚ˆ—
+	/// </summary>
+	void Attack(void) override;
 };
 

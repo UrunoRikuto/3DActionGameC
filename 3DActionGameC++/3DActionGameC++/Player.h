@@ -8,6 +8,7 @@
 #include "Enums.h"
 #include <memory>
 #include "Ray.h"
+#include "WeaponInclude.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -53,21 +54,31 @@ public:
 private:
 
 	/// <summary>
-	///  移動アクションの移動処理
+	///  攻撃処理
+	/// </summary>
+	void Attack(void);
+
+	/// <summary>
+	///  移動処理
 	/// </summary>
 	void Move(void);
 
 	/// <summary>
-	///  移動アクションの跳躍処理
+	///  跳躍処理
 	/// </summary>
 	void Jump(void);
 
 	/// <summary>
-	///  移動アクションの視点移動
+	///  視点移動
 	/// </summary>
 	void LookRotation(void);
 
 private:
+
+	/// <summary>
+	/// 所持している武器
+	/// </summary>
+	CWeapon* m_pWeapon;
 
 	/// <summary>
 	/// 姿勢状態
@@ -115,6 +126,12 @@ private:
 	float m_fBeforeJumpUnderHeight;
 
 public: //メンバ変数のアクセサ
+
+	/// <summary>
+	/// 所持している武器の取得
+	/// </summary>
+	/// <returns>所持している武器</returns>
+	CWeapon* GetWeapon(void) const { return m_pWeapon; }
 
 	/// <summary>
 	/// レイの取得

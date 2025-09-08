@@ -9,6 +9,7 @@
 
 /* システム・要素のインクルード */
 #include <memory>
+#include "Collision.h"
 /* 基底クラスのインクルード */
 #include "SceneBase.h"
 
@@ -17,6 +18,20 @@ class CGameObject;
 class CField;
 class CPlayer;
 class CNpcBase;
+
+// 攻撃の当たり判定情報
+struct AttackCollision
+{
+	// 当たり判定情報
+	Collision::Info CollisionInfo;
+	// 持続フレーム
+	float DurationFrame;
+
+	bool operator==(const AttackCollision& other) const
+	{
+		return &CollisionInfo == &other.CollisionInfo && &DurationFrame == &other.DurationFrame;
+	}
+};
 
 /// <summary>
 /// ゲームシーンクラス
@@ -50,6 +65,11 @@ public:
 	/// <returns>すべてのフィールドオブジェクトリスト</returns>
 	std::vector<CGameObject*> GetAllFieldObjects(void);
 
+	/// <summary>
+	///  攻撃の生成
+	/// </summary>
+	void AttackCreate(AttackCollision In_CollisionInfo);
+
 private:
 	/// <summary>
 	/// 当たり判定の衝突チェック
@@ -61,6 +81,10 @@ private:
 	/// </summary>
 	void RayCastCheck(void);
 
+	/// <summary>
+	/// 攻撃の当たり判定チェック
+	/// </summary>
+	void AttackCollisionCheck(void);
 private:
 	// フィールドオブジェクトのポインタ
 	std::vector<std::unique_ptr<CField>> m_pField;
@@ -68,5 +92,7 @@ private:
 	std::unique_ptr<CPlayer> m_pPlayer;
 	// NPCオブジェクトのポインタ
 	std::vector<std::unique_ptr<CNpcBase>> m_pNpc;
+	// 攻撃の当たり判定リスト
+	std::vector<AttackCollision> m_vAttackCollisionInfos;
 };
 

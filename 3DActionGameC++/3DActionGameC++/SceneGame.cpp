@@ -87,6 +87,8 @@ void CSceneGame::Update(void)
 	CollisionCheck(); // 当たり判定の衝突チェック
 
 	RayCastCheck(); // レイキャストのチェック
+
+	AttackCollisionCheck(); // 攻撃の当たり判定チェック
 }
 
 // @brief 描画処理
@@ -94,6 +96,12 @@ void CSceneGame::Draw(void)
 {
 	// 移動ポイントのデバッグ描画
 	CMovePointManager::GetInstance()->DebugDraw(); // 移動ポイントのデバッグ描画
+
+	// 攻撃の当たり判定のデバッグ描画
+	for (const auto& attack : m_vAttackCollisionInfos)
+	{
+		Collision::DrawCollision(attack.CollisionInfo);
+	}
 
 	for (auto& obj : g_vNullCheckList)
 	{
@@ -254,4 +262,51 @@ void CSceneGame::RayCastCheck(void)
 		}
 	}
 	m_pPlayer->SetUnderHeight(-3.0f); // レイキャストが当たらなかった場合、-3.0fを設定
+}
+
+// @brief 攻撃の当たり判定チェック
+void CSceneGame::AttackCollisionCheck(void)
+{
+	for (auto& attackInfo : m_vAttackCollisionInfos)
+	{
+		for (auto& obj : g_vNullCheckList)
+		{
+			if (SafeNullCheck(obj))
+			{
+				auto targetCollisionInfo = obj->GetCollisionInfo(Collision::Tag::Attack);
+				for (const auto& targetInfo : targetCollisionInfo)
+				{
+					Collision::Result result = Collision::Hit(attackInfo.CollisionInfo, targetInfo);
+					if (result.isHit)
+					{
+						obj->Hit(attackInfo.CollisionInfo); // 衝突時の処理を呼び出す
+
+						// この攻撃の持続時間を0にする
+						attackInfo.DurationFrame = 0;
+					}
+				}
+			}
+		}
+
+		// 攻撃の持続時間を減少
+		attackInfo.DurationFrame -= 1.0f / fFPS;
+
+		// 持続時間が0以下になったら削除
+		if (attackInfo.DurationFrame <= 0)
+		{
+			m_vAttackCollisionInfos.erase(
+				std::remove(
+					m_vAttackCollisionInfos.begin(),
+					m_vAttackCollisionInfos.end(),
+					attackInfo), m_vAttackCollisionInfos.end());
+		}
+	}
+}
+
+// @brief 攻撃の生成
+// @param In_CollisionInfo 衝突対象
+void CSceneGame::AttackCreate(AttackCollision In_CollisionInfo)
+{
+	// 攻撃の生成
+	m_vAttackCollisionInfos.push_back(In_CollisionInfo);
 }

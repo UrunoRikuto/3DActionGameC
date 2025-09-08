@@ -19,7 +19,9 @@ public:
 
 	// @brief 更新
 	// @param In_Position キャラクターの位置
-	void Update(XMFLOAT3 In_Position);
+	void Update(XMFLOAT3 In_Position) override;
+
+protected:
 
 	// @brief パラメータの設定
 	void SetParam(void) override;
