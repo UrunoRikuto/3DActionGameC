@@ -62,6 +62,42 @@ void CNpcBase::Hit(const Collision::Info& InCollisionInfo)
 	// 今は何もしない
 }
 
+// @brief 当たり判定の衝突時の処理(攻撃用)
+// @param InCollisionInfo 衝突対象
+// @param In_Attack 相手の攻撃力
+void CNpcBase::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
+{
+	int IsPlayerAttackCheck = 0;
+
+	// プレイヤーの攻撃に当たったかどうかを判定
+	// プレイヤータグと攻撃タグの両方があればプレイヤーの攻撃に当たったと判定
+	for (auto& tag : InCollisionInfo.tag)
+	{
+		switch (tag)
+		{
+		case Collision::Tag::Player:
+			IsPlayerAttackCheck++;
+			break;
+		case Collision::Tag::Attack:
+			IsPlayerAttackCheck++;
+			break;
+		}
+	}
+
+	// プレイヤーの攻撃に当たった場合
+	if (IsPlayerAttackCheck >= 2)
+	{
+		// 体力を減らす
+		m_fHp -= In_Attack;
+		// 体力が0以下になったら破棄フラグを立てる
+		if (m_fHp <= 0.0f)
+		{
+			m_bDestroy = true;
+			m_fHp = 0.0f;
+		}
+	}
+}
+
 // @brief 現在の索敵状態の設定
 // @param InState 設定する索敵状態
 void CNpcBase::SetSearchState(VisionSearchState InState)

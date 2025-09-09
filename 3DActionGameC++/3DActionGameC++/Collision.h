@@ -26,7 +26,7 @@ public:
 		// プレイヤー
 		Player,
 		// ターゲットNPC
-		TargetNpc,
+		Npc,
 		// フィールド
 		Field,
 		// 頭

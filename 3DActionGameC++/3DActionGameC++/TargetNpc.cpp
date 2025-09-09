@@ -45,7 +45,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 当たり判定の種類を設定
 	m_tCollisionInfos[0].type = Collision::eBox;
 	// タグを追加
-	m_tCollisionInfos[0].tag.push_back(Collision::Tag::TargetNpc);
+	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Npc);
 	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Head);
 	// 中心位置を設定
 	m_tCollisionInfos[0].box.center = StructMath::Add(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
@@ -56,7 +56,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 当たり判定の種類を設定
 	m_tCollisionInfos[1].type = Collision::eBox;
 	// タグを追加
-	m_tCollisionInfos[1].tag.push_back(Collision::Tag::TargetNpc);
+	m_tCollisionInfos[1].tag.push_back(Collision::Tag::Npc);
 	m_tCollisionInfos[1].tag.push_back(Collision::Tag::Body);
 	// 中心位置を設定
 	m_tCollisionInfos[1].box.center = m_tPosition;
@@ -66,7 +66,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 当たり判定の種類を設定
 	m_tCollisionInfos[2].type = Collision::eBox;
 	// タグを追加
-	m_tCollisionInfos[2].tag.push_back(Collision::Tag::TargetNpc);
+	m_tCollisionInfos[2].tag.push_back(Collision::Tag::Npc);
 	// タグを追加
 	m_tCollisionInfos[2].tag.push_back(Collision::Tag::Foot);
 	// 中心位置を設定
@@ -77,6 +77,11 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 
 	// 武器の生成
 	m_pWeapon = new CFist();
+	// 武器の当たり判定にNPCタグを追加
+	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Npc);
+
+	// 体力の設定
+	m_fHp = GameValue::Npc::Normal::MAX_HP;
 }
 
 // @brief デストラクタ
@@ -177,7 +182,7 @@ void CTargetNpc::Attack(void)
 		if (scene == nullptr)return;
 
 		// 攻撃を生成
-		scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame() });
+		scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame(), m_pWeapon->GetAttackPower() });
 
 		// クールタイムを設定
 		m_fAttackCD = m_pWeapon->GetAttackSpeed();

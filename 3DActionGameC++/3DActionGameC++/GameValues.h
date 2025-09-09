@@ -31,6 +31,8 @@ namespace GameValue
 		constexpr float JUMP_HEIGHT = 5.0f;
 		// ジャンプの総フレーム数
 		constexpr int	JUMP_DURATION = 45;
+		// 最大体力
+		constexpr float MAX_HP = 100.0f;
 	}
 
 	namespace Bullet
@@ -49,31 +51,8 @@ namespace GameValue
 			constexpr float VIEW_ANGLE = 60.0f; // 度
 			// 視野距離
 			constexpr float VIEW_DISTANCE = 200.0f; // メートル
-		}
-		// ターゲットNPCの値
-		namespace Target
-		{
-			// 視野角
-			constexpr float VIEW_ANGLE = 60.0f; // 度
-			// 視野距離
-			constexpr float VIEW_DISTANCE = 200.0f; // メートル
-		}
-		// 巡回NPCの値
-		namespace Patrol
-		{
-			// 視野角
-			constexpr float VIEW_ANGLE = 60.0f; // 度
-			// 視野距離
-			constexpr float VIEW_DISTANCE = 200.0f; // メートル
-		}
-		// スナイパーNPCの値
-		namespace Sniper
-		{
-			// 視野角
-			constexpr float VIEW_ANGLE = 40.0f; // 度
-			// 視野距離
-			constexpr float VIEW_DISTANCE = 400.0f; // メートル
-
+			// 体力
+			constexpr float MAX_HP = 100.0f;
 		}
 	}
 

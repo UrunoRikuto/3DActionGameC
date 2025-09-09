@@ -54,7 +54,7 @@ public:// アクセサ
 	// @brief 攻撃速度の取得
 	float GetAttackSpeed(void) const { return m_fAttackSpeed; }
 	// @brief 攻撃範囲の取得
-	const Collision::Info& GetAttackRange(void) const { return m_tAttackRange; }
+	Collision::Info& GetAttackRange(void) { return m_tAttackRange; }
 	// @brief 攻撃の持続時間の取得
 	float GetAttackDurationFrame(void) const { return m_fAttackDurationTime; }
 

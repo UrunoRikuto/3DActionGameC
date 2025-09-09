@@ -57,15 +57,6 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	case NpcType::Normal:
 		m_fViewDistance = Normal::VIEW_DISTANCE; // 通常NPCの視野距離を設定
 		break;
-	case NpcType::Target:
-		m_fViewDistance = Target::VIEW_DISTANCE; // ターゲットNPCの視野距離を設定
-		break;
-	case NpcType::Sniper:
-		m_fViewDistance = Sniper::VIEW_DISTANCE; // スナイパーNPCの視野距離を設定
-		break;
-	case NpcType::Patrol:
-		m_fViewDistance = Patrol::VIEW_DISTANCE; // 巡回NPCの視野距離を設定
-		break;
 	}
 
 	// プレイヤーの姿勢状態を取得
@@ -277,18 +268,6 @@ void CVisionSearch::UpdateViewAngle(void)
 	case NpcType::Normal:
 		viewAngle = Normal::VIEW_ANGLE;
 		viewDistance = Normal::VIEW_DISTANCE;
-		break;
-	case NpcType::Target:
-		viewAngle = Target::VIEW_ANGLE;
-		viewDistance = Target::VIEW_DISTANCE;
-		break;
-	case NpcType::Sniper:
-		viewAngle = Sniper::VIEW_ANGLE;
-		viewDistance = Sniper::VIEW_DISTANCE;
-		break;
-	case NpcType::Patrol:
-		viewAngle = Patrol::VIEW_ANGLE;
-		viewDistance = Patrol::VIEW_DISTANCE;
 		break;
 	}
 

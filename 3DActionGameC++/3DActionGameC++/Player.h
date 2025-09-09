@@ -51,6 +51,13 @@ public:
 	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
 	void Hit(const Collision::Info& InCollisionInfo) override;
 
+	/// <summary>
+	/// “–‚½‚è”»’è‚ÌÕ“Ë‚Ìˆ—(UŒ‚—p)
+	/// </summary>
+	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
+	/// <param name="In_Attack">‘Šè‚ÌUŒ‚—Í</param>
+	void Hit(const Collision::Info& InCollisionInfo, float In_Attack) override;
+
 private:
 
 	/// <summary>
@@ -74,6 +81,11 @@ private:
 	void LookRotation(void);
 
 private:
+
+	/// <summary>
+	/// ‘Ì—Í
+	/// </summary>
+	float m_fHp;
 
 	/// <summary>
 	/// Š‚µ‚Ä‚¢‚é•Ší

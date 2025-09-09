@@ -42,11 +42,11 @@ CSceneGame::CSceneGame()
 	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
 
 	// NPCの生成（ターゲットNPC）
-	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Target));
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Normal));
 	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
 
 	// NPCの生成（護衛NPC）
-	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Patrol));
+	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Normal));
 	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
 	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
@@ -273,13 +273,32 @@ void CSceneGame::AttackCollisionCheck(void)
 		{
 			if (SafeNullCheck(obj))
 			{
-				auto targetCollisionInfo = obj->GetCollisionInfo(Collision::Tag::Attack);
+				// 自分自身は除外
+				// 指定のタグが含まれている場合は除外
+				std::vector<Collision::Info>SkipTagCollision;
+
+				for (auto& tag : attackInfo.CollisionInfo.tag)
+				{
+					switch (tag)
+					{
+					case Collision::Tag::Npc:
+						SkipTagCollision = obj->GetCollisionInfo(Collision::Tag::Npc);
+						break;
+					case Collision::Tag::Player:
+						SkipTagCollision = obj->GetCollisionInfo(Collision::Tag::Player);
+						break;
+					}
+				}
+				// 指定のタグが含まれている場合は除外
+				if (!SkipTagCollision.empty()) continue;
+
+				auto targetCollisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
 				for (const auto& targetInfo : targetCollisionInfo)
 				{
 					Collision::Result result = Collision::Hit(attackInfo.CollisionInfo, targetInfo);
 					if (result.isHit)
 					{
-						obj->Hit(attackInfo.CollisionInfo); // 衝突時の処理を呼び出す
+						obj->Hit(attackInfo.CollisionInfo, attackInfo.AttackPower); // 衝突時の処理を呼び出す
 
 						// この攻撃の持続時間を0にする
 						attackInfo.DurationFrame = 0;

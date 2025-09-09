@@ -34,4 +34,11 @@ public:
 	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
 	void Hit(const Collision::Info& InCollisionInfo) override;
 
+	/// <summary>
+	/// “–‚½‚è”»’è‚ÌÕ“Ë(UŒ‚—p)
+	/// </summary>
+	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
+	/// <param name="In_Attack">‘Šè‚ÌUŒ‚—Í</param>
+	void Hit(const Collision::Info& InCollisionInfo, float In_Attack) override {};
+
 };

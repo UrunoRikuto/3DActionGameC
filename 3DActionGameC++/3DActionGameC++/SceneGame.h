@@ -26,6 +26,8 @@ struct AttackCollision
 	Collision::Info CollisionInfo;
 	// ‘±ƒtƒŒ[ƒ€
 	float DurationFrame;
+	// UŒ‚—Í
+	float AttackPower;
 
 	bool operator==(const AttackCollision& other) const
 	{

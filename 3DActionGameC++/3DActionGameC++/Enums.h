@@ -77,16 +77,11 @@ enum class PlayerPosture
 /*
 * @brief NPCの種類
 * @param 0：通常NPC
-* @param 1：ターゲットNPC
-* @param 2：スナイパーNPC
-* @param 3：巡回NPC
+* @param 1：標的NPC
 */
 enum class NpcType
 {
 	Normal,		// 通常NPC
-	Target,		// ターゲットNPC
-	Sniper,		// スナイパーNPC
-	Patrol,		// 巡回NPC
 	MAX,
 };
 

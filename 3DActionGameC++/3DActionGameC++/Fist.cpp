@@ -39,6 +39,8 @@ void CFist::SetParam(void)
 	// ボックスの中心座標とサイズを設定
 	m_tAttackRange.box.center = { 0.0f, 0.0f, 0.0f };
 	m_tAttackRange.box.size = { 3.0f, 3.0f, 3.0f };
+	// タグを追加
+	m_tAttackRange.tag.push_back(Collision::Tag::Attack);
 	// 攻撃の持続時間
 	m_fAttackDurationTime = 0.1f;
 }

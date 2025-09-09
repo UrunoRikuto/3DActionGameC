@@ -26,6 +26,7 @@ CPlayer::CPlayer()
 	, m_fUnderHeight(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_ePosture(PlayerPosture::Stand) // プレイヤーの姿勢状態を立っている状態に設定
 	, m_fAttackCD(0.0f) // 攻撃のクールタイムの初期値
+	, m_fHp(GameValue::Player::MAX_HP) // 体力の初期値
 {
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
@@ -59,6 +60,8 @@ CPlayer::CPlayer()
 
 	// 武器の生成
 	m_pWeapon = new CFist();
+	// 武器の当たり判定にプレイヤータグを追加
+	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Player);
 }
 
 // @brief デストラクタ
@@ -152,6 +155,42 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 	}
 }
 
+// @brief 当たり判定の衝突時の処理(攻撃用)
+// @param InCollisionInfo 衝突対象
+// @param In_Attack 相手の攻撃力
+void CPlayer::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
+{
+	int IsNpcAttackCheck = 0;
+
+	// NPCの攻撃に当たったかどうかを判定
+	// NPCタグと攻撃タグの両方があればNPCの攻撃に当たったと判定
+	for (auto& tag : InCollisionInfo.tag)
+	{
+		switch (tag)
+		{
+		case Collision::Tag::Npc:
+			IsNpcAttackCheck++;
+			break;
+		case Collision::Tag::Attack:
+			IsNpcAttackCheck++;
+			break;
+		}
+	}
+
+	// NPCの攻撃に当たった場合
+	if (IsNpcAttackCheck >= 2)
+	{
+		// 体力を減らす
+		m_fHp -= In_Attack;
+		// 体力が0以下になったら破棄フラグを立てる
+		if (m_fHp <= 0.0f)
+		{
+			m_bDestroy = true;
+			m_fHp = 0.0f;
+		}
+	}
+}
+
 // @brief 攻撃処理
 void CPlayer::Attack(void)
 {
@@ -188,7 +227,7 @@ void CPlayer::Attack(void)
 			if (scene == nullptr)return;
 
 			// 攻撃を生成
-			scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame() });
+			scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame(), m_pWeapon->GetAttackPower() });
 
 			// クールタイムを設定
 			m_fAttackCD = m_pWeapon->GetAttackSpeed();
