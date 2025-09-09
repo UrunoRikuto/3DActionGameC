@@ -81,6 +81,12 @@
     <Filter Include="コード ファイル\Component\Weapon\Base">
       <UniqueIdentifier>{db15166d-9ab6-4d20-82b5-f59790739374}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component\UI">
+      <UniqueIdentifier>{88f13f8f-fc7a-49d1-9894-a22597c254dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\Component\UI\Gauge">
+      <UniqueIdentifier>{3de88f70-8e37-4ea9-8879-5b92519c7d53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -200,6 +206,9 @@
     <ClCompile Include="Sword.cpp">
       <Filter>コード ファイル\Component\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="GaugeUI.cpp">
+      <Filter>コード ファイル\Component\UI\Gauge</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -318,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="WeaponInclude.h">
       <Filter>コード ファイル\Component\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="GaugeUI.h">
+      <Filter>コード ファイル\Component\UI\Gauge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

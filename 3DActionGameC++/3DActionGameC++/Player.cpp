@@ -59,7 +59,7 @@ CPlayer::CPlayer()
 	m_tCollisionInfos[0].box.size = StructMath::Add(m_tScale, XMFLOAT3(0.0f, m_tScale.y * 2, 0.0f));
 
 	// 武器の生成
-	m_pWeapon = new CFist();
+	m_pWeapon = new CSword();
 	// 武器の当たり判定にプレイヤータグを追加
 	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Player);
 }
@@ -196,18 +196,18 @@ void CPlayer::Attack(void)
 {
 	// 名前空間の使用宣言
 	using namespace InputKey::Player;
+	using namespace StructMath;
 
 	// 武器を設定していない場合は何もしない
 	if (!m_pWeapon)return;
 
 	// 武器の更新処理
 	// 向きを考慮して更新
-	XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
-	m_pWeapon->Update({
-		m_tPosition.x + sinf(TORAD(m_tRotation.y) + (weaponCollisionSize.x * 2)),
-		m_tPosition.y,
-		m_tPosition.z + cosf(TORAD(m_tRotation.y) + (weaponCollisionSize.z * 2))
-		});
+	XMFLOAT3 FrontDir = { sinf(TORAD(m_tRotation.y)),0.0f,cosf(TORAD(m_tRotation.y)) };
+
+	XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, Add(m_tPosition, FrontDir));
+
+	m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, m_pWeapon->GetAttackRange().box.size.x)));
 
 	// クールタイムが残っている場合はクールタイムを減らす
 	if (m_fAttackCD > 0.0f)

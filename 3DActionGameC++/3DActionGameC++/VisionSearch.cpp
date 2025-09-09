@@ -26,6 +26,7 @@ CVisionSearch::CVisionSearch(CNpcBase* In_Self)
 	, m_pSelfObject(In_Self)// 索敵を行うオブジェクトを設定
 	, m_fLostTimer(0.0f) // 見失いタイマーを初期化
 	, m_TrianglePoint{} // 三角形の頂点ポイントを初期化
+	, m_pDetectionGauge(nullptr) // 索敵ゲージを初期化
 {
 	m_pRay = new CRay(); // レイ(光線)のインスタンスを生成
 }
@@ -153,6 +154,21 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 				}
 			}
 		}
+		// ゲージUIが生成されていない場合は生成
+		if (m_pDetectionGauge == nullptr)
+		{
+			m_pDetectionGauge = new CGaugeUI(1.0f, true, GaugeType::Detection);
+			// ゲージUIのパラメータ設定
+			m_pDetectionGauge->SetParam({ 3.0f,2.0f,1.0f });
+		}
+		else
+		{
+			// ゲージUIの更新
+			m_pDetectionGauge->Updatde(
+				StructMath::Add(In_SelfPosition, XMFLOAT3(0.0f, 3.0f, 0.0f)), // 自身の位置の少し上に表示
+				m_fDetectionValue); // 発見値の割合を設定
+		}
+
 		break;
 	case VisionSearchState::Lost:
 		// ターゲットが視野距離内にいるかどうかをチェック
@@ -199,6 +215,12 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			m_fDetectionValue = MAX_DETECTION_TIME;
 			// 発見状態に遷移
 			return VisionSearchState::Discovery;
+			// ゲージUIの削除
+			if (m_pDetectionGauge != nullptr)
+			{
+				delete m_pDetectionGauge;
+				m_pDetectionGauge = nullptr;
+			}
 		}
 		break;
 	case VisionSearchState::Discovery:

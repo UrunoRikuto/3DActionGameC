@@ -81,6 +81,11 @@ CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 
 	// 体力の設定
 	m_fHp = GameValue::Npc::Normal::MAX_HP;
+
+	// 体力ゲージの作成
+	m_pHpGauge = new CGaugeUI(m_fHp, false, GaugeType::Health);
+	// 体力ゲージのパラメータ設定
+	m_pHpGauge->SetParam({ 5.0f,2.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 0.0f, 5.0f, 0.0f });
 }
 
 // @briefデストラクタ

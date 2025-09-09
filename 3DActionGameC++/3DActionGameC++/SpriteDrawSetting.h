@@ -10,6 +10,7 @@ void CreateSpriteObject(
 	DirectX::XMFLOAT3 pos = { 0.0f,0.0f,0.0f },
 	DirectX::XMFLOAT3 Scale = { 0.0f,0.0f,0.0f },
 	DirectX::XMFLOAT3 Rotate = { 0.0f,0.0f,0.0f },
+	DirectX::XMFLOAT4 Color = { 1.0f, 1.0f, 1.0f, 1.0f },
 	Sprite* pSprite = nullptr,
 	Camera* Camera = nullptr,
 	bool IsBillborad = false);

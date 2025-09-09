@@ -13,6 +13,7 @@
 #include "VisionSearch.h"
 #include "Player.h"
 #include "WeaponInclude.h"
+#include "GaugeUI.h"
 
 
 /// <summary>
@@ -64,6 +65,11 @@ protected:
 	virtual void Attack(void) = 0;
 
 protected:
+
+	/// <summary>
+	/// ‘Ì—ÍƒQ[ƒWUI
+	/// </summary>
+	CGaugeUI* m_pHpGauge;
 
 	/// <summary>
 	/// ‘Ì—Í

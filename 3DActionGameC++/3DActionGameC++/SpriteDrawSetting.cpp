@@ -2,36 +2,63 @@
 #include "Defines.h"
 #include "Geometory.h"
 
-void CreateSpriteObject(DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, Sprite* pSprite, Camera* Camera, bool IsBillborad)
+void CreateSpriteObject(DirectX::XMFLOAT3 Pos, DirectX::XMFLOAT3 Scale, DirectX::XMFLOAT3 Rotate, DirectX::XMFLOAT4 Color, Sprite* pSprite, Camera* Camera, bool IsBillborad)
 {
-	DirectX::XMFLOAT4X4 wvp[3];
-	DirectX::XMMATRIX world;
-	world = Setting(pos, Scale, Rotate);
-
-	DirectX::XMStoreFloat4x4(&wvp[0], DirectX::XMMatrixTranspose(world));
 	if (IsBillborad)
 	{
-		//ビルボードの実装
-		//DirectX::XMMATRIX Mview;
-		//DirectX::XMVECTOR Vview;
-		//DirectX::XMFLOAT4X4 F4x4view = Camera->GetViewMatrix();
-		//Mview = DirectX::XMLoadFloat4x4(&F4x4view);
-		//Mview = DirectX::XMMatrixInverse(nullptr, Mview);
-		//DirectX::XMStoreFloat4x4(&wvp[1], Mview);
+		DirectX::XMMATRIX mCamInv = DirectX::XMMatrixIdentity();
 
-		//wvp[1]._41 = 0.0f;
-		//wvp[1]._42 = 0.0f;
-		//wvp[1]._43 = 0.0f;
-		wvp[1] = Camera->GetViewMatrix();
+		//カメラがあるか確認
+		if (Camera)
+		{
+			//スプライト表示用の行列を設定
+			Sprite::SetView(Camera->GetViewMatrix());
+			Sprite::SetProjection(Camera->GetProjectionMatrix());
+
+			//カメラの行列からビルボード行列を計算
+			DirectX::XMFLOAT4X4 view = Camera->GetViewMatrix(false);
+			mCamInv = DirectX::XMLoadFloat4x4(&view);
+			mCamInv = DirectX::XMMatrixInverse(nullptr, mCamInv);
+			DirectX::XMStoreFloat4x4(&view, mCamInv);
+			view._41 = view._42 = view._43 = 0.0f; //移動部分の値を打ち消す
+			mCamInv = DirectX::XMLoadFloat4x4(&view);
+
+		}
+
+		//ビルボード込のワールド行列を用意
+		DirectX::XMMATRIX mWorld = mCamInv * DirectX::XMMatrixTranslation(Pos.x, Pos.y, Pos.z);
+		mWorld = DirectX::XMMatrixTranspose(mWorld);
+
+		//スプライトに設定するワールド行列を用意
+		DirectX::XMFLOAT4X4 world;
+		DirectX::XMStoreFloat4x4(&world, mWorld);
+
+		//スプライトを描画
+		Sprite::SetColor(Color);
+		Sprite::SetOffset({ 0.0f, 0.0f });
+		Sprite::SetSize({ Scale.x, Scale.z });
+		Sprite::SetWorld(world);
 	}
 	else
 	{
-		wvp[1] = Camera->GetViewMatrix();
+		//カメラがあるか確認
+		if (Camera)
+		{
+			//スプライト表示用の行列を設定
+			Sprite::SetView(Camera->GetViewMatrix());
+			Sprite::SetProjection(Camera->GetProjectionMatrix());
+		}
+		//ワールド行列を用意
+		DirectX::XMMATRIX mWorld = DirectX::XMMatrixIdentity();
+		DirectX::XMMATRIX R = DirectX::XMMatrixRotationRollPitchYaw(Rotate.x, Rotate.y, Rotate.z);
+		DirectX::XMMATRIX S = DirectX::XMMatrixScaling(Scale.x, Scale.z, Scale.y);
+		DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(Pos.x, Pos.y, Pos.z);
+		mWorld = S * R * T;
+		mWorld = DirectX::XMMatrixTranspose(mWorld);
+		//スプライトに設定するワールド行列を用意
+		DirectX::XMFLOAT4X4 world;
+		DirectX::XMStoreFloat4x4(&world, mWorld);
+		Sprite::SetColor(Color);
+		pSprite->SetWorld(world);
 	}
-
-	wvp[2] = Camera->GetProjectionMatrix();
-
-	pSprite->SetWorld(wvp[0]);
-	pSprite->SetView(wvp[1]);
-	pSprite->SetProjection(wvp[2]);
 }

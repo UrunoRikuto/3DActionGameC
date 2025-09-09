@@ -137,6 +137,7 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Fist.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GaugeUI.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="GuardNpc.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Fist.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameValues.h" />
+    <ClInclude Include="GaugeUI.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="GuardNpc.h" />
     <ClInclude Include="Input.h" />

@@ -7,6 +7,7 @@
 /* システム・要素のインクルード */
 #include "StructMath.h"
 #include "Enums.h"
+#include "GaugeUI.h"
 
 /* 前方宣言 */
 class CNpcBase;
@@ -94,6 +95,11 @@ private:
 	float m_fDetectionValue;
 
 	/// <summary>
+	/// 発見値のゲージUI
+	/// </summary>
+	CGaugeUI* m_pDetectionGauge;
+
+	/// <summary>
 	/// 見失い状態になるまでの経過時間
 	/// </summary>
 	float m_fLostTimer;
@@ -119,5 +125,11 @@ public:// アクセサ
 	/// </summary>
 	/// <returns>発見値</returns>
 	float GetDetectionValue(void) const { return m_fDetectionValue; }
+
+	/// <summary>
+	/// 索敵値のゲージUIの取得
+	/// </summary>
+	/// <returns>索敵値のゲージUI</returns>
+	CGaugeUI* GetDetectionGauge(void) const { return m_pDetectionGauge; }
 };
 

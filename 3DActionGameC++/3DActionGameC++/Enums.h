@@ -99,3 +99,15 @@ enum class AttackType
 	Blast,		// ”šŒ‚
 	Pierce,		// hŒ‚
 };
+
+/*
+* @brief ƒQ[ƒW‚Ìí—Ş
+* @param 0F‘Ì—Í
+* @param 1Fõ“G
+*/
+enum class GaugeType
+{
+	Health,			// ‘Ì—Í
+	Detection,		// õ“G
+	MAX,
+};

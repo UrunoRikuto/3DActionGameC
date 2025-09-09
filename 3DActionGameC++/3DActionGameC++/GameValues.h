@@ -17,6 +17,14 @@ namespace ModelPath
 	constexpr const char* GUARD_NPC_PATH = MODEL_PATH("GuardNPC.obj");
 }
 
+/* テクスチャのパス定義 */
+namespace TexturePath
+{
+	// Hpゲージのテクスチャパス
+	constexpr const char* HP_GAUGE_PATH = TEXTURE_PATH("UI/HpGauge.png");
+	// 索敵ゲージのテクスチャパス
+	constexpr const char* DETECTION_GAUGE_PATH = TEXTURE_PATH("UI/DetectionGauge.png");
+}
 /* ゲームの値 */
 namespace GameValue
 {

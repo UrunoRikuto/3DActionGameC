@@ -16,6 +16,7 @@ CNpcBase::CNpcBase(NpcType InType)
 	, m_eSearchState(VisionSearchState::None) // 索敵状態を初期化
 	, m_fAttackCD(0.0f) // 攻撃のクールタイムを初期化
 	, m_bAttack(false) // 攻撃中かどうかの初期化
+	, m_pHpGauge(nullptr) // 体力ゲージの初期化
 {
 	// モデルの作成
 	m_pModel = std::make_unique<Model>();
@@ -38,6 +39,9 @@ void CNpcBase::Update(void)
 
 	// 索敵システムの更新(索敵)
 	SetSearchState(m_pVisionSearch->Search(m_tPosition, m_eSearchState));
+
+	// Hpゲージの更新
+	if (m_pHpGauge)m_pHpGauge->Updatde(m_tPosition, m_fHp);
 }
 
 // @brief 描画処理
@@ -45,6 +49,9 @@ void CNpcBase::Draw(void)
 {
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
+
+	// 体力ゲージの描画
+	m_pHpGauge->Draw();
 	
 	// 移動システムのデバッグ描画
 	m_pMoveSystem->DebugDraw(XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
