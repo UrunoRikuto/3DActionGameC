@@ -11,6 +11,7 @@
 #include "Defines.h"
 #include "VertexBuffer.h"
 #include "Input.h"
+#include "Mouse.h"
 #include "Main.h"
 
 // @brief コンストラクタ
@@ -50,7 +51,7 @@ CSceneTitle::~CSceneTitle()
 // @brief 更新処理
 void CSceneTitle::Update(void)
 {
-	if (IsKeyTrigger(VK_RETURN))
+	if (IsKeyTrigger(VK_RETURN) || MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 	{
 		//シーン切り替え処理
 		ChangeScene(SceneType::Game);

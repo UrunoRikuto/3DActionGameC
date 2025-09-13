@@ -133,15 +133,5 @@ namespace InputKey
 		// 動作 ジャンプ
 		constexpr BYTE JUMP
 			= VK_SPACE;
-		// 視点 左回転
-		constexpr BYTE LOOK_LEFT
-			= VK_LEFT;
-		// 視点 右回転
-		constexpr BYTE LOOK_RIGHT
-			= VK_RIGHT;
-
-		// 攻撃
-		constexpr BYTE ATTACK
-			= VK_UP;
 	}
 }
