@@ -77,7 +77,6 @@ enum class PlayerPosture
 /*
 * @brief NPCの種類
 * @param 0：通常NPC
-* @param 1：標的NPC
 */
 enum class NpcType
 {
@@ -109,5 +108,17 @@ enum class GaugeType
 {
 	Health,			// 体力
 	Detection,		// 索敵
+	MAX,
+};
+
+/*
+* @brief フィールドオブジェクトの種類
+* @param 0：壁
+* @param 1：地面
+*/
+enum class FieldObjectType
+{
+	Wall,		// 壁
+	Ground,		// 地面
 	MAX,
 };

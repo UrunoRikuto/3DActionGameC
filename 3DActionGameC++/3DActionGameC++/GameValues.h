@@ -103,6 +103,13 @@ namespace GameValue
 
 	}
 
+	// 移動システムの値
+	namespace MoveSystem
+	{
+		// 通過可能な幅
+		constexpr float PASSABLE_RANGE = 10.0f;
+	}
+
 }
 
 /* 入力キー */

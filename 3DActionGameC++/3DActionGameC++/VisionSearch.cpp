@@ -46,6 +46,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	// 名前空間の使用
 	using namespace GameValue::Npc;
 	using namespace GameValue::VisionSearch;
+	using namespace StructMath;
 
 	// 視野角の更新
 	UpdateViewAngle();
@@ -84,7 +85,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	XMFLOAT3 TargetPos = pTarget->GetPosition();
 
 	// ターゲットとの距離を計算
-	float distance = StructMath::Distance(In_SelfPosition, TargetPos);
+	float distance = Distance(In_SelfPosition, TargetPos);
 
 	// 索敵状態によって処理を分岐
 	switch (In_CurrentSearchState)
@@ -96,7 +97,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			// ターゲットのいる位置
 			m_pRay->SetOrigin(In_SelfPosition);
 			// ターゲットの方向を計算
-			m_pRay->SetDirection(StructMath::Normalize(StructMath::Sub(TargetPos, In_SelfPosition)));
+			m_pRay->SetDirection(Normalize(Sub(TargetPos, In_SelfPosition)));
 
 			// 視野角内にターゲットがいるかどうかのチェック
 			if (CheckTargetInViewAngle())
@@ -165,7 +166,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 		{
 			// ゲージUIの更新
 			m_pDetectionGauge->Updatde(
-				StructMath::Add(In_SelfPosition, XMFLOAT3(0.0f, 3.0f, 0.0f)), // 自身の位置の少し上に表示
+				Add(In_SelfPosition, XMFLOAT3(0.0f, 3.0f, 0.0f)), // 自身の位置の少し上に表示
 				m_fDetectionValue); // 発見値の割合を設定
 		}
 
@@ -344,7 +345,7 @@ bool CVisionSearch::CheckObstacle(void) const
 	for (auto object : pSceneGame->GetAllFieldObjects())
 	{
 		// オブジェクトのコリジョン情報を取得
-		if (m_pRay->Cast(object->GetCollisionInfo()))
+		if (m_pRay->Cast(object->GetCollisionInfo(Collision::Tag::FieldObject)))
 		{
 			// 障害物があることを示す
 			return true;

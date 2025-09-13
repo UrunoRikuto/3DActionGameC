@@ -17,6 +17,9 @@
 CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	: CNpcBase(NpcType) // 基底クラスのコンストラクタを呼び出す
 {
+	// 名前空間の使用
+	using namespace StructMath;
+
 	// モデルの読み込み
 	if (!m_pModel->Load(ModelPath::TARGET_NPC_PATH))
 	{
@@ -48,7 +51,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Npc);
 	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Head);
 	// 中心位置を設定
-	m_tCollisionInfos[0].box.center = StructMath::Add(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
+	m_tCollisionInfos[0].box.center = Add(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
 	m_tCollisionInfos[0].AdjustCenter = XMFLOAT3(0.0f, m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[0].box.size = m_tScale;
@@ -70,7 +73,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// タグを追加
 	m_tCollisionInfos[2].tag.push_back(Collision::Tag::Foot);
 	// 中心位置を設定
-	m_tCollisionInfos[2].box.center = StructMath::Sub(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
+	m_tCollisionInfos[2].box.center = Sub(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
 	m_tCollisionInfos[2].AdjustCenter = XMFLOAT3(0.0f, -m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;

@@ -42,9 +42,6 @@
     <Filter Include="コード ファイル\GameObject">
       <UniqueIdentifier>{30aaef5c-0d03-46dc-86a3-2f619db7d54e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\GameObject\Field">
-      <UniqueIdentifier>{ad252a39-41b0-42be-bc5c-cc752c9b5c15}</UniqueIdentifier>
-    </Filter>
     <Filter Include="コード ファイル\BaseSystem\Model\DrawSetting">
       <UniqueIdentifier>{abba8bb9-3bb8-431e-bf40-ea86bd0d5fdd}</UniqueIdentifier>
     </Filter>
@@ -86,6 +83,9 @@
     </Filter>
     <Filter Include="コード ファイル\Component\UI\Gauge">
       <UniqueIdentifier>{3de88f70-8e37-4ea9-8879-5b92519c7d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\GameObject\FieldObject">
+      <UniqueIdentifier>{ebc34e4c-cc6e-4a66-ba5f-6a7c0dfc7b17}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     <ClCompile Include="Setting.cpp">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>コード ファイル\GameObject\Field</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>コード ファイル\GameObject</Filter>
     </ClCompile>
@@ -208,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="GaugeUI.cpp">
       <Filter>コード ファイル\Component\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldObject.cpp">
+      <Filter>コード ファイル\GameObject\FieldObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,9 +277,6 @@
     <ClInclude Include="Setting.h">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
     </ClInclude>
-    <ClInclude Include="Field.h">
-      <Filter>コード ファイル\GameObject\Field</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>コード ファイル\GameObject</Filter>
     </ClInclude>
@@ -330,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="GaugeUI.h">
       <Filter>コード ファイル\Component\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldObject.h">
+      <Filter>コード ファイル\GameObject\FieldObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

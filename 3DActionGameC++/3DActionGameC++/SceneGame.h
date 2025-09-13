@@ -15,7 +15,7 @@
 
 /* 前方宣言 */
 class CGameObject;
-class CField;
+class CFieldObject;
 class CPlayer;
 class CNpcBase;
 
@@ -88,8 +88,8 @@ private:
 	/// </summary>
 	void AttackCollisionCheck(void);
 private:
-	// フィールドオブジェクトのポインタ
-	std::vector<std::unique_ptr<CField>> m_pField;
+	// フィールドオブジェクト
+	std::vector<std::unique_ptr<CFieldObject>> m_pFieldObject;
 	// プレイヤーオブジェクトのポインタ
 	std::unique_ptr<CPlayer> m_pPlayer;
 	// NPCオブジェクトのポインタ
@@ -97,4 +97,3 @@ private:
 	// 攻撃の当たり判定リスト
 	std::vector<AttackCollision> m_vAttackCollisionInfos;
 };
-

@@ -27,14 +27,14 @@ public:
 		Player,
 		// ターゲットNPC
 		Npc,
-		// フィールド
-		Field,
 		// 頭
 		Head,
 		// 体
 		Body,
 		// 足
 		Foot,
+		// フィールド
+		FieldGround,
 		// フィールドオブジェクト(索敵妨害をしたりできる)
 		FieldObject,
 		// 攻撃

@@ -44,13 +44,13 @@ public:
 	/// “–‚½‚è”»’è‚ÌÕ“Ë‚Ìˆ—
 	/// </summary>
 	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
-	virtual void Hit(const Collision::Info& InCollisionInfo) = 0;
+	virtual void Hit(const Collision::Info& InCollisionInfo);
 	/// <summary>
 	/// “–‚½‚è”»’è‚ÌÕ“Ë‚Ìˆ—(UŒ‚—p)
 	/// </summary>
 	/// <param name="InCollisionInfo">Õ“Ë‘ÎÛ</param>
 	/// <param name="In_Attack">‘Šè‚ÌUŒ‚—Í</param>
-	virtual void Hit(const Collision::Info& InCollisionInfo,float In_Attack) = 0;
+	virtual void Hit(const Collision::Info& InCollisionInfo,float In_Attack);
 
 protected:
 	/// <summary>

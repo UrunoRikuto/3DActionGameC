@@ -29,9 +29,8 @@ CRay::~CRay()
 bool CRay::Cast(std::vector<Collision::Info> In_TargetInfos)
 {
 	/// @Todo レイとBoxの当たり判定を実装する
-	/// 現在はy軸を無視してX軸とZ軸の範囲内にあるかどうかで判定
 
-
+	
 	// ターゲット情報をループ
 	for (const auto& TargetInfo : In_TargetInfos) 
 	{

@@ -109,10 +109,6 @@ void CNpcBase::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 // @param InState 設定する索敵状態
 void CNpcBase::SetSearchState(VisionSearchState InState)
 {
-	/// @Todo 索敵状態に応じた処理を追加する
-	/// 例: Noneから状態が変化した場合はMoveSystemの移動ポイントを仮保存しておくなど
-	/// (次にNoneに戻ったときに同じルートを回れるように)
-
 	// 状態が変化していない場合は何もしない
 	if (m_eSearchState == InState)return;
 

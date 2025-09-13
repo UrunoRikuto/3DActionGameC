@@ -142,7 +142,8 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 	{
 		switch (tag)
 		{
-		case Collision::Tag::Field:
+		case Collision::Tag::FieldGround:
+		case Collision::Tag::FieldObject:
 			if (InCollisionInfo.box.center.y - m_tPosition.y > -0.1f)
 			{
 				m_tPosition = m_tOldPosition; // プレイヤーの位置を前の位置に戻す

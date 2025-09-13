@@ -66,6 +66,14 @@ void CGameObject::Draw()
 	);
 }
 
+void CGameObject::Hit(const Collision::Info& InCollisionInfo)
+{
+}
+
+void CGameObject::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
+{
+}
+
 // @brief “–‚½‚è”»’èî•ñ‚ğ’Ç‰Á‚·‚éŠÖ”
 // @param InTag ’Ç‰Á‚·‚é“–‚½‚è”»’èî•ñ
 std::vector<Collision::Info> CGameObject::GetCollisionInfo(Collision::Tag InTag)

@@ -8,7 +8,7 @@
 /* ヘッダーで利用するシステムのインクルード */
 #include <memory>
 /* ゲームオブジェクトのインクルード */
-#include "Field.h"
+#include "FieldObject.h"
 #include "Player.h"
 #include "TargetNpc.h"
 #include "GuardNpc.h"
@@ -32,8 +32,13 @@ CSceneGame::CSceneGame()
 	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // 移動ポイントの生成
 
 	// フィールドの生成
-	m_pField.push_back(std::make_unique<CField>());
-	m_pField[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
+	// 地面の生成
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
+	// 壁の生成
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
+	m_pFieldObject[1]->SetPosition(XMFLOAT3(100.0f, 5.0f, 200.0f));
+	m_pFieldObject[1]->SetScale(XMFLOAT3(20.0f, 10.0f, 1.0f));
 
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
@@ -56,7 +61,7 @@ CSceneGame::CSceneGame()
 		npc->SetTarget(m_pPlayer.get());
 	}
 
-	for (auto& field : m_pField)
+	for (auto& field : m_pFieldObject)
 	{
 		g_vNullCheckList.push_back(field.get()); // フィールドのNullチェック用リストに追加
 	}
@@ -252,9 +257,9 @@ void CSceneGame::CollisionCheck(void)
 // @brief レイキャストのチェック
 void CSceneGame::RayCastCheck(void)
 {
-	for (auto& obj : m_pField)
+	for (auto& obj : m_pFieldObject)
 	{
-		if (m_pPlayer->GetRay()->Cast(obj->GetCollisionInfo()))
+		if (m_pPlayer->GetRay()->Cast(obj->GetCollisionInfo(Collision::Tag::FieldGround)))
 		{
 			// レイキャストが当たった場合、プレイヤーの真下の地面の高さを設定
 			m_pPlayer->SetUnderHeight(obj->GetPosition().y + obj->GetScale().y / 2.0f);
