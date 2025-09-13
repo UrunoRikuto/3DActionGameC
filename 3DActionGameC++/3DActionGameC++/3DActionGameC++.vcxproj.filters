@@ -209,6 +209,9 @@
     <ClCompile Include="FieldObject.cpp">
       <Filter>コード ファイル\GameObject\FieldObject</Filter>
     </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>コード ファイル\BaseSystem\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -330,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="FieldObject.h">
       <Filter>コード ファイル\GameObject\FieldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>コード ファイル\BaseSystem\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

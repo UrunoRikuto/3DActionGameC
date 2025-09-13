@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Geometory.h"
 #include "Input.h"
+#include "Mouse.h"
 #include "Defines.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
@@ -34,6 +35,7 @@ HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 	Sprite::Init();
 	// ‘¼‹@”\‰Šú‰»
 	InitInput();
+	MouseInput::Init();
 	ShaderList::Init();
 
 	pRTV = GetDefaultRTV();
@@ -61,6 +63,7 @@ void Uninit()
 void Update()
 {
 	UpdateInput();
+	MouseInput::Update();
 	g_pScene->Update();
 }
 

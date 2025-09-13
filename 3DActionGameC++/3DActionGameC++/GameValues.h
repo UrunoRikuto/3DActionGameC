@@ -34,7 +34,7 @@ namespace GameValue
 		// 移動速度
 		constexpr float MOVE_SPEED = 0.5f;
 		// 回転速度
-		constexpr float ROTATION_SPEED = 1.0f;
+		constexpr float ROTATION_SPEED = 2.5f;
 		// ジャンプの最大高さ
 		constexpr float JUMP_HEIGHT = 5.0f;
 		// ジャンプの総フレーム数

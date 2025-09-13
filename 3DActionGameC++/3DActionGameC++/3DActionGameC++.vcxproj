@@ -149,6 +149,7 @@
     <ClCompile Include="Model_check.cpp" />
     <ClCompile Include="Model_get.cpp" />
     <ClCompile Include="Model_morph.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MovePointManager.cpp" />
     <ClCompile Include="MoveSystem.cpp" />
     <ClCompile Include="NpcBase.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelDrawSetting.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="MovePointManager.h" />
     <ClInclude Include="MoveSystem.h" />
     <ClInclude Include="NpcBase.h" />

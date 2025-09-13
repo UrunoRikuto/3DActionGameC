@@ -15,6 +15,7 @@
 #include "ModelDrawSetting.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Mouse.h"
 
 // @brief コンストラクタ
 CPlayer::CPlayer()
@@ -219,7 +220,7 @@ void CPlayer::Attack(void)
 	else
 	{
 		// 攻撃キーが押されたら
-		if (IsKeyTrigger(ATTACK))
+		if (MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 		{
 			// シーンの取得
 			auto scene = (CSceneGame*)GetCurrentScene();
@@ -351,13 +352,13 @@ void CPlayer::LookRotation(void)
 	using namespace InputKey::Player;
 	using namespace GameValue::Player;
 	// 左回転
-	if (IsKeyPress(LOOK_LEFT))
+	if (MouseInput::IsMove(MouseInput::MouseMove::Left))
 	{
 		m_tRotation.y -= ROTATION_SPEED;
 	}
 	// 右回転
-	if (IsKeyPress(LOOK_RIGHT))
+	if (MouseInput::IsMove(MouseInput::MouseMove::Right))
 	{
-		m_tRotation.y += ROTATION_SPEED; // 右向き
+		m_tRotation.y += ROTATION_SPEED;
 	}
 }
