@@ -169,8 +169,8 @@ void CGuardNpc::Attack(void)
 		// UŒ‚”ÍˆÍŠO‚È‚ç‰½‚à‚µ‚È‚¢
 		XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
 
-		if (StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
-			StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
+		if (Abs(Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
+			Abs(Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
 		{
 			m_bAttack = false;
 			return;

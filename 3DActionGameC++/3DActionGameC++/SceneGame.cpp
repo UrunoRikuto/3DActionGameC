@@ -26,35 +26,32 @@ std::vector<CGameObject*> g_vNullCheckList; // Nullƒ`ƒFƒbƒN—p‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒ
 
 void CSceneGame::InitArenaStage(void)
 {
-
 	// ƒtƒB[ƒ‹ƒh‚Ì¶¬
 	// ’n–Ê‚Ì¶¬
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(400.0f, 1.0f, 400.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
-	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(100.0f, 1.0f, 100.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, 2.0f, 100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
+
 	// •Ç‚Ì¶¬
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(400.0f, 20.0f, 1.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 200.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(400.0f, 20.0f, 1.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, -100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, -200.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(0.0f, 20.0f, 400.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(100.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(400.0f, 20.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(200.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(0.0f, 20.0f, 400.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
-	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-100.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(400.0f, 20.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-200.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
 
 	// ˆÚ“®ƒ|ƒCƒ“ƒg‚Ì¶¬
 	CMovePointManager::GetInstance()->CreateData(CQuest::GetInstance()->GetQuestData().stageType);
@@ -67,6 +64,9 @@ void CSceneGame::InitArenaStage(void)
 	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[2]);
 	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
 	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+
+	// ƒvƒŒƒCƒ„[‚ÌˆÊ’uİ’è
+	m_pPlayer->SetPosition(XMFLOAT3(0.0f, 0.0f, -180.0f));
 }
 
 void CSceneGame::InitPlainStage(void)
@@ -90,7 +90,11 @@ void CSceneGame::InitPlainStage(void)
 CSceneGame::CSceneGame()
 	:CSceneBase()
 {
+	// –¼‘O‹óŠÔ‚Ìg—p
 	using namespace GameValue;
+
+	// ƒvƒŒƒCƒ„[‚Ì¶¬
+	m_pPlayer = std::make_unique<CPlayer>();
 
 	switch (CQuest::GetInstance()->GetQuestData().stageType)
 	{
@@ -101,10 +105,6 @@ CSceneGame::CSceneGame()
 		InitPlainStage(); // •½Œ´ƒXƒe[ƒW‚Ì‰Šú‰»
 		break;
 	}
-
-
-	// ƒvƒŒƒCƒ„[‚Ì¶¬
-	m_pPlayer = std::make_unique<CPlayer>();
 
 	// ‹Šoõ“Gˆ—‚Ìƒ^[ƒQƒbƒgİ’è
 	for (auto& npc : m_pNpc)
