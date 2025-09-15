@@ -33,9 +33,11 @@ public:
 		Body,
 		// 足
 		Foot,
-		// フィールド
+		// フィールドの地面
 		FieldGround,
-		// フィールドオブジェクト(索敵妨害をしたりできる)
+		// フィールドの壁
+		FieldWall,
+		// フィールドの障害物
 		FieldObject,
 		// 攻撃
 		Attack,

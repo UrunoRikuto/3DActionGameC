@@ -19,18 +19,21 @@
 std::unique_ptr<CMovePointManager> CMovePointManager::m_pInstance = nullptr;
 
 // @brief 移動ポイントの作成
-void CMovePointManager::CreateData(FieldType In_Type)
+void CMovePointManager::CreateData(StageType In_Type)
 {
 	// フィールドの種類に応じて移動ポイントを設定
 	switch (In_Type)
 	{
-	case FieldType::Plain:
+	case StageType::Arena:
+		// 闘技場の移動ポイントを設定
+		m_MovePoints.push_back(XMFLOAT3(0.0f, 0.0f, 0.0f));
+		m_MovePoints.push_back(XMFLOAT3(50.0f, 0.0f, 50.0f));
+		m_MovePoints.push_back(XMFLOAT3(-50.0f, 0.0f, -50.0f));
+		m_MovePoints.push_back(XMFLOAT3(50.0f, 0.0f, -50.0f));
+		m_MovePoints.push_back(XMFLOAT3(-50.0f, 0.0f, 50.0f));
+		break;
+	case StageType::Plain:
 		// 平原の移動ポイントを設定
-		m_MovePoints.push_back(XMFLOAT3(100.0f, 1.0f,100.0f));
-		m_MovePoints.push_back(XMFLOAT3(100.0f, 1.0f,200.0f));
-		m_MovePoints.push_back(XMFLOAT3(200.0f, 1.0f,100.0f));
-		m_MovePoints.push_back(XMFLOAT3(300.0f, 1.0f,100.0f));
-		m_MovePoints.push_back(XMFLOAT3(300.0f, 1.0f,200.0f));
 		break;
 	}
 

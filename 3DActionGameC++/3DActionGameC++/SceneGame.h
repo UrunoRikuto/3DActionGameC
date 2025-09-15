@@ -40,6 +40,12 @@ struct AttackCollision
 /// </summary>
 class CSceneGame : public CSceneBase
 {
+private:
+	// 闘技場ステージの初期化
+	void InitArenaStage(void);
+	// 平原ステージの初期化
+	void InitPlainStage(void);
+
 public:
 	/// <summary>
 	/// コンストラクタ

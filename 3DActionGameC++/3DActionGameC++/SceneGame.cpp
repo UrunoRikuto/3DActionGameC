@@ -19,9 +19,68 @@
 #include "Defines.h"
 #include "GameValues.h"
 #include "MovePointManager.h"
+#include "Quest.h"
 
 /* グローバル変数 */
 std::vector<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
+
+void CSceneGame::InitArenaStage(void)
+{
+
+	// フィールドの生成
+	// 地面の生成
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[0]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[0]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	// 壁の生成
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
+	m_pFieldObject[1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
+	m_pFieldObject[1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[1]->GetScale().y / 2.0f, 100.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
+	m_pFieldObject[2]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[2]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
+	m_pFieldObject[2]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[2]->GetScale().y / 2.0f, -100.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
+	m_pFieldObject[3]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[3]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
+	m_pFieldObject[3]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
+	m_pFieldObject[3]->SetPosition(XMFLOAT3(100.0f, m_pFieldObject[3]->GetScale().y / 2.0f, 0.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
+	m_pFieldObject[4]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[4]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
+	m_pFieldObject[4]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
+	m_pFieldObject[4]->SetPosition(XMFLOAT3(-100.0f, m_pFieldObject[4]->GetScale().y / 2.0f, 0.0f));
+
+	// 移動ポイントの生成
+	CMovePointManager::GetInstance()->CreateData(CQuest::GetInstance()->GetQuestData().stageType);
+	//- 移動ポイントマネージャーのインスタンスを取得
+	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
+
+	// NPCの生成（ターゲットNPC）
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::ArenaTarget));
+	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[2]);
+	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
+	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+}
+
+void CSceneGame::InitPlainStage(void)
+{
+	//// 移動ポイントの生成
+	//CMovePointManager::GetInstance()->CreateData(FieldType::Plain);
+	////- 移動ポイントマネージャーのインスタンスを取得
+	//std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
+
+	//// NPCの生成（ターゲットNPC）
+	//m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Normal));
+	//m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+
+	//// NPCの生成（護衛NPC）
+	//m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Normal));
+	//m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
+	//m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+}
 
 // @brief コンストラクタ
 CSceneGame::CSceneGame()
@@ -29,31 +88,19 @@ CSceneGame::CSceneGame()
 {
 	using namespace GameValue;
 
-	CMovePointManager::GetInstance()->CreateData(FieldType::Plain); // 移動ポイントの生成
+	switch (CQuest::GetInstance()->GetQuestData().stageType)
+	{
+	case StageType::Arena:
+		InitArenaStage(); // 闘技場ステージの初期化
+		break;
+	case StageType::Plain:
+		InitPlainStage(); // 平原ステージの初期化
+		break;
+	}
 
-	// フィールドの生成
-	// 地面の生成
-	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
-	m_pFieldObject[0]->SetScale(XMFLOAT3(1000.0f, 1.0f, 1000.0f));
-	// 壁の生成
-	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[1]->SetPosition(XMFLOAT3(100.0f, 5.0f, 200.0f));
-	m_pFieldObject[1]->SetScale(XMFLOAT3(20.0f, 10.0f, 1.0f));
 
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
-
-	//- 移動ポイントマネージャーのインスタンスを取得
-	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
-
-	// NPCの生成（ターゲットNPC）
-	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Normal));
-	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
-
-	// NPCの生成（護衛NPC）
-	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Normal));
-	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
-	m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
 	// 視覚索敵処理のターゲット設定
 	for (auto& npc : m_pNpc)
@@ -61,14 +108,15 @@ CSceneGame::CSceneGame()
 		npc->SetTarget(m_pPlayer.get());
 	}
 
+	// Nullチェック用リストに追加
 	for (auto& field : m_pFieldObject)
 	{
-		g_vNullCheckList.push_back(field.get()); // フィールドのNullチェック用リストに追加
+		g_vNullCheckList.push_back(field.get()); // フィールド
 	}
-	g_vNullCheckList.push_back(m_pPlayer.get()); // プレイヤーのNullチェック用リストに追加
+	g_vNullCheckList.push_back(m_pPlayer.get()); // プレイヤー
 	for (auto& npc : m_pNpc)
 	{
-		g_vNullCheckList.push_back(npc.get()); // NPCのNullチェック用リストに追加
+		g_vNullCheckList.push_back(npc.get()); // NPC
 	}
 }
 

@@ -56,8 +56,8 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	//  NPC‚Ìí—Ş‚É‚æ‚Á‚Ä‹”F‹——£‚ğ’²®
 	switch (npcType)
 	{
-	case NpcType::Normal:
-		m_fViewDistance = Normal::VIEW_DISTANCE; // ’ÊíNPC‚Ì‹–ì‹——£‚ğİ’è
+	case NpcType::ArenaTarget:
+		m_fViewDistance = ArenaTarget::VIEW_DISTANCE; // ’ÊíNPC‚Ì‹–ì‹——£‚ğİ’è
 		break;
 	}
 
@@ -288,9 +288,9 @@ void CVisionSearch::UpdateViewAngle(void)
 	//  NPC‚Ìí—Ş‚É‚æ‚Á‚Ä‹”F‹——£‚Æ‹–ìŠp‚ğ’²®
 	switch (npcType)
 	{
-	case NpcType::Normal:
-		viewAngle = Normal::VIEW_ANGLE;
-		viewDistance = Normal::VIEW_DISTANCE;
+	case NpcType::ArenaTarget:
+		viewAngle = ArenaTarget::VIEW_ANGLE;
+		viewDistance = ArenaTarget::VIEW_DISTANCE;
 		break;
 	}
 

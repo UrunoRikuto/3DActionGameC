@@ -79,6 +79,11 @@ protected:
 	XMFLOAT3 m_tScale;
 
 	/// <summary>
+	/// モデルの大きさ調整用
+	/// </summary>
+	XMFLOAT3 m_tModelScaleAjast;
+
+	/// <summary>
 	/// 回転情報
 	/// </summary>
 	XMFLOAT3 m_tRotation;
@@ -120,6 +125,12 @@ public: // メンバ変数のアクセサ
 	/// </summary>
 	/// <returns>スケール情報</returns>
 	const XMFLOAT3& GetScale() const { return m_tScale; }
+
+	/// <summary>
+	/// モデルの大きさ調整用の設定
+	/// </summary>
+	/// <param name="modelScaleAjast">新しい調整値</param>
+	void SetModelScaleAjast(const XMFLOAT3& modelScaleAjast) { m_tModelScaleAjast = modelScaleAjast; }
 
 	/// <summary>
 	/// 回転情報の設定

@@ -78,13 +78,17 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;
 
-	// 武器の生成
-	m_pWeapon = new CFist();
-	// 武器の当たり判定にNPCタグを追加
-	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Npc);
-
-	// 体力の設定
-	m_fHp = GameValue::Npc::Normal::MAX_HP;
+	switch (m_eNpcType)
+	{
+	case NpcType::ArenaTarget:
+		// 武器の生成
+		m_pWeapon = new CSword();
+		// 武器の当たり判定にNPCタグを追加
+		m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Npc);
+		// 体力の設定
+		m_fHp = GameValue::Npc::ArenaTarget::MAX_HP;
+		break;
+	}
 
 	// 体力ゲージの作成
 	m_pHpGauge = new CGaugeUI(m_fHp, false, GaugeType::Health);
@@ -110,9 +114,10 @@ void CTargetNpc::Update(void)
 	CNpcBase::Update();
 
 	// 攻撃
-	Attack();
+	//Attack();
 	// 移動
 	Move();
+
 }
 
 // @brief 移動処理
@@ -120,6 +125,7 @@ void CTargetNpc::Move(void)
 {
 	// 名前空間の使用
 	using namespace StructMath;
+	using namespace GameValue::Npc;
 
 	XMFLOAT3 movePoint = XMFLOAT3();
 
@@ -131,7 +137,8 @@ void CTargetNpc::Move(void)
 		movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
 		break;
 	case VisionSearchState::Discovery:
-		movePoint = m_pTargetObject->GetPosition();
+		XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
+		movePoint = { playerPos.x,m_tPosition.y,playerPos.z };
 		break;
 	}
 

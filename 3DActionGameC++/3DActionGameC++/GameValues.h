@@ -53,15 +53,20 @@ namespace GameValue
 	namespace Npc
 	{
 		// 通常NPCの値
-		namespace Normal
+		namespace ArenaTarget
 		{
 			// 視野角
 			constexpr float VIEW_ANGLE = 60.0f; // 度
 			// 視野距離
 			constexpr float VIEW_DISTANCE = 200.0f; // メートル
 			// 体力
-			constexpr float MAX_HP = 100.0f;
+			constexpr float MAX_HP = 1000.0f;
 		}
+
+		// ジャンプの最大高さ
+		constexpr float JUMP_HEIGHT = 5.0f;
+		// ジャンプの総フレーム数
+		constexpr int	JUMP_DURATION = 45;
 	}
 
 	// フィールドの値
@@ -133,5 +138,19 @@ namespace InputKey
 		// 動作 ジャンプ
 		constexpr BYTE JUMP
 			= VK_SPACE;
+	}
+
+	// クエスト選択シーンの入力キー
+	namespace QuestSelect
+	{
+		// 決定キー
+		constexpr BYTE DECIDE
+			= VK_RETURN;
+		// 次
+		constexpr BYTE NEXT
+			= 'D';
+		// 前
+		constexpr BYTE BEFORE
+			= 'A';
 	}
 }

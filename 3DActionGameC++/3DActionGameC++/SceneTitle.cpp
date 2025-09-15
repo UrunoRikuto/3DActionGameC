@@ -54,7 +54,7 @@ void CSceneTitle::Update(void)
 	if (IsKeyTrigger(VK_RETURN) || MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 	{
 		//ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
-		ChangeScene(SceneType::Game);
+		ChangeScene(SceneType::QuestSelect);
 	}
 }
 

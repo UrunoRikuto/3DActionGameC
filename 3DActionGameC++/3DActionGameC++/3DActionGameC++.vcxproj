@@ -154,9 +154,11 @@
     <ClCompile Include="MoveSystem.cpp" />
     <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Quest.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="SceneQuestSelect.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -196,9 +198,11 @@
     <ClInclude Include="MoveSystem.h" />
     <ClInclude Include="NpcBase.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Quest.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneQuestSelect.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Shader.h" />

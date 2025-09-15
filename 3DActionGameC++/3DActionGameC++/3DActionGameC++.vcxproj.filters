@@ -87,6 +87,9 @@
     <Filter Include="コード ファイル\GameObject\FieldObject">
       <UniqueIdentifier>{ebc34e4c-cc6e-4a66-ba5f-6a7c0dfc7b17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Component\Quest">
+      <UniqueIdentifier>{53a7280b-c5fa-4b22-8bf9-132482141ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -212,6 +215,12 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>コード ファイル\BaseSystem\Input</Filter>
     </ClCompile>
+    <ClCompile Include="SceneQuestSelect.cpp">
+      <Filter>コード ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>コード ファイル\Component\Quest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -336,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>コード ファイル\BaseSystem\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>コード ファイル\Component\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneQuestSelect.h">
+      <Filter>コード ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

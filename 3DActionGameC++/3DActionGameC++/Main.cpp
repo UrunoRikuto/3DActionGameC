@@ -7,6 +7,7 @@
 #include "Mouse.h"
 #include "Defines.h"
 #include "SceneTitle.h"
+#include "SceneQuestSelect.h"
 #include "SceneGame.h"
 #include "ShaderList.h"
 #include "Camera.h"
@@ -110,6 +111,9 @@ void ChangeScene(SceneType Next)
 	{
 	case SceneType::Title:
 		g_pScene = new CSceneTitle();
+		break;
+	case SceneType::QuestSelect:
+		g_pScene = new CSceneQuestSelect();
 		break;
 	case SceneType::Game:
 		g_pScene = new CSceneGame();

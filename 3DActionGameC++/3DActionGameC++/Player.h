@@ -43,7 +43,7 @@ public:
 	/// プレイヤーの真下の地面の高さを設定する関数
 	/// </summary>
 	/// <param name="height">設定するオブジェクトのY軸</param>
-	void SetUnderHeight(float height);
+	void SetUnderHeight(float height); 
 
 	/// <summary>
 	/// 当たり判定の衝突時の処理

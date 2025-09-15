@@ -9,6 +9,7 @@
 /* システム・要素のインクルード */
 #include "Model.h"
 #include "GameValues.h"
+#include "Quest.h"
 
 // @brief コンストラクタ
 CFieldObject::CFieldObject(FieldObjectType In_Type)
@@ -23,9 +24,20 @@ CFieldObject::CFieldObject(FieldObjectType In_Type)
 	{
 	case FieldObjectType::Wall:
 		// モデルの読み込み
-		if (!m_pModel->Load(""))
+		switch (CQuest::GetInstance()->GetQuestData().stageType)
 		{
-			MessageBox(NULL, "壁のモデルの読み込みに失敗しました。", "Error", MB_OK);
+		case StageType::Arena:
+			if (!m_pModel->Load(MODEL_PATH("ArenaStage_Wall.obj"), 0.1f))
+			{
+				MessageBox(NULL, "壁のモデルの読み込みに失敗しました。", "Error", MB_OK);
+			}
+			break;
+		case StageType::Plain:
+			if (!m_pModel->Load(MODEL_PATH("PlainStage_Wall.obj"), 0.1f))
+			{
+				MessageBox(NULL, "壁のモデルの読み込みに失敗しました。", "Error", MB_OK);
+			}
+			break;
 		}
 
 		// 位置、スケール、回転の設定
@@ -39,7 +51,7 @@ CFieldObject::CFieldObject(FieldObjectType In_Type)
 		// 当たり判定の種類を設定
 		m_tCollisionInfos[0].type = Collision::Type::eBox;
 		// タグを追加
-		m_tCollisionInfos[0].tag.push_back(Collision::Tag::FieldObject);
+		m_tCollisionInfos[0].tag.push_back(Collision::Tag::FieldWall);
 		// 中心位置を設定
 		m_tCollisionInfos[0].box.center = m_tPosition;
 		// ボックスの大きさを設定
@@ -47,12 +59,24 @@ CFieldObject::CFieldObject(FieldObjectType In_Type)
 		break;
 	case FieldObjectType::Ground:
 		// モデルの読み込み
-		if (!m_pModel->Load(MODEL_PATH("BattleStage_Field.obj"), 0.1f))
+		switch (CQuest::GetInstance()->GetQuestData().stageType)
 		{
-			MessageBox(NULL, "フィールドモデルの読み込みに失敗しました。", "Error", MB_OK);
+		case StageType::Arena:
+			if (!m_pModel->Load(MODEL_PATH("ArenaStage_Field.obj"), 0.1f))
+			{
+				MessageBox(NULL, "フィールドモデルの読み込みに失敗しました。", "Error", MB_OK);
+			}
+			break;
+		case StageType::Plain:
+			if (!m_pModel->Load(MODEL_PATH("PlainStage_Field.obj"), 0.1f))
+			{
+				MessageBox(NULL, "フィールドモデルの読み込みに失敗しました。", "Error", MB_OK);
+			}
+			break;
 		}
+
 		// 位置、スケール、回転の設定
-		m_tScale = { FIELD_SIZE, 1.0f, FIELD_SIZE };
+		m_tScale = { 1.0f, 1.0f, 1.0f };
 		m_tPosition = { 0.0f, 0.0f - (m_tScale.y / 2), 0.0f };
 		m_tRotation = { 0.0f, 0.0f, 0.0f };
 

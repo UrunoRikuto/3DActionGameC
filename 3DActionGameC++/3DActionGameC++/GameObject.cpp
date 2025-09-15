@@ -10,6 +10,7 @@
 #include "GameObject.h"
 /* システム・要素のインクルード */
 #include "ModelDrawSetting.h"
+#include "StructMath.h"
 
 // @brief コンストラクタ
 CGameObject::CGameObject()
@@ -17,6 +18,7 @@ CGameObject::CGameObject()
 	, m_tPosition(0.0f, 0.0f, 0.0f) // 初期位置
 	, m_fAjustPositionY(0.0f) // プレイヤーの真下の地面の高さの初期値
 	, m_tScale(1.0f, 1.0f, 1.0f) // 初期スケール
+	, m_tModelScaleAjast(0.0f, 0.0f, 0.0f) // モデルのスケール補正の初期化
 	, m_tRotation(0.0f, 0.0f, 0.0f) // 初期回転
 	, m_tCollisionInfos{} // 当たり判定情報の初期化
 	, m_bDestroy(false) // 破棄フラグの初期化
@@ -41,6 +43,8 @@ void CGameObject::Update()
 // @brief 描画処理
 void CGameObject::Draw()
 {
+	using namespace StructMath;
+
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 
@@ -57,7 +61,7 @@ void CGameObject::Draw()
 	// モデルの描画
 	CreateObject(
 		m_tPosition,	// 位置
-		m_tScale,		// スケール
+		Add(m_tScale, m_tModelScaleAjast) ,		// スケール
 		m_tRotation,	// 回転
 		m_pModel.get(),       // モデルポインタ
 		Camera::GetInstance(),// カメラポインタ

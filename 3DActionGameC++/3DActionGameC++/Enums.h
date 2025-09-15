@@ -7,11 +7,13 @@
 /*
 * @brief シーンの種類
 * @param 0：タイトル
-* @param 1：ゲーム
+* @param 1：クエスト選択
+* @param 2：ゲーム
 */
 enum class SceneType
 {
 	Title,
+	QuestSelect,
 	Game,
 	MAX,
 };
@@ -30,16 +32,6 @@ enum class MoveSystemType
 	Once,
 	Loop,
 	Reverse,
-};
-
-/*
-* @brief フィールドの種類
-* @param 0：平原
-*/
-enum class FieldType
-{
-	Plain,	// 平原
-	MAX,
 };
 
 /*
@@ -76,11 +68,11 @@ enum class PlayerPosture
 
 /*
 * @brief NPCの種類
-* @param 0：通常NPC
+* @param 0：闘技場ターゲットNPC
 */
 enum class NpcType
 {
-	Normal,		// 通常NPC
+	ArenaTarget,	// 闘技場ターゲットNPC
 	MAX,
 };
 
@@ -121,4 +113,15 @@ enum class FieldObjectType
 	Wall,		// 壁
 	Ground,		// 地面
 	MAX,
+};
+
+/*
+* @brief ステージの種類
+* @param 0：闘技場
+* @param 1：草原
+*/
+enum class StageType
+{
+	Arena,		// 闘技場
+	Plain,	// 草原
 };

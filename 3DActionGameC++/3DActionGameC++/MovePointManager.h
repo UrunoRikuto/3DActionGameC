@@ -28,7 +28,7 @@ public:
 	/// 移動ポイントとインスタンスの作成
 	/// </summary>
 	/// <param name="In_Type">フィールドの種類</param>
-	void CreateData(FieldType In_Type);
+	void CreateData(StageType In_Type);
 
 	/// <summary>
 	/// インスタンスを取得

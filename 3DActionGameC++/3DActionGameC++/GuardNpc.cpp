@@ -80,7 +80,7 @@ CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Npc);
 
 	// ‘Ì—Í‚Ìİ’è
-	m_fHp = GameValue::Npc::Normal::MAX_HP;
+	//m_fHp = GameValue::Npc::MAX_HP;
 
 	// ‘Ì—ÍƒQ[ƒW‚Ìì¬
 	m_pHpGauge = new CGaugeUI(m_fHp, false, GaugeType::Health);

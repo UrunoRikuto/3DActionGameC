@@ -92,6 +92,7 @@ void CPlayer::Update(void)
 	Camera::GetInstance()->Update(m_tPosition, m_tRotation);
 	// 当たり判定の更新
 	m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
+
 	// レイの更新
 	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
 }
@@ -116,7 +117,7 @@ void CPlayer::Draw(void)
 	CreateObject(
 		m_tPosition,        // 位置
 		m_tScale,			// スケール
-		m_tRotation,		// 回転
+		{ 0.0f,m_tRotation.y,0.0f },		// 回転
 		m_pModel.get(),			// モデルポインタ
 		Camera::GetInstance(), // カメラポインタ
 		true,					// 明るくするかどうか
@@ -144,6 +145,7 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo)
 		switch (tag)
 		{
 		case Collision::Tag::FieldGround:
+		case Collision::Tag::FieldWall:
 		case Collision::Tag::FieldObject:
 			if (InCollisionInfo.box.center.y - m_tPosition.y > -0.1f)
 			{
@@ -360,5 +362,17 @@ void CPlayer::LookRotation(void)
 	if (MouseInput::IsMove(MouseInput::MouseMove::Right))
 	{
 		m_tRotation.y += ROTATION_SPEED;
+	}
+	// 上回転
+	if (MouseInput::IsMove(MouseInput::MouseMove::Up))
+	{
+		m_tRotation.x -= ROTATION_SPEED;
+		if (m_tRotation.x < -89.9f)m_tRotation.x = -89.9f; // 上限を設定
+	}
+	// 下回転
+	if (MouseInput::IsMove(MouseInput::MouseMove::Down))
+	{
+		m_tRotation.x += ROTATION_SPEED;
+		if (m_tRotation.x > 89.9f)m_tRotation.x = 89.9f; // 下限を設定
 	}
 }
