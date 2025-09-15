@@ -36,8 +36,10 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 移動ポイントの追加
 	m_pMoveSystem->AddMovePoint(FirstMovePoint);
 
+	// 補正高さ
+	m_fAjustPositionY = (m_tScale.y * 2) / 2.0f;
 	// 位置
-	m_tPosition = m_pMoveSystem->GetMovePointList()[0];
+	m_tPosition = Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
 	// 回転
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
@@ -109,15 +111,17 @@ void CTargetNpc::Update(void)
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 	
-
 	// 基底クラスの更新処理(NPC共通処理)
-	CNpcBase::Update();
+	CNpcBase::BiginUpdate();
+
 
 	// 攻撃
-	//Attack();
+	Attack();
 	// 移動
 	Move();
 
+	// 基底クラスの更新処理(NPC共通処理)
+	CNpcBase::EndUpdate();
 }
 
 // @brief 移動処理

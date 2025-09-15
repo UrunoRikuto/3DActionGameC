@@ -17,11 +17,17 @@ CNpcBase::CNpcBase(NpcType InType)
 	, m_fAttackCD(0.0f) // 攻撃のクールタイムを初期化
 	, m_bAttack(false) // 攻撃中かどうかの初期化
 	, m_pHpGauge(nullptr) // 体力ゲージの初期化
+	, m_bGround(true) // 地面に立っているかのフラグを初期化
+	, m_fUnderHeight(0.0f) // 真下の高さを保存する変数を初期化
 {
 	// モデルの作成
 	m_pModel = std::make_unique<Model>();
 	// 視覚索敵の作成
 	m_pVisionSearch = std::make_unique<CVisionSearch>(this);
+
+	// レイの作成
+	m_pRay = std::make_unique<CRay>();
+	m_pRay->SetParam(m_tPosition, XMFLOAT3(0.0f, -1.0f, 0.0f)); // レイの始点と方向を設定
 }
 
 // @brief デストラクタ
@@ -29,19 +35,29 @@ CNpcBase::~CNpcBase()
 {
 }
 
-// @brief 更新処理
-void CNpcBase::Update(void)
+// @brief 最初の方に行う共通更新処理
+void CNpcBase::BiginUpdate(void)
 {
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
-	
+
 	using namespace StructMath;
 
 	// 索敵システムの更新(索敵)
 	SetSearchState(m_pVisionSearch->Search(m_tPosition, m_eSearchState));
 
+}
+
+// @brief 最後の方に行う共通更新処理
+void CNpcBase::EndUpdate(void)
+{
+	// 地面判定
+	GroundCheck();
+
 	// Hpゲージの更新
 	if (m_pHpGauge)m_pHpGauge->Updatde(m_tPosition, m_fHp);
+	// レイの更新
+	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
 }
 
 // @brief 描画処理
@@ -105,6 +121,37 @@ void CNpcBase::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 	}
 }
 
+// @brief 地面判定処理
+void CNpcBase::GroundCheck(void)
+{
+	// 地面にいる場合は高さを0にする
+	if (m_bGround)
+	{
+		m_tPosition.y = m_fUnderHeight + m_fAjustPositionY;
+	}
+	else
+	{
+		if (m_tPosition.y >= m_fUnderHeight + m_fAjustPositionY)
+		{
+			m_tPosition.y -= GRAVITY; // 重力を適用
+			if (m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
+			{
+				m_tPosition.y = m_fUnderHeight + m_fAjustPositionY; // 地面の高さに合わせる
+				m_bGround = true; // 地面にいる状態にする
+			}
+		}
+		else if (m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
+		{
+			m_tPosition.y += 0.2f; // 地面の高さに合わせる
+			if (m_tPosition.y > m_fUnderHeight + m_fAjustPositionY)
+			{
+				m_tPosition.y = m_fUnderHeight + m_fAjustPositionY; // 地面の高さに合わせる
+				m_bGround = true; // 地面にいる状態にする
+			}
+		}
+	}
+}
+
 // @brief 現在の索敵状態の設定
 // @param InState 設定する索敵状態
 void CNpcBase::SetSearchState(VisionSearchState InState)
@@ -148,5 +195,16 @@ void CNpcBase::SetSearchState(VisionSearchState InState)
 		break;
 	case VisionSearchState::Discovery:
 		break;
+	}
+}
+
+// @brief プレイヤーの真下の地面の高さを設定する
+// @param height プレイヤーの真下の地面の高さ
+void CNpcBase::SetUnderHeight(float height)
+{
+	if (m_fUnderHeight - m_fAjustPositionY != height)
+	{
+		m_fUnderHeight = height + m_fAjustPositionY;
+		m_bGround = false;
 	}
 }

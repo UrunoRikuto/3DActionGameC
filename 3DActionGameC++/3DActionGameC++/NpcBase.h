@@ -30,10 +30,11 @@ public:
 	/// デストラクタ
 	/// </summary>
 	virtual ~CNpcBase();
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update(void);
+	virtual void Update(void) = 0;
 
 	/// <summary>
 	/// 描画処理
@@ -64,6 +65,23 @@ protected:
 	/// 攻撃処理
 	/// </summary>
 	virtual void Attack(void) = 0;
+
+	/// <summary>
+	/// 最初の方に行う共通更新処理
+	/// </summary>
+	void BiginUpdate(void);
+
+	/// <summary>
+	/// 最後の方に行う共通更新処理
+	/// </summary>
+	void EndUpdate(void);
+
+private:
+	/// <summary>
+	/// 地面判定処理
+	/// </summary>
+	void GroundCheck(void);
+
 
 protected:
 
@@ -113,6 +131,21 @@ protected:
 	std::unique_ptr<CMoveSystem> m_pMoveSystem;
 
 	/// <summary>
+	/// レイ(光線)
+	/// </summary>
+	std::unique_ptr<CRay> m_pRay;
+
+	/// <summary>
+	/// 地面に立っているかのフラグ
+	/// </summary>
+	bool m_bGround;
+
+	/// <summary>
+	/// 真下の高さを保存する変数
+	/// </summary>
+	float m_fUnderHeight;
+
+	/// <summary>
 	/// 標的対象のゲームオブジェクト
 	/// </summary>
 	CPlayer* m_pTargetObject;
@@ -154,6 +187,18 @@ public:
 	/// </summary>
 	/// <returns>移動システムのポインタ</returns>
 	CMoveSystem* GetMoveSystem(void) { return m_pMoveSystem.get(); }
+
+	/// <summary>
+	/// 真下の高さを設定する
+	/// </summary>
+	/// <param name="height">真下の地面の高さ</param>
+	void SetUnderHeight(float height);
+
+	/// <summary>
+	/// レイの取得
+	/// </summary>
+	/// <returns>レイ</returns>
+	CRay* GetRay(void) { return m_pRay.get(); }
 
 	/// <summary>
 	/// ターゲットの設定

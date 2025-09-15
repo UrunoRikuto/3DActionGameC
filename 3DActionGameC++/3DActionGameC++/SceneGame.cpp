@@ -30,27 +30,31 @@ void CSceneGame::InitArenaStage(void)
 	// フィールドの生成
 	// 地面の生成
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
-	m_pFieldObject[0]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
-	m_pFieldObject[0]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(100.0f, 1.0f, 100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, 2.0f, 100.0f));
 	// 壁の生成
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
-	m_pFieldObject[1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
-	m_pFieldObject[1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[1]->GetScale().y / 2.0f, 100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 100.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[2]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
-	m_pFieldObject[2]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
-	m_pFieldObject[2]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[2]->GetScale().y / 2.0f, -100.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 20.0f, 1.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 20.0f, 99.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, -100.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[3]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
-	m_pFieldObject[3]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
-	m_pFieldObject[3]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
-	m_pFieldObject[3]->SetPosition(XMFLOAT3(100.0f, m_pFieldObject[3]->GetScale().y / 2.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(100.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
 	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Wall));
-	m_pFieldObject[4]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
-	m_pFieldObject[4]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
-	m_pFieldObject[4]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
-	m_pFieldObject[4]->SetPosition(XMFLOAT3(-100.0f, m_pFieldObject[4]->GetScale().y / 2.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(1.0f, 20.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetRotation(XMFLOAT3(0.0f, 90.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(199.0f, 20.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-100.0f, m_pFieldObject[m_pFieldObject.size() - 1]->GetScale().y / 2.0f, 0.0f));
 
 	// 移動ポイントの生成
 	CMovePointManager::GetInstance()->CreateData(CQuest::GetInstance()->GetQuestData().stageType);
@@ -305,16 +309,38 @@ void CSceneGame::CollisionCheck(void)
 // @brief レイキャストのチェック
 void CSceneGame::RayCastCheck(void)
 {
+	float SetUnderHeight = 0.0f; // プレイヤーの真下の地面の高さを設定する変数
+
 	for (auto& obj : m_pFieldObject)
 	{
 		if (m_pPlayer->GetRay()->Cast(obj->GetCollisionInfo(Collision::Tag::FieldGround)))
 		{
-			// レイキャストが当たった場合、プレイヤーの真下の地面の高さを設定
-			m_pPlayer->SetUnderHeight(obj->GetPosition().y + obj->GetScale().y / 2.0f);
-			return;
+			if (SetUnderHeight < obj->GetPosition().y + obj->GetScale().y / 2.0f)
+			{
+				// レイキャストが当たった場合、プレイヤーの真下の地面の高さを設定
+				SetUnderHeight = obj->GetPosition().y + obj->GetScale().y / 2.0f;
+			}
 		}
 	}
-	m_pPlayer->SetUnderHeight(-3.0f); // レイキャストが当たらなかった場合、-3.0fを設定
+	m_pPlayer->SetUnderHeight(SetUnderHeight);
+
+	SetUnderHeight = 0.0f;
+
+	for (auto& npc : m_pNpc)
+	{
+		for (auto& obj : m_pFieldObject)
+		{
+			if (npc->GetRay()->Cast(obj->GetCollisionInfo(Collision::Tag::FieldGround)))
+			{
+				if (SetUnderHeight < obj->GetPosition().y + obj->GetScale().y / 2.0f)
+				{
+					// レイキャストが当たった場合、NPCの真下の地面の高さを設定
+					SetUnderHeight = obj->GetPosition().y + obj->GetScale().y / 2.0f;
+				}
+			}
+		}
+		npc->SetUnderHeight(SetUnderHeight); // NPCの真下の地面の高さを設定
+	}
 }
 
 // @brief 攻撃の当たり判定チェック

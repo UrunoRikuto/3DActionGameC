@@ -16,6 +16,8 @@
 CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	:CNpcBase(NpcType) // 基底クラスのコンストラクタを呼び出す
 {
+	using namespace StructMath;
+
 	// モデルの読み込み
 	if (!m_pModel->Load(ModelPath::GUARD_NPC_PATH))
 	{
@@ -32,8 +34,10 @@ CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 移動ポイントの追加
 	m_pMoveSystem->AddMovePoint(FirstMovePoint);
 
+	// 補正高さ
+	m_fAjustPositionY = (m_tScale.y * 2) / 2.0f;
 	// 位置
-	m_tPosition = m_pMoveSystem->GetMovePointList()[0];
+	m_tPosition = Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
 	// 回転
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
@@ -101,13 +105,16 @@ void CGuardNpc::Update(void)
 	if (m_bDestroy)return;
 
 	// 基底クラスの更新処理(NPC共通処理)
-	CNpcBase::Update();
+	CNpcBase::BiginUpdate();
 
 	// 移動
 	Move();
 
 	// 攻撃
 	Attack();
+
+	// 基底クラスの更新処理(NPC共通処理)
+	CNpcBase::EndUpdate();
 }
 
 // @brief 移動処理
