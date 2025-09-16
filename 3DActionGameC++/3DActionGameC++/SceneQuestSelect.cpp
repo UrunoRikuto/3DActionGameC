@@ -36,7 +36,32 @@ CSceneQuestSelect::CSceneQuestSelect()
 
 
 	// クエストデータの登録
-	m_QuestList.push_back(QuestData{ StageType::Arena, 300.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+
+	Vertex noteVtx[4] = {
+	{ {-400.0f,-300.0f,0.0f},{0.0f,0.0f}},
+	{ { 400.0f,-300.0f,0.0f},{1.0f,0.0f}},
+	{ {-400.0f, 300.0f,0.0f},{0.0f,1.0f}},
+	{ { 400.0f, 300.0f,0.0f},{1.0f,1.0f}},
+	};
+	m_pQuestPaperVtx = CreateVertexBuffer(noteVtx, 4);
+
+	hr = LoadTextureFromFile(GetDevice(), TEXTURE_PATH("QuestPaper_ArenaNormal.png"), &m_pQuestPaperTex[(int)QuestType::ArenaNormal]);
+
+	// クエスト依頼書のY座標をランダムに設定
+	for (int i = 0; i < m_QuestList.size(); i++)
+	{
+		m_RandPosY.push_back(RandomSelectPosY());
+	}
 }
 
 // @brief デストラクタ
@@ -94,4 +119,66 @@ void CSceneQuestSelect::Draw(void)
 	SetSpriteUVScale(1.0f, 1.0f);
 
 	DrawSprite(m_pBackGroundVtx, sizeof(Vertex));
+
+	//クエスト依頼書の描画
+	for (int i = 0, x = 0; i < m_QuestList.size(); x++, i++)
+	{
+		if (!(i % 5)) x = 0;
+
+		//if (i == m_CurrentIndex)continue;
+
+		SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
+		SetSpritePos((x * 600.0f) - (600.0f * 2), m_RandPosY[i]);
+		SetSpriteScale(1.0f, 1.0f);
+		SetSpriteColor(0.5f, 0.5f, 0.5f, 1.0f);
+		if (m_CurrentIndex == i)SetSpriteColor(1.0f, 1.0f, 1.0f, 1.0f);
+		SetSpriteUVPos(0.0f, 0.0f);
+		SetSpriteUVScale(1.0f, 1.0f);
+		DrawSprite(m_pQuestPaperVtx, sizeof(Vertex));
+	}
+
+	//SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
+	//SetSpritePos(0.0f, 0.0f);
+	//SetSpriteScale(3.0f, 3.0f);
+	//SetSpriteColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//SetSpriteUVPos(0.0f, 0.0f);
+	//SetSpriteUVScale(1.0f, 1.0f);
+	//DrawSprite(m_pQuestPaperVtx, sizeof(Vertex));
+
+}
+
+// @brief クエスト依頼書のY座標をランダムに選択
+float CSceneQuestSelect::RandomSelectPosY()
+{
+	float Y  = 0;
+	int i = m_RandPosY.size();
+
+	if (m_QuestList.size() <= 5)Y = (rand() % 1000) - 500.0f;
+	else if (m_QuestList.size() <= 10)
+	{
+		Y = ((rand() % 500) - 250.0f);
+		Y += (int)(i / 5) ? 250.0f : -250.0f;
+	}
+	else
+	{
+		MessageBox(NULL, TEXT("労基に訴えます"), TEXT("クエスト多すぎ"), MB_OK | MB_ICONERROR);
+	}
+
+
+	// 重複しないようにする
+	while (true)
+	{
+		if (m_RandPosY.empty())return Y;
+
+		if (i - 5 < 0) break;
+
+		if (m_RandPosY[i - 5] - 500.0f < Y && m_RandPosY[i - 5] + 500.0f > Y)
+		{
+			if (m_QuestList.size() <= 5)Y = (rand() % 1000) - 500.0f;
+			else if (m_QuestList.size() <= 10)Y = ((rand() % 500) - 250.0f) + (500.0f * (int)(i / 5));
+		}
+		else break;
+	}
+
+	return Y;
 }

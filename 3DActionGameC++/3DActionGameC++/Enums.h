@@ -125,3 +125,14 @@ enum class StageType
 	Arena,		// 闘技場
 	Plain,	// 草原
 };
+
+/*
+* @brief クエストの種類
+* @param MAX : クエストの最大数
+* @param 0：闘技場ノーマル
+*/
+enum class QuestType
+{
+	ArenaNormal,	// 闘技場ノーマル
+	MAX,
+};

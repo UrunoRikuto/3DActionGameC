@@ -14,6 +14,8 @@
 // @param maxDeathCount 最大死亡可能回数
 struct QuestData
 {
+	// クエストタイプ
+	QuestType questType;
 	// ステージの種類
 	StageType stageType;
 	// 制限時間
