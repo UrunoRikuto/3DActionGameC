@@ -146,6 +146,9 @@ namespace InputKey
 		// 決定キー
 		constexpr BYTE DECIDE
 			= VK_RETURN;
+		// キャンセルキー
+		constexpr BYTE CANCEL
+			= VK_ESCAPE;
 		// 次
 		constexpr BYTE NEXT
 			= 'D';

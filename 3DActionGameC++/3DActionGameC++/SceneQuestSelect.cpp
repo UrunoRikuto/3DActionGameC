@@ -18,6 +18,7 @@
 CSceneQuestSelect::CSceneQuestSelect()
 	:CSceneBase()
 	, m_CurrentIndex(0)
+	, m_bSelectChack(false)
 {
 	//Vertexの生成
 	Vertex vtx[4] = {
@@ -99,10 +100,30 @@ void CSceneQuestSelect::Update(void)
 
 	if (IsKeyTrigger(DECIDE))
 	{
-		// クエストデータの設定
-		CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
-		// シーン切り替え処理
-		ChangeScene(SceneType::Game);
+		if (!m_bSelectChack)
+		{
+			m_bSelectChack = true;
+		}
+		else
+		{
+			// クエストデータの設定
+			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
+			// シーン切り替え処理
+			ChangeScene(SceneType::Game);
+		}
+	}
+
+	if (IsKeyTrigger(CANCEL))
+	{
+		if (m_bSelectChack)
+		{
+			m_bSelectChack = false;
+		}
+		else
+		{
+			// シーン切り替え処理
+			ChangeScene(SceneType::Title);
+		}
 	}
 }
 
@@ -125,7 +146,7 @@ void CSceneQuestSelect::Draw(void)
 	{
 		if (!(i % 5)) x = 0;
 
-		//if (i == m_CurrentIndex)continue;
+		if (i == m_CurrentIndex && m_bSelectChack)continue;
 
 		SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
 		SetSpritePos((x * 600.0f) - (600.0f * 2), m_RandPosY[i]);
@@ -137,14 +158,16 @@ void CSceneQuestSelect::Draw(void)
 		DrawSprite(m_pQuestPaperVtx, sizeof(Vertex));
 	}
 
-	//SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
-	//SetSpritePos(0.0f, 0.0f);
-	//SetSpriteScale(3.0f, 3.0f);
-	//SetSpriteColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//SetSpriteUVPos(0.0f, 0.0f);
-	//SetSpriteUVScale(1.0f, 1.0f);
-	//DrawSprite(m_pQuestPaperVtx, sizeof(Vertex));
-
+	if (m_bSelectChack)
+	{
+		SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
+		SetSpritePos(0.0f, 0.0f);
+		SetSpriteScale(3.0f, 3.0f);
+		SetSpriteColor(1.0f, 1.0f, 1.0f, 1.0f);
+		SetSpriteUVPos(0.0f, 0.0f);
+		SetSpriteUVScale(1.0f, 1.0f);
+		DrawSprite(m_pQuestPaperVtx, sizeof(Vertex));
+	}
 }
 
 // @brief クエスト依頼書のY座標をランダムに選択

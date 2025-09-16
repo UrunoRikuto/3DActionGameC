@@ -42,6 +42,9 @@ private:
 
 private:
 
+	// @brief 選択確認フラグ
+	bool m_bSelectChack;
+
 	// @brief 現在選択中のインデックス
 	int m_CurrentIndex;
 
