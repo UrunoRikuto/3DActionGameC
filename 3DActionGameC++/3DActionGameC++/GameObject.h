@@ -99,8 +99,9 @@ public: // メンバ変数のアクセサ
 	/// 当たり判定の取得
 	/// </summary>
 	/// <param name="InTag">当たり判定のタグ</param>
+	/// <param name="NotTag">指定したタグ以外を取得するかどうか</param>
 	/// <returns>当たり判定情報</returns>
-	std::vector<Collision::Info> GetCollisionInfo(Collision::Tag InTag = Collision::Tag::All);
+	std::vector<Collision::Info> GetCollisionInfo(Collision::Tag InTag = Collision::Tag::All, bool NotTag = false);
 
 	/// <summary>
 	/// 位置情報の設定

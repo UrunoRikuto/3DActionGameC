@@ -10,6 +10,7 @@
 /* システム・要素のインクルード */
 #include <memory>
 #include "Collision.h"
+#include "Weapon.h"
 /* 基底クラスのインクルード */
 #include "SceneBase.h"
 
@@ -18,22 +19,6 @@ class CGameObject;
 class CFieldObject;
 class CPlayer;
 class CNpcBase;
-
-// 攻撃の当たり判定情報
-struct AttackCollision
-{
-	// 当たり判定情報
-	Collision::Info CollisionInfo;
-	// 持続フレーム
-	float DurationFrame;
-	// 攻撃力
-	float AttackPower;
-
-	bool operator==(const AttackCollision& other) const
-	{
-		return &CollisionInfo == &other.CollisionInfo && &DurationFrame == &other.DurationFrame;
-	}
-};
 
 /// <summary>
 /// ゲームシーンクラス

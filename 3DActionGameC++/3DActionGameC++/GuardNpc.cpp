@@ -10,6 +10,8 @@
 #include "Defines.h"
 #include "GameValues.h"
 
+#undef max
+
 // @briefコンストラクタ
 // @param FirstMovePoint 最初の移動ポイント
 // @param NpcType NPCの種類
@@ -166,23 +168,29 @@ void CGuardNpc::Attack(void)
 		// プレイヤーが攻撃範囲内にいるかどうかを判定
 		// プレイヤーの位置を取得
 		XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
+
+		// 武器があれば攻撃
+		if (m_pWeapon == nullptr)return;
 		// 攻撃範囲外なら何もしない
 		XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
+		float maxAttackRange = std::max(weaponCollisionSize.x, weaponCollisionSize.z); // 攻撃範囲の最大値を計算
 
-		if (Abs(Sub(playerPos, m_tPosition)).x > weaponCollisionSize.x * 2 ||
-			Abs(Sub(playerPos, m_tPosition)).z > weaponCollisionSize.z * 2)
+		if (Abs(Sub(playerPos, m_tPosition)).x > maxAttackRange * 2.0f ||
+			Abs(Sub(playerPos, m_tPosition)).z > maxAttackRange * 2.0f)
 		{
 			m_bAttack = false;
 			return;
 		}
 
-		// 武器があれば攻撃
-		if (m_pWeapon == nullptr)return;
 		// 武器の更新処理
 		// 向きを参照して前に出す
 		XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, playerPos);
 
-		m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, m_pWeapon->GetAttackRange().box.size.x)));
+		m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, maxAttackRange)));
+
+		/// @todo ここで攻撃タイミングの判定を行う(乱数(確率は参照するたびに上昇))
+
+		m_pWeapon->ComboTimerUpdate(); // コンボ猶予時間の更新
 
 		// シーンの取得
 		auto scene = (CSceneGame*)GetCurrentScene();
@@ -191,7 +199,7 @@ void CGuardNpc::Attack(void)
 		if (scene == nullptr)return;
 
 		// 攻撃を生成
-		scene->AttackCreate({ m_pWeapon->GetAttackRange(), m_pWeapon->GetAttackDurationFrame(), m_pWeapon->GetAttackPower() });
+		scene->AttackCreate(m_pWeapon->CreateAttack(m_tRotation.y));
 
 		// クールタイムを設定
 		m_fAttackCD = m_pWeapon->GetAttackSpeed();

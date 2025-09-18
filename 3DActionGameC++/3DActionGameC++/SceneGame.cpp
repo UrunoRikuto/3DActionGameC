@@ -380,7 +380,7 @@ void CSceneGame::AttackCollisionCheck(void)
 						obj->Hit(attackInfo.CollisionInfo, attackInfo.AttackPower); // Õ“Ë‚Ìˆ—‚ğŒÄ‚Ño‚·
 
 						// ‚±‚ÌUŒ‚‚Ì‘±ŠÔ‚ğ0‚É‚·‚é
-						attackInfo.DurationFrame = 0;
+						// attackInfo.DurationFrame = 0;
 					}
 				}
 			}

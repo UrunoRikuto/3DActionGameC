@@ -80,7 +80,9 @@ void CGameObject::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 
 // @brief 当たり判定情報を追加する関数
 // @param InTag 追加する当たり判定情報
-std::vector<Collision::Info> CGameObject::GetCollisionInfo(Collision::Tag InTag)
+// @param NotTag 指定したタグ以外を取得するかどうか
+// @return 指定したタグの当たり判定情報
+std::vector<Collision::Info> CGameObject::GetCollisionInfo(Collision::Tag InTag, bool NotTag)
 {
 	if (InTag == Collision::Tag::All)
 	{
@@ -95,10 +97,23 @@ std::vector<Collision::Info> CGameObject::GetCollisionInfo(Collision::Tag InTag)
 	{
 		for (const auto& tag : collisionInfo.tag)
 		{
-			if (tag == InTag)
+			if (NotTag)
 			{
-				// 見つかった場合はその情報を結果に追加
-				result.push_back(collisionInfo);
+				if (tag != InTag)
+				{
+					// 見つかった場合はその情報を結果に追加
+					result.push_back(collisionInfo);
+					break;
+				}
+			}
+			else
+			{
+				if (tag == InTag)
+				{
+					// 見つかった場合はその情報を結果に追加
+					result.push_back(collisionInfo);
+					break;
+				}
 			}
 		}
 	}

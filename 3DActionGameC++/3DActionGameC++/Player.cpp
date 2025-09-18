@@ -211,7 +211,9 @@ void CPlayer::Attack(void)
 
 	XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, Add(m_tPosition, FrontDir));
 
-	m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, m_pWeapon->GetAttackRange().box.size.x)));
+	XMFLOAT3 attackRangeSize = m_pWeapon->GetAttackRange().box.size;
+
+	m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, std::max(attackRangeSize.x, attackRangeSize.z))));
 
 	// クールタイムが残っている場合はクールタイムを減らす
 	if (m_fAttackCD > 0.0f)
@@ -221,6 +223,9 @@ void CPlayer::Attack(void)
 	}
 	else
 	{
+		// コンボ猶予時間の更新
+		m_pWeapon->ComboTimerUpdate(); 
+
 		// 攻撃キーが押されたら
 		if (MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 		{
@@ -231,7 +236,7 @@ void CPlayer::Attack(void)
 			if (scene == nullptr)return;
 
 			// 攻撃を生成
-			scene->AttackCreate({ m_pWeapon->GetAttackRange(),m_pWeapon->GetAttackDurationFrame(), m_pWeapon->GetAttackPower() });
+			scene->AttackCreate(m_pWeapon->CreateAttack(m_tRotation.y));
 
 			// クールタイムを設定
 			m_fAttackCD = m_pWeapon->GetAttackSpeed();

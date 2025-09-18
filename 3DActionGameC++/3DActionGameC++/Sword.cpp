@@ -23,8 +23,11 @@ CSword::~CSword()
 // @param In_Position キャラクターの位置
 void CSword::Update(XMFLOAT3 In_Position)
 {
-	// 攻撃範囲の中心座標をキャラクターの位置に設定
-	m_tAttackRange.box.center = In_Position;
+	for (auto& attackRange : m_tAttackRange)
+	{
+		// 攻撃範囲の中心座標をキャラクターの位置に設定
+		attackRange.box.center = In_Position;
+	}
 }
 
 // @brief パラメータの設定
@@ -33,17 +36,38 @@ void CSword::SetParam(void)
 	// 攻撃タイプ
 	m_eAttackType = AttackType::Slash;
 	// 攻撃力
-	m_fAttackPower = 20.0f;
+	m_fAttackPower.push_back(20.0f);
+	m_fAttackPower.push_back(15.0f);
+
 	// 攻撃速度(攻撃間隔)
 	m_fAttackSpeed = 1.0f;
 	// 攻撃範囲
-	m_tAttackRange.type = Collision::eBox;
+	Collision::Info AttackRange = {};
+
+	AttackRange.type = Collision::eBox;
 	// ボックスの中心座標とサイズを設定
-	m_tAttackRange.box.center = { 0.0f, 0.0f, 0.0f };
-	m_tAttackRange.box.size = { 5.0f, 5.0f, 5.0f };
+	AttackRange.box.center = { 0.0f, 0.0f, 0.0f };
+	AttackRange.box.size = { 1.0f, 10.0f, 10.0f };
 	// タグを追加
-	m_tAttackRange.tag.push_back(Collision::Tag::Attack);
+	AttackRange.tag.push_back(Collision::Tag::Attack);
+
+	m_tAttackRange.push_back(AttackRange);
+
+	AttackRange = {};
+
+	AttackRange.type = Collision::eBox;
+	// ボックスの中心座標とサイズを設定
+	AttackRange.box.center = { 0.0f, 0.0f, 0.0f };
+	AttackRange.box.size = { 10.0f, 1.0f, 10.0f };
+	// タグを追加
+	AttackRange.tag.push_back(Collision::Tag::Attack);
+
+	m_tAttackRange.push_back(AttackRange);
+
 
 	// 攻撃の持続時間
 	m_fAttackDurationTime = 0.5f;
+
+	// コンボ猶予時間
+	m_fComboGraceTimer = 0.5f;
 }
