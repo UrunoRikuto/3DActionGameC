@@ -26,11 +26,11 @@ void CMovePointManager::CreateData(StageType In_Type)
 	{
 	case StageType::Arena:
 		// 闘技場の移動ポイントを設定
-		m_MovePoints.push_back(XMFLOAT3(0.0f, 0.0f, 0.0f));
-		m_MovePoints.push_back(XMFLOAT3(50.0f, 0.0f, 50.0f));
-		m_MovePoints.push_back(XMFLOAT3(-50.0f, 0.0f, -50.0f));
-		m_MovePoints.push_back(XMFLOAT3(50.0f, 0.0f, -50.0f));
-		m_MovePoints.push_back(XMFLOAT3(-50.0f, 0.0f, 50.0f));
+		m_MovePoints.push_back(XMFLOAT3(0.0f, 2.0f, 0.0f));
+		m_MovePoints.push_back(XMFLOAT3(50.0f, 2.0f, 50.0f));
+		m_MovePoints.push_back(XMFLOAT3(-50.0f, 2.0f, -50.0f));
+		m_MovePoints.push_back(XMFLOAT3(50.0f, 2.0f, -50.0f));
+		m_MovePoints.push_back(XMFLOAT3(-50.0f, 2.0f, 50.0f));
 		break;
 	case StageType::Plain:
 		// 平原の移動ポイントを設定

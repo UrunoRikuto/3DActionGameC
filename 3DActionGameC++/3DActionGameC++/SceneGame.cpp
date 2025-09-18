@@ -22,8 +22,8 @@
 #include "Quest.h"
 
 /* グローバル変数 */
-std::vector<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
-std::vector<CGameObject*> g_vAttackObjects; // 攻撃用のゲームオブジェクトのリスト
+std::list<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
+std::list<CGameObject*> g_vAttackObjects; // 攻撃用のゲームオブジェクトのリスト
 
 void CSceneGame::InitArenaStage(void)
 {
@@ -358,7 +358,7 @@ void CSceneGame::AttackCollisionCheck(void)
 				// 自分自身は除外
 				// 指定のタグが含まれている場合は除外
 				std::vector<Collision::Info>SkipTagCollision;
-				int EntityID;
+				int EntityID = -1;
 
 				for (auto& tag : attackInfo.CollisionInfo.tag)
 				{

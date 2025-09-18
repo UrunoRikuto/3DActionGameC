@@ -112,6 +112,10 @@ void CNpcBase::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 	{
 		// ‘Ì—Í‚ğŒ¸‚ç‚·
 		m_fHp -= In_Attack;
+
+		// õ“Gó‘Ô‚ğ”­Œ©ó‘Ô‚É‚·‚é
+		SetSearchState(VisionSearchState::Discovery);
+
 		// ‘Ì—Í‚ª0ˆÈ‰º‚É‚È‚Á‚½‚ç”jŠüƒtƒ‰ƒO‚ğ—§‚Ä‚é
 		if (m_fHp <= 0.0f)
 		{

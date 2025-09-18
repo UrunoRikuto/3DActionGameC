@@ -41,8 +41,15 @@ XMFLOAT3 CMoveSystem::GetMovePoint(const XMFLOAT3& In_CurrentPos)
 		return In_CurrentPos;
 	}
 
+	XMFLOAT3 MoverPos = In_CurrentPos;
+	XMFLOAT3 TargetPos = m_vtMovePointList[m_nCurrentPointIndex];
+
+	//(仮)Y座標の無視{洞窟のようなものを作らない限りY座標入らない
+	MoverPos.y = 0.0f;
+	TargetPos.y = 0.0f;
+
 	// 現在の位置が移動ポイントの一定距離以内にある場合
-	if (StructMath::Distance(In_CurrentPos,m_vtMovePointList[m_nCurrentPointIndex]) < m_fMoveSpeed)
+	if (StructMath::Distance(MoverPos, TargetPos) < m_fMoveSpeed)
 	{
 		// 次の移動ポイントに進む
 		switch (m_eMoveSystemType)
