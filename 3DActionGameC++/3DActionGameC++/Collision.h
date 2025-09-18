@@ -25,7 +25,7 @@ public:
 		None = 0,
 		// プレイヤー
 		Player,
-		// ターゲットNPC
+		// NPC
 		Npc,
 		// 頭
 		Head,

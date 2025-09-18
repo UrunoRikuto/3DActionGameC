@@ -10,7 +10,6 @@
 #include "Model.h"
 #include "GameValues.h"
 #include "Defines.h"
-#include "GameValues.h"
 #include "Main.h"
 #include "ModelDrawSetting.h"
 #include "Camera.h"
@@ -62,7 +61,10 @@ CPlayer::CPlayer()
 	// 武器の生成
 	m_pWeapon = new CSword();
 	// 武器の当たり判定にプレイヤータグを追加
-	m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Player);
+	for (auto& AttackRange : m_pWeapon->GetAttackRanges())
+	{
+		AttackRange.tag.push_back(Collision::Tag::Player);
+	}
 }
 
 // @brief デストラクタ

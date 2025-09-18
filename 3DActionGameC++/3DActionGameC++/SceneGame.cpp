@@ -23,6 +23,7 @@
 
 /* グローバル変数 */
 std::vector<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
+std::vector<CGameObject*> g_vAttackObjects; // 攻撃用のゲームオブジェクトのリスト
 
 void CSceneGame::InitArenaStage(void)
 {
@@ -60,10 +61,10 @@ void CSceneGame::InitArenaStage(void)
 
 	// NPCの生成（ターゲットNPC）
 	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::ArenaTarget));
-	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
-	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[2]);
-	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
-	m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[2]);
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
 	// プレイヤーの位置設定
 	m_pPlayer->SetPosition(XMFLOAT3(0.0f, 0.0f, -180.0f));
@@ -118,9 +119,11 @@ CSceneGame::CSceneGame()
 		g_vNullCheckList.push_back(field.get()); // フィールド
 	}
 	g_vNullCheckList.push_back(m_pPlayer.get()); // プレイヤー
+	g_vAttackObjects.push_back(m_pPlayer.get()); // 攻撃用リストにプレイヤーを追加
 	for (auto& npc : m_pNpc)
 	{
 		g_vNullCheckList.push_back(npc.get()); // NPC
+		g_vAttackObjects.push_back(npc.get()); // 攻撃用リストにNPCを追加
 	}
 }
 
@@ -348,13 +351,14 @@ void CSceneGame::AttackCollisionCheck(void)
 {
 	for (auto& attackInfo : m_vAttackCollisionInfos)
 	{
-		for (auto& obj : g_vNullCheckList)
+		for (auto& obj : g_vAttackObjects)
 		{
 			if (SafeNullCheck(obj))
 			{
 				// 自分自身は除外
 				// 指定のタグが含まれている場合は除外
 				std::vector<Collision::Info>SkipTagCollision;
+				int EntityID;
 
 				for (auto& tag : attackInfo.CollisionInfo.tag)
 				{
@@ -362,15 +366,30 @@ void CSceneGame::AttackCollisionCheck(void)
 					{
 					case Collision::Tag::Npc:
 						SkipTagCollision = obj->GetCollisionInfo(Collision::Tag::Npc);
+						EntityID = static_cast<CNpcBase*>(obj)->GetEntityID();
 						break;
 					case Collision::Tag::Player:
 						SkipTagCollision = obj->GetCollisionInfo(Collision::Tag::Player);
+						EntityID = static_cast<CPlayer*>(obj)->GetEntityID();
 						break;
 					}
 				}
 				// 指定のタグが含まれている場合は除外
 				if (!SkipTagCollision.empty()) continue;
 
+				bool IsHited = false;
+
+				// すでに当たったことのある敵は除外
+				if (!attackInfo.HitEntityIDList.empty())
+				{
+					for (int id : attackInfo.HitEntityIDList)
+					{
+						if (id == EntityID) IsHited = true;
+					}
+				}
+				if (IsHited) continue;
+
+				// 当たり判定のチェック
 				auto targetCollisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
 				for (const auto& targetInfo : targetCollisionInfo)
 				{
@@ -379,8 +398,9 @@ void CSceneGame::AttackCollisionCheck(void)
 					{
 						obj->Hit(attackInfo.CollisionInfo, attackInfo.AttackPower); // 衝突時の処理を呼び出す
 
-						// この攻撃の持続時間を0にする
-						// attackInfo.DurationFrame = 0;
+						// NPCが攻撃を受けた場合、その攻撃に当たったNPCのIDを攻撃情報に追加
+						attackInfo.HitEntityIDList.push_back(EntityID);
+						break;
 					}
 				}
 			}
@@ -389,14 +409,18 @@ void CSceneGame::AttackCollisionCheck(void)
 		// 攻撃の持続時間を減少
 		attackInfo.DurationFrame -= 1.0f / fFPS;
 
-		// 持続時間が0以下になったら削除
-		if (attackInfo.DurationFrame <= 0)
+	}
+
+	// 持続時間が0以下になったら削除
+	for (auto itr = m_vAttackCollisionInfos.begin(); itr != m_vAttackCollisionInfos.end();)
+	{
+		if (itr->DurationFrame <= 0)
 		{
-			m_vAttackCollisionInfos.erase(
-				std::remove(
-					m_vAttackCollisionInfos.begin(),
-					m_vAttackCollisionInfos.end(),
-					attackInfo), m_vAttackCollisionInfos.end());
+			itr = m_vAttackCollisionInfos.erase(itr); // 持続時間が0以下の場合、攻撃情報を削除
+		}
+		else
+		{
+			++itr;
 		}
 	}
 }

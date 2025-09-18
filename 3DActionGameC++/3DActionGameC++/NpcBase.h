@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "WeaponInclude.h"
 #include "GaugeUI.h"
+#include "GameValues.h"
 
 
 /// <summary>
@@ -84,6 +85,10 @@ private:
 
 
 protected:
+	/// <summary>
+	/// エンティティのID
+	/// </summary>
+	int m_nEntityID = GameValue::Entity_ID++;
 
 	/// <summary>
 	/// 体力ゲージUI
@@ -152,6 +157,12 @@ protected:
 
 public:
 
+	/// <summary>
+	/// エンティティIDの取得
+	/// </summary>
+	/// <returns>エンティティID</returns>
+	int GetEntityID(void) { return  m_nEntityID; }
+	
 	/// <summary>
 	/// 所持している武器の取得
 	/// </summary>

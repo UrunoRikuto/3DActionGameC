@@ -8,6 +8,7 @@
 #include "Collision.h"
 #include "Enums.h"
 #include "StructMath.h"
+#include <list>
 
 // 攻撃の当たり判定情報
 struct AttackCollision
@@ -18,6 +19,8 @@ struct AttackCollision
 	float DurationFrame;
 	// 攻撃力
 	float AttackPower;
+	// 当たったエンティティのIDリスト
+	std::list<int> HitEntityIDList;
 
 	bool operator==(const AttackCollision& other) const
 	{
@@ -88,6 +91,7 @@ public:// アクセサ
 	float GetAttackSpeed(void) const { return m_fAttackSpeed; }
 	// @brief 攻撃範囲の取得
 	Collision::Info GetAttackRange(void) { return m_tAttackRange[m_nComboCount]; }
+	std::vector<Collision::Info>& GetAttackRanges(void) { return m_tAttackRange; }
 	// @brief 方向を加味した攻撃範囲の取得
 	Collision::Info GetAttackRangeDir(float Dir);
 	// @brief 攻撃の持続時間の取得

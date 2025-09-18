@@ -9,6 +9,7 @@
 #include <memory>
 #include "Ray.h"
 #include "WeaponInclude.h"
+#include "GameValues.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -83,6 +84,11 @@ private:
 private:
 
 	/// <summary>
+	/// エンティティのID
+	/// </summary>
+	int m_nEntityID = GameValue::Entity_ID++;
+
+	/// <summary>
 	/// 体力
 	/// </summary>
 	float m_fHp;
@@ -143,6 +149,12 @@ private:
 	float m_fBeforeJumpUnderHeight;
 
 public: //メンバ変数のアクセサ
+
+	/// <summary>
+	/// エンティティIDの取得
+	/// </summary>
+	/// <returns>エンティティID</returns>
+	int GetEntityID(void) { return  m_nEntityID; }
 
 	/// <summary>
 	/// 所持している武器の取得

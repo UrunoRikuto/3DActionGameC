@@ -88,7 +88,10 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 		// •Ší‚Ì¶¬
 		m_pWeapon = new CSword();
 		// •Ší‚Ì“–‚½‚è”»’è‚ÉNPCƒ^ƒO‚ğ’Ç‰Á
-		m_pWeapon->GetAttackRange().tag.push_back(Collision::Tag::Npc);
+		for (auto& AttackRange : m_pWeapon->GetAttackRanges())
+		{
+			AttackRange.tag.push_back(Collision::Tag::Npc);
+		}
 		// ‘Ì—Í‚Ìİ’è
 		m_fHp = GameValue::Npc::ArenaTarget::MAX_HP;
 		break;

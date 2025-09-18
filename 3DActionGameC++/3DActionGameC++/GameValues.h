@@ -28,6 +28,9 @@ namespace TexturePath
 /* ゲームの値 */
 namespace GameValue
 {
+	// @brief エンティティのID
+	static int Entity_ID = 0;
+
 	// プレイヤーの値
 	namespace Player
 	{
