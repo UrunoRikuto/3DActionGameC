@@ -90,6 +90,9 @@
     <Filter Include="コード ファイル\Component\Quest">
       <UniqueIdentifier>{53a7280b-c5fa-4b22-8bf9-132482141ec3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\Transition">
+      <UniqueIdentifier>{67419a78-9c57-436a-a7e0-372d68844469}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectX.cpp">
@@ -221,6 +224,9 @@
     <ClCompile Include="Quest.cpp">
       <Filter>コード ファイル\Component\Quest</Filter>
     </ClCompile>
+    <ClCompile Include="Fade.cpp">
+      <Filter>コード ファイル\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX.h">
@@ -351,6 +357,12 @@
     </ClInclude>
     <ClInclude Include="SceneQuestSelect.h">
       <Filter>コード ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Fade.h">
+      <Filter>コード ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>コード ファイル\Transition</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

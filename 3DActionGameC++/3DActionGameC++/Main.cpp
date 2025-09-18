@@ -17,6 +17,8 @@ DepthStencil* pDSV;
 
 bool IsLoop = true;
 CSceneBase* g_pScene;
+CTransition* g_pTransition = nullptr;
+CSceneBase* g_pNextScene = nullptr;
 
 HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 {
@@ -66,6 +68,22 @@ void Update()
 	UpdateInput();
 	MouseInput::Update();
 	g_pScene->Update();
+	if (g_pTransition != nullptr)
+	{
+		g_pTransition->Update();
+		if (g_pTransition->IsChange())
+		{
+			// ƒV[ƒ“•ÏXŽž‚Ìˆ—
+			SAFE_DELETE(g_pScene);
+			g_pScene = g_pNextScene;
+			g_pNextScene = nullptr;
+			g_pTransition->SetChange(false);
+		}
+		if (g_pTransition->IsEnd())
+		{
+			SAFE_DELETE(g_pTransition);
+		}
+	}
 }
 
 void Draw()
@@ -75,7 +93,10 @@ void Draw()
 	Geometory::SetProjection(Camera::GetInstance()->GetProjectionMatrix());
 	Geometory::SetView(Camera::GetInstance()->GetViewMatrix());
 	g_pScene->Draw();
-
+	if (g_pTransition != nullptr)
+	{
+		g_pTransition->Draw();
+	}
 	EndDrawDirectX();
 }
 
@@ -103,20 +124,20 @@ void SetGameEnd(void)
 	IsLoop = false;
 }
 
-void ChangeScene(SceneType Next)
+void ChangeScene(SceneType Next, CTransition* In_Transition)
 {
-	SAFE_DELETE(g_pScene);
+	g_pTransition = In_Transition;
 
 	switch (Next)
 	{
 	case SceneType::Title:
-		g_pScene = new CSceneTitle();
+		g_pNextScene = new CSceneTitle();
 		break;
 	case SceneType::QuestSelect:
-		g_pScene = new CSceneQuestSelect();
+		g_pNextScene = new CSceneQuestSelect();
 		break;
 	case SceneType::Game:
-		g_pScene = new CSceneGame();
+		g_pNextScene = new CSceneGame();
 		break;
 	}
 }

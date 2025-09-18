@@ -109,7 +109,7 @@ void CSceneQuestSelect::Update(void)
 			// クエストデータの設定
 			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
 			// シーン切り替え処理
-			ChangeScene(SceneType::Game);
+			ChangeScene(SceneType::Game, new CFade(2.0f));
 		}
 	}
 
@@ -122,7 +122,7 @@ void CSceneQuestSelect::Update(void)
 		else
 		{
 			// シーン切り替え処理
-			ChangeScene(SceneType::Title);
+			ChangeScene(SceneType::Title, new CFade(2.0f));
 		}
 	}
 }

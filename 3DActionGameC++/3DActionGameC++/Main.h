@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include "Enums.h"
 #include "SceneBase.h"
+#include "Transition.h"
+#include "Fade.h"
 
 HRESULT Init(HWND hWnd, UINT width, UINT height, HINSTANCE hInstance);
 void Uninit();
@@ -17,7 +19,7 @@ void SetRender3D();
 bool IsGameLoop(void);
 void SetGameEnd(void);
 
-void ChangeScene(SceneType Next);
+void ChangeScene(SceneType Next, CTransition* In_Transition);
 
 CSceneBase* GetCurrentScene(void);
 
