@@ -72,19 +72,67 @@ void CSceneGame::InitArenaStage(void)
 
 void CSceneGame::InitPlainStage(void)
 {
-	//// 移動ポイントの生成
-	//CMovePointManager::GetInstance()->CreateData(FieldType::Plain);
-	////- 移動ポイントマネージャーのインスタンスを取得
-	//std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
+	// フィールドの生成
+	// 地面の生成
+	float height = 0.0f; // 地面の高さ
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, height, 0.0f));
+	height = 1.0f;
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(200.0f, height, 0.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-200.0f, height, 0.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, height, 200.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(0.0f, height, -200.0f));
+	height = 2.0f;
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(200.0f, height, 200.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(200.0f, height, -200.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-200.0f, height, 200.0f));
+	m_pFieldObject.push_back(std::make_unique<CFieldObject>(FieldObjectType::Ground));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
+	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-200.0f, height, -200.0f));
 
-	//// NPCの生成（ターゲットNPC）
-	//m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::Normal));
-	//m_pNpc[0]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+	// すべてのフィールドのモデルサイズによる高さ補正
+	for (auto& field : m_pFieldObject)
+	{
+		field->SetPosition(StructMath::Add(field->GetPosition(), XMFLOAT3(0.0f, field->GetScale().y / 2.0f, 0.0f)));
+	}
 
-	//// NPCの生成（護衛NPC）
-	//m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::Normal));
-	//m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
-	//m_pNpc[1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+	// 移動ポイントの生成
+	CMovePointManager::GetInstance()->CreateData(StageType::Arena);
+	// 移動ポイントマネージャーのインスタンスを取得
+	std::vector<XMFLOAT3> pMovePointManager = CMovePointManager::GetInstance()->GetMovePoints();
+
+	// NPCの生成（ターゲットNPC）
+	m_pNpc.push_back(std::make_unique<CTargetNpc>(pMovePointManager[0], NpcType::ArenaTarget));
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[1]);
+
+	// NPCの生成（護衛NPC）
+	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::ArenaTarget));
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
+	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 }
 
 // @brief コンストラクタ

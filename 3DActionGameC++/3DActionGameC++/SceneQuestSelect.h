@@ -40,6 +40,12 @@ private:
 	// @brief Y座標のランダム選択
 	float RandomSelectPosY();
 
+	// @brief キーボード入力処理
+	void InputKeyBoard();
+
+	// @brief マウス入力処理
+	void InputMouse();
+
 private:
 
 	// @brief 選択確認フラグ

@@ -36,9 +36,6 @@
     <Filter Include="コード ファイル\Global">
       <UniqueIdentifier>{0003f63f-fb25-4dd0-bb6f-83258eabc8c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\Scene">
-      <UniqueIdentifier>{b3eefb57-b886-4a55-ab7f-d56a7a2346be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="コード ファイル\GameObject">
       <UniqueIdentifier>{30aaef5c-0d03-46dc-86a3-2f619db7d54e}</UniqueIdentifier>
     </Filter>
@@ -90,26 +87,29 @@
     <Filter Include="コード ファイル\Component\Quest">
       <UniqueIdentifier>{53a7280b-c5fa-4b22-8bf9-132482141ec3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="コード ファイル\Transition">
+    <Filter Include="コード ファイル\System">
+      <UniqueIdentifier>{d0ccd543-9769-43ec-baa2-6d62761bc97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\System\Transition">
       <UniqueIdentifier>{67419a78-9c57-436a-a7e0-372d68844469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\System\File">
+      <UniqueIdentifier>{e5a8897c-e884-4fb8-ac14-85e99c045eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\System\App">
+      <UniqueIdentifier>{b3eefb57-b886-4a55-ab7f-d56a7a2346be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Geometory">
+      <UniqueIdentifier>{1c65132c-696e-4852-9b03-6fb9e93c6795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\DirectX">
+      <UniqueIdentifier>{31da9126-1d53-4784-b22f-01885cd05f4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="コード ファイル\BaseSystem\Texture">
+      <UniqueIdentifier>{b7435b25-974e-4bbd-9d32-8f6db1e0c75c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DirectX.cpp">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Geometory.cpp">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Startup.cpp">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClCompile>
     <ClCompile Include="MeshBuffer.cpp">
       <Filter>コード ファイル\BaseSystem\Buffer</Filter>
     </ClCompile>
@@ -156,13 +156,13 @@
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
     </ClCompile>
     <ClCompile Include="SceneBase.cpp">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClCompile>
     <ClCompile Include="SceneGame.cpp">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClCompile>
     <ClCompile Include="SceneTitle.cpp">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClCompile>
     <ClCompile Include="Setting.cpp">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
@@ -219,28 +219,34 @@
       <Filter>コード ファイル\BaseSystem\Input</Filter>
     </ClCompile>
     <ClCompile Include="SceneQuestSelect.cpp">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClCompile>
     <ClCompile Include="Quest.cpp">
       <Filter>コード ファイル\Component\Quest</Filter>
     </ClCompile>
     <ClCompile Include="Fade.cpp">
-      <Filter>コード ファイル\Transition</Filter>
+      <Filter>コード ファイル\System\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Startup.cpp">
+      <Filter>コード ファイル\System\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>コード ファイル\System\App</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>コード ファイル\System\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometory.cpp">
+      <Filter>コード ファイル\BaseSystem\Geometory</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX.cpp">
+      <Filter>コード ファイル\BaseSystem\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>コード ファイル\BaseSystem\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectX.h">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometory.h">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Main.h">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>コード ファイル\BaseSystem</Filter>
-    </ClInclude>
     <ClInclude Include="MeshBuffer.h">
       <Filter>コード ファイル\BaseSystem\Buffer</Filter>
     </ClInclude>
@@ -284,13 +290,13 @@
       <Filter>コード ファイル\Global</Filter>
     </ClInclude>
     <ClInclude Include="SceneBase.h">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClInclude>
     <ClInclude Include="SceneGame.h">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClInclude>
     <ClInclude Include="SceneTitle.h">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClInclude>
     <ClInclude Include="Setting.h">
       <Filter>コード ファイル\BaseSystem\Sprite\DrawSetting</Filter>
@@ -356,13 +362,28 @@
       <Filter>コード ファイル\Component\Quest</Filter>
     </ClInclude>
     <ClInclude Include="SceneQuestSelect.h">
-      <Filter>コード ファイル\Scene</Filter>
+      <Filter>コード ファイル\System\App</Filter>
     </ClInclude>
     <ClInclude Include="Fade.h">
-      <Filter>コード ファイル\Transition</Filter>
+      <Filter>コード ファイル\System\Transition</Filter>
     </ClInclude>
     <ClInclude Include="Transition.h">
-      <Filter>コード ファイル\Transition</Filter>
+      <Filter>コード ファイル\System\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>コード ファイル\System\App</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>コード ファイル\System\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometory.h">
+      <Filter>コード ファイル\BaseSystem\Geometory</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX.h">
+      <Filter>コード ファイル\BaseSystem\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>コード ファイル\BaseSystem\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

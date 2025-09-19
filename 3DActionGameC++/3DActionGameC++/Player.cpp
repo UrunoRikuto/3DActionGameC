@@ -59,7 +59,7 @@ CPlayer::CPlayer()
 	m_tCollisionInfos[0].box.size = StructMath::Add(m_tScale, XMFLOAT3(0.0f, m_tScale.y * 2, 0.0f));
 
 	// 武器の生成
-	m_pWeapon = new CSword();
+	m_pWeapon = new CFist();
 	// 武器の当たり判定にプレイヤータグを追加
 	for (auto& AttackRange : m_pWeapon->GetAttackRanges())
 	{

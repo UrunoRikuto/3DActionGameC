@@ -8,6 +8,7 @@
 
 /* システム・要素のインクルード */
 #include "Input.h"
+#include "Mouse.h"
 #include "GameValues.h"
 #include "DirectXTex/TextureLoad.h"
 #include "Defines.h"
@@ -38,15 +39,7 @@ CSceneQuestSelect::CSceneQuestSelect()
 
 	// クエストデータの登録
 	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Plain, 120.0f, 3 });
 
 	Vertex noteVtx[4] = {
 	{ {-400.0f,-300.0f,0.0f},{0.0f,0.0f}},
@@ -77,54 +70,10 @@ CSceneQuestSelect::~CSceneQuestSelect()
 // @brief 更新処理
 void CSceneQuestSelect::Update(void)
 {
-	// 名前空間の使用
-	using namespace InputKey::QuestSelect;
-
-	if (IsKeyTrigger(NEXT))
-	{
-		m_CurrentIndex++;
-		if (m_CurrentIndex > m_QuestList.size() - 1)
-		{
-			m_CurrentIndex = m_QuestList.size() - 1;
-		}
-	}
-
-	if (IsKeyTrigger(BEFORE))
-	{
-		m_CurrentIndex--;
-		if (m_CurrentIndex < 0)
-		{
-			m_CurrentIndex = 0;
-		}
-	}
-
-	if (IsKeyTrigger(DECIDE))
-	{
-		if (!m_bSelectChack)
-		{
-			m_bSelectChack = true;
-		}
-		else
-		{
-			// クエストデータの設定
-			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
-			// シーン切り替え処理
-			ChangeScene(SceneType::Game, new CFade(2.0f));
-		}
-	}
-
-	if (IsKeyTrigger(CANCEL))
-	{
-		if (m_bSelectChack)
-		{
-			m_bSelectChack = false;
-		}
-		else
-		{
-			// シーン切り替え処理
-			ChangeScene(SceneType::Title, new CFade(2.0f));
-		}
-	}
+	// キーボード入力処理
+	InputKeyBoard();
+	// マウス入力処理
+	InputMouse();
 }
 
 // @brief 描画処理
@@ -204,4 +153,125 @@ float CSceneQuestSelect::RandomSelectPosY()
 	}
 
 	return Y;
+}
+
+// @brief キーボード入力処理
+void CSceneQuestSelect::InputKeyBoard()
+{
+	// 名前空間の使用
+	using namespace InputKey::QuestSelect;
+
+	// クエスト依頼書の選択
+	if (IsKeyTrigger(NEXT))
+	{
+		m_CurrentIndex++;
+		if (m_CurrentIndex > m_QuestList.size() - 1)
+		{
+			m_CurrentIndex = m_QuestList.size() - 1;
+		}
+	}
+	if (IsKeyTrigger(BEFORE))
+	{
+		m_CurrentIndex--;
+		if (m_CurrentIndex < 0)
+		{
+			m_CurrentIndex = 0;
+		}
+	}
+
+	// クエスト依頼書の決定・キャンセル
+	if (IsKeyTrigger(DECIDE))
+	{
+		if (!m_bSelectChack)
+		{
+			m_bSelectChack = true;
+		}
+		else
+		{
+			// クエストデータの設定
+			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
+			// シーン切り替え処理
+			ChangeScene(SceneType::Game, new CFade(2.0f));
+		}
+	}
+	if (IsKeyTrigger(CANCEL))
+	{
+		if (m_bSelectChack)
+		{
+			m_bSelectChack = false;
+		}
+		else
+		{
+			// シーン切り替え処理
+			ChangeScene(SceneType::Title, new CFade(2.0f));
+		}
+	}
+}
+
+// @brief マウス入力処理
+void CSceneQuestSelect::InputMouse()
+{
+	// マウスの座標を取得
+	POINT mousePos = MouseInput::GetCenterMousePos();
+
+	// クエスト依頼書の選択
+	//if (!m_bSelectChack)
+	//{
+	//	for (int i = 0, x = 0; i < m_QuestList.size(); x++, i++)
+	//	{
+	//		if (!(i % 5)) x = 0;
+	//		// クエスト依頼書の範囲
+	//		RECT questRect = {
+	//			(long)((x * 600.0f) - (600.0f * 2) - 200.0f),
+	//			(long)(m_RandPosY[i] - 150.0f),
+	//			(long)((x * 600.0f) - (600.0f * 2) + 200.0f),
+	//			(long)(m_RandPosY[i] + 150.0f)
+	//		};
+	//		if (PtInRect(&questRect, mousePos))
+	//		{
+	//			m_CurrentIndex = i;
+	//			break;
+	//		}
+	//	}
+	//}
+	//else
+	//{
+	//	// クエスト依頼書の範囲
+	//	RECT questRect = {
+	//		(long)(-400.0f - 600.0f),
+	//		(long)(-300.0f - 300.0f),
+	//		(long)(400.0f + 600.0f),
+	//		(long)(300.0f + 300.0f)
+	//	};
+	//	if (PtInRect(&questRect, mousePos))
+	//	{
+	//		// クエストデータの設定
+	//		CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
+	//		// シーン切り替え処理
+	//		ChangeScene(SceneType::Game, new CFade(2.0f));
+	//	}
+	//}
+	
+	// クエスト依頼書の決定・キャンセル
+	if (MouseInput::IsTrigger(MouseInput::MouseButton::Left))
+	{
+		if (!m_bSelectChack)
+		{
+			m_bSelectChack = true;
+		}
+		else
+		{
+			// クエストデータの設定
+			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
+			// シーン切り替え処理
+			ChangeScene(SceneType::Game, new CFade(2.0f));
+		}
+	}
+	if (MouseInput::IsTrigger(MouseInput::MouseButton::Right))
+	{
+		if (m_bSelectChack)
+		{
+			m_bSelectChack = false;
+		}
+	}
 }

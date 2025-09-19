@@ -40,6 +40,10 @@ public:
 	// @brief マウスが移動したか
 	// @param In_Type マウスの移動方向
 	static bool IsMove(MouseMove In_Type);
+
+	// @brief マウスの現在座標を取得
+	// @return マウスの現在座標
+	static POINT GetCenterMousePos() { return m_CenterMousePos; }
 private:
 	static POINT m_CenterMousePos;
 	static POINT m_CurrentMousePos;

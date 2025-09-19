@@ -136,6 +136,7 @@
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="FieldObject.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="Fist.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GaugeUI.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="FieldObject.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="Fist.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameValues.h" />
