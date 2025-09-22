@@ -108,6 +108,9 @@
     <Filter Include="コード ファイル\BaseSystem\Texture">
       <UniqueIdentifier>{b7435b25-974e-4bbd-9d32-8f6db1e0c75c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\System\Timer">
+      <UniqueIdentifier>{0f46f5e7-5ecd-4f27-b5fb-cfcc6e65a172}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshBuffer.cpp">
@@ -244,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>コード ファイル\BaseSystem\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>コード ファイル\System\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +390,9 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>コード ファイル\BaseSystem\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>コード ファイル\System\Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

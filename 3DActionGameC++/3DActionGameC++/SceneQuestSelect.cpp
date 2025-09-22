@@ -39,8 +39,8 @@ CSceneQuestSelect::CSceneQuestSelect()
 
 
 	// クエストデータの登録
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::PlainNormal,StageType::Plain, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 10.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::PlainNormal,StageType::Plain, 10.0f, 3 });
 
 	Vertex noteVtx[4] = {
 	{ {-400.0f,-300.0f,0.0f},{0.0f,0.0f}},
@@ -236,7 +236,7 @@ void CSceneQuestSelect::DECIDE()
 			// クエストデータの設定
 			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
 			// シーン切り替え処理
-			ChangeScene(SceneType::Game, new CFade(2.0f));
+			ChangeScene(SceneType::Game, TransitionType::Fade);
 		}
 	}
 	if (IsKeyTrigger(InputKey::QuestSelect::CANCEL) || MouseInput::IsTrigger(MouseInput::MouseButton::Right))
@@ -248,7 +248,7 @@ void CSceneQuestSelect::DECIDE()
 		else
 		{
 			// シーン切り替え処理
-			ChangeScene(SceneType::Title, new CFade(2.0f));
+			ChangeScene(SceneType::Title, TransitionType::Fade);
 		}
 	}
 }

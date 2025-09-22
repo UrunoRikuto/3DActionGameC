@@ -137,3 +137,13 @@ enum class QuestType
 	PlainNormal,	// 草原ノーマル
 	MAX,
 };
+
+/*
+* @brief トランジションの種類
+* @param 0：フェード
+*/
+enum class TransitionType
+{
+	Fade,		// フェード
+	MAX,
+};

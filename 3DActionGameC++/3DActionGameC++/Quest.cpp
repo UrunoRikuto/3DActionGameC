@@ -6,6 +6,9 @@
 /* ヘッダーのインクルード */
 #include "Quest.h"
 
+/* システム・要素のインクルード */
+#include "Timer.h"
+
 // シングルトンのインスタンスの初期化
 CQuest* CQuest::m_pInstance = nullptr;
 
@@ -18,6 +21,15 @@ CQuest* CQuest::GetInstance()
 	}
 
 	return m_pInstance;
+}
+
+void CQuest::DeleteInstance()
+{
+	if (m_pInstance)
+	{
+		delete m_pInstance;
+		m_pInstance = nullptr;
+	}
 }
 
 // @brief コンストラクタ
@@ -41,7 +53,10 @@ CQuest::~CQuest()
 // @param In_QuestData 設定するクエストデータ
 void CQuest::SetQuestData(const QuestData& In_QuestData)
 {
+	// クエストデータの設定
 	m_QuestData = In_QuestData;
+	// 制限時間の設定
+	CTimer::GetInstance()->SetLimitTime(m_QuestData.limitTime);
 }
 
 // @brief クエストデータの取得

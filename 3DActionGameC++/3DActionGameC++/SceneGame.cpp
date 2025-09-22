@@ -20,6 +20,7 @@
 #include "GameValues.h"
 #include "MovePointManager.h"
 #include "Quest.h"
+#include "Timer.h"
 
 /* グローバル変数 */
 std::list<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
@@ -184,26 +185,38 @@ CSceneGame::~CSceneGame()
 // @brief 更新処理
 void CSceneGame::Update(void)
 {
-	for(auto& obj : g_vNullCheckList)
+	if (!CTimer::GetInstance()->Update())
 	{
-		if (SafeNullCheck(obj))
+		for (auto& obj : g_vNullCheckList)
 		{
-			obj->Update(); // Nullチェックを行い、オブジェクトが有効な場合のみ更新処理を呼び出す
+			if (SafeNullCheck(obj))
+			{
+				obj->Update(); // Nullチェックを行い、オブジェクトが有効な場合のみ更新処理を呼び出す
+			}
 		}
+
+		CollisionCheck(); // 当たり判定の衝突チェック
+
+		RayCastCheck(); // レイキャストのチェック
+
+		AttackCollisionCheck(); // 攻撃の当たり判定チェック
 	}
-
-	CollisionCheck(); // 当たり判定の衝突チェック
-
-	RayCastCheck(); // レイキャストのチェック
-
-	AttackCollisionCheck(); // 攻撃の当たり判定チェック
+	else
+	{
+		// タイムアップ時の処理
+		// ゲームオーバーテロップを表示して、クエスト選択シーンへ遷移
+		ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
+	}
 }
 
 // @brief 描画処理
 void CSceneGame::Draw(void)
 {
+	// タイマーの描画
+	CTimer::GetInstance()->Draw();
+
 	// 移動ポイントのデバッグ描画
-	CMovePointManager::GetInstance()->DebugDraw(); // 移動ポイントのデバッグ描画
+	CMovePointManager::GetInstance()->DebugDraw();
 
 	// 攻撃の当たり判定のデバッグ描画
 	for (const auto& attack : m_vAttackCollisionInfos)

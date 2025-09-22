@@ -118,6 +118,14 @@ namespace GameValue
 		constexpr float PASSABLE_RANGE = 10.0f;
 	}
 
+	// タイマーの値
+	namespace Timer
+	{
+		// バーのサイズ
+		constexpr float GAUGE_SIZE_X = 20.0f;
+		constexpr float GAUGE_SIZE_Y = SCREEN_HEIGHT;
+		
+	}
 }
 
 /* 入力キー */

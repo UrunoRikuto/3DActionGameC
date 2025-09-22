@@ -36,6 +36,8 @@ public:
 	// @brief インスタンスの取得
 	// @return インスタンスのポインタ
 	static CQuest* GetInstance();
+	// @brief インスタンスの解放
+	static void DeleteInstance();
 
 private:
 	// @brief コンストラクタ

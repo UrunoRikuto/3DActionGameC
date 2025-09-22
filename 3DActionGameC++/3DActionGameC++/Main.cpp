@@ -11,6 +11,7 @@
 #include "SceneGame.h"
 #include "ShaderList.h"
 #include "Camera.h"
+#include "Fade.h"
 
 RenderTarget* pRTV;
 DepthStencil* pDSV;
@@ -124,9 +125,14 @@ void SetGameEnd(void)
 	IsLoop = false;
 }
 
-void ChangeScene(SceneType Next, CTransition* In_Transition)
+void ChangeScene(SceneType Next, TransitionType In_Transition)
 {
-	g_pTransition = In_Transition;
+	switch (In_Transition)
+	{
+	case TransitionType::Fade:
+		g_pTransition = new CFade(2.0f);
+		break;
+	}
 
 	switch (Next)
 	{

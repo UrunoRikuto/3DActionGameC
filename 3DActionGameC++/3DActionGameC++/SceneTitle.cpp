@@ -54,7 +54,7 @@ void CSceneTitle::Update(void)
 	if (IsKeyTrigger(VK_RETURN) || MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 	{
 		//ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—
-		ChangeScene(SceneType::QuestSelect, new CFade(2.0f));
+		ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
 	}
 }
 

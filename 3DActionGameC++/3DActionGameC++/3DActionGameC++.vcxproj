@@ -173,6 +173,7 @@
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="TargetNpc.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VisionSearch.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Sword.h" />
     <ClInclude Include="TargetNpc.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VisionSearch.h" />
