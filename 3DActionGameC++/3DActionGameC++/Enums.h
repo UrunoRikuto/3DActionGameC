@@ -134,5 +134,6 @@ enum class StageType
 enum class QuestType
 {
 	ArenaNormal,	// 闘技場ノーマル
+	PlainNormal,	// 草原ノーマル
 	MAX,
 };

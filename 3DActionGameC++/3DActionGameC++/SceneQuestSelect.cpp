@@ -40,7 +40,7 @@ CSceneQuestSelect::CSceneQuestSelect()
 
 	// クエストデータの登録
 	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Plain, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::PlainNormal,StageType::Plain, 120.0f, 3 });
 
 	Vertex noteVtx[4] = {
 	{ {-400.0f,-300.0f,0.0f},{0.0f,0.0f}},
@@ -50,7 +50,10 @@ CSceneQuestSelect::CSceneQuestSelect()
 	};
 	m_pQuestPaperVtx = CreateVertexBuffer(noteVtx, 4);
 
+
 	hr = LoadTextureFromFile(GetDevice(), TEXTURE_PATH("QuestPaper_ArenaNormal.png"), &m_pQuestPaperTex[(int)QuestType::ArenaNormal]);
+	hr = LoadTextureFromFile(GetDevice(), TEXTURE_PATH("QuestPaper_PlainNormal.png"), &m_pQuestPaperTex[(int)QuestType::PlainNormal]);
+
 
 	// クエスト依頼書のY座標をランダムに設定
 	for (int i = 0; i < m_QuestList.size(); i++)
@@ -98,7 +101,7 @@ void CSceneQuestSelect::Draw(void)
 
 		if (i == m_CurrentIndex && m_bSelectChack)continue;
 
-		SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[m_CurrentIndex].questType]);
+		SetSpriteTexture(m_pQuestPaperTex[(int)m_QuestList[i].questType]);
 		SetSpritePos((x * 600.0f) - (600.0f * 2), m_RandPosY[i]);
 		SetSpriteScale(1.0f, 1.0f);
 		SetSpriteColor(0.5f, 0.5f, 0.5f, 1.0f);
