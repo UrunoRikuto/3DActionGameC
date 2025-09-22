@@ -14,6 +14,7 @@
 #include "Defines.h"
 #include "VertexBuffer.h"
 #include "Main.h"
+#include <string>
 
 // @brief コンストラクタ
 CSceneQuestSelect::CSceneQuestSelect()
@@ -70,10 +71,10 @@ CSceneQuestSelect::~CSceneQuestSelect()
 // @brief 更新処理
 void CSceneQuestSelect::Update(void)
 {
-	// キーボード入力処理
-	InputKeyBoard();
-	// マウス入力処理
-	InputMouse();
+	// クエスト依頼書の選択
+	Select();
+	// クエスト依頼書の決定・キャンセル
+	DECIDE();
 }
 
 // @brief 描画処理
@@ -155,13 +156,13 @@ float CSceneQuestSelect::RandomSelectPosY()
 	return Y;
 }
 
-// @brief キーボード入力処理
-void CSceneQuestSelect::InputKeyBoard()
+// @brief クエスト依頼書の選択
+void CSceneQuestSelect::Select()
 {
 	// 名前空間の使用
 	using namespace InputKey::QuestSelect;
 
-	// クエスト依頼書の選択
+	// - キーボード入力処理 -
 	if (IsKeyTrigger(NEXT))
 	{
 		m_CurrentIndex++;
@@ -179,8 +180,49 @@ void CSceneQuestSelect::InputKeyBoard()
 		}
 	}
 
+	// - マウス入力処理 -
+
+	// マウスの座標を取得
+	POINT mousePos = MouseInput::GetCurrentMousePos();
+
+	// マウスの座標をスクリーン座標に変換
+	DirectX::XMFLOAT2 fMousePos = DirectX::XMFLOAT2((float)mousePos.x, (float)mousePos.y);
+	fMousePos.x -= (SCREEN_WIDTH / 2);
+	fMousePos.y -= (SCREEN_HEIGHT / 2);
+
+	fMousePos.x *= 2.0f;
+	fMousePos.y *= 2.0f;
+
+	
+	// クエスト依頼書の選択
+	if (!m_bSelectChack)
+	{
+		for (int i = 0, x = 0; i < m_QuestList.size(); x++, i++)
+		{
+			if (!(i % 5)) x = 0;
+			// クエスト依頼書の範囲
+			float questRectF[4] = {
+				((x * 600.0f) - (600.0f * 2)) - 200.0f,
+				((x * 600.0f) - (600.0f * 2)) + 200.0f,
+				(m_RandPosY[i]) - 150.0f,
+				(m_RandPosY[i]) + 150.0f,
+			};
+			
+			// クエスト依頼書の範囲内にマウスがあるか
+			if (questRectF[0] <= fMousePos.x && fMousePos.x <= questRectF[1] &&
+				questRectF[2] <= fMousePos.y && fMousePos.y <= questRectF[3])
+			{
+				m_CurrentIndex = i;
+			}
+		}
+	}
+}
+
+// @brief クエスト依頼書の決定・キャンセル
+void CSceneQuestSelect::DECIDE()
+{
 	// クエスト依頼書の決定・キャンセル
-	if (IsKeyTrigger(DECIDE))
+	if (IsKeyTrigger(InputKey::QuestSelect::DECIDE) || MouseInput::IsTrigger(MouseInput::MouseButton::Left))
 	{
 		if (!m_bSelectChack)
 		{
@@ -194,7 +236,7 @@ void CSceneQuestSelect::InputKeyBoard()
 			ChangeScene(SceneType::Game, new CFade(2.0f));
 		}
 	}
-	if (IsKeyTrigger(CANCEL))
+	if (IsKeyTrigger(InputKey::QuestSelect::CANCEL) || MouseInput::IsTrigger(MouseInput::MouseButton::Right))
 	{
 		if (m_bSelectChack)
 		{
@@ -204,74 +246,6 @@ void CSceneQuestSelect::InputKeyBoard()
 		{
 			// シーン切り替え処理
 			ChangeScene(SceneType::Title, new CFade(2.0f));
-		}
-	}
-}
-
-// @brief マウス入力処理
-void CSceneQuestSelect::InputMouse()
-{
-	// マウスの座標を取得
-	POINT mousePos = MouseInput::GetCenterMousePos();
-
-	// クエスト依頼書の選択
-	//if (!m_bSelectChack)
-	//{
-	//	for (int i = 0, x = 0; i < m_QuestList.size(); x++, i++)
-	//	{
-	//		if (!(i % 5)) x = 0;
-	//		// クエスト依頼書の範囲
-	//		RECT questRect = {
-	//			(long)((x * 600.0f) - (600.0f * 2) - 200.0f),
-	//			(long)(m_RandPosY[i] - 150.0f),
-	//			(long)((x * 600.0f) - (600.0f * 2) + 200.0f),
-	//			(long)(m_RandPosY[i] + 150.0f)
-	//		};
-	//		if (PtInRect(&questRect, mousePos))
-	//		{
-	//			m_CurrentIndex = i;
-	//			break;
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	// クエスト依頼書の範囲
-	//	RECT questRect = {
-	//		(long)(-400.0f - 600.0f),
-	//		(long)(-300.0f - 300.0f),
-	//		(long)(400.0f + 600.0f),
-	//		(long)(300.0f + 300.0f)
-	//	};
-	//	if (PtInRect(&questRect, mousePos))
-	//	{
-	//		// クエストデータの設定
-	//		CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
-	//		// シーン切り替え処理
-	//		ChangeScene(SceneType::Game, new CFade(2.0f));
-	//	}
-	//}
-	
-	// クエスト依頼書の決定・キャンセル
-	if (MouseInput::IsTrigger(MouseInput::MouseButton::Left))
-	{
-		if (!m_bSelectChack)
-		{
-			m_bSelectChack = true;
-		}
-		else
-		{
-			// クエストデータの設定
-			CQuest::GetInstance()->SetQuestData(m_QuestList[m_CurrentIndex]);
-			// シーン切り替え処理
-			ChangeScene(SceneType::Game, new CFade(2.0f));
-		}
-	}
-	if (MouseInput::IsTrigger(MouseInput::MouseButton::Right))
-	{
-		if (m_bSelectChack)
-		{
-			m_bSelectChack = false;
 		}
 	}
 }

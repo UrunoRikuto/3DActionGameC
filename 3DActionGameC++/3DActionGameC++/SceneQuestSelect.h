@@ -40,11 +40,10 @@ private:
 	// @brief Y座標のランダム選択
 	float RandomSelectPosY();
 
-	// @brief キーボード入力処理
-	void InputKeyBoard();
-
-	// @brief マウス入力処理
-	void InputMouse();
+	// @brief クエストの選択
+	void Select();
+	// @brief クエスト依頼書の決定・キャンセル
+	void DECIDE();
 
 private:
 

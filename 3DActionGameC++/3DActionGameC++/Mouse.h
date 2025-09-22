@@ -43,7 +43,7 @@ public:
 
 	// @brief マウスの現在座標を取得
 	// @return マウスの現在座標
-	static POINT GetCenterMousePos() { return m_CenterMousePos; }
+	static POINT GetCurrentMousePos() { return m_CurrentMousePos; }
 private:
 	static POINT m_CenterMousePos;
 	static POINT m_CurrentMousePos;
