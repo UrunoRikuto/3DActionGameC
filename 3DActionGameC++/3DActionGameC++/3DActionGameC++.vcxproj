@@ -232,7 +232,6 @@
     <Text Include="Assets\設計\ゲーム設計.txt" />
     <Text Include="Assets\設計\コミットメッセージ[prefix]規則.txt" />
     <Text Include="Assets\設計\コードクリーンアップ規則.txt" />
-    <Text Include="Assets\設計\ハンガリアン記法.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
