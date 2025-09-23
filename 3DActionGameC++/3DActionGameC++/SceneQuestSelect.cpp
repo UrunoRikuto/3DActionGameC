@@ -164,11 +164,8 @@ float CSceneQuestSelect::RandomSelectPosY()
 // @brief クエスト依頼書の選択
 void CSceneQuestSelect::Select()
 {
-	// 名前空間の使用
-	using namespace InputKey::QuestSelect;
-
 	// - キーボード入力処理 -
-	if (IsKeyTrigger(NEXT))
+	if (IsKeyTrigger(InputKey::QuestSelect::NEXT))
 	{
 		m_CurrentIndex++;
 		if (m_CurrentIndex > m_QuestList.size() - 1)
@@ -176,7 +173,7 @@ void CSceneQuestSelect::Select()
 			m_CurrentIndex = m_QuestList.size() - 1;
 		}
 	}
-	if (IsKeyTrigger(BEFORE))
+	if (IsKeyTrigger(InputKey::QuestSelect::BEFORE))
 	{
 		m_CurrentIndex--;
 		if (m_CurrentIndex < 0)

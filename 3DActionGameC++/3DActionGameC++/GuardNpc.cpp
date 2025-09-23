@@ -18,8 +18,6 @@
 CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	:CNpcBase(NpcType) // 基底クラスのコンストラクタを呼び出す
 {
-	using namespace StructMath;
-
 	// モデルの読み込み
 	if (!m_pModel->Load(ModelPath::GUARD_NPC_PATH))
 	{
@@ -39,7 +37,7 @@ CGuardNpc::CGuardNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 補正高さ
 	m_fAjustPositionY = (m_tScale.y * 2) / 2.0f;
 	// 位置
-	m_tPosition = Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
+	m_tPosition = StructMath::Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
 	// 回転
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
@@ -125,10 +123,6 @@ void CGuardNpc::Update(void)
 // @brief 移動処理
 void CGuardNpc::Move(void)
 {
-
-	// 名前空間の使用
-	using namespace StructMath;
-
 	XMFLOAT3 movePoint = XMFLOAT3();
 
 	switch (m_eSearchState)
@@ -143,10 +137,10 @@ void CGuardNpc::Move(void)
 		break;
 	}
 
-	XMFLOAT3 moveDir = Direction(m_tPosition, movePoint);
+	XMFLOAT3 moveDir = StructMath::Direction(m_tPosition, movePoint);
 
 	// 攻撃中でない場合は移動量を適用
-	if (!m_bAttack)SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
+	if (!m_bAttack)SetPosition(StructMath::Add(m_tPosition, StructMath::Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
 	// 向きの更新
 	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
 }
@@ -154,9 +148,6 @@ void CGuardNpc::Move(void)
 // @brief 攻撃処理
 void CGuardNpc::Attack(void)
 {
-	// 名前空間の使用宣言
-	using namespace StructMath;
-
 	// クールタイムが残っている場合はクールタイムを減らす
 	if (m_fAttackCD > 0.0f)
 	{
@@ -178,8 +169,8 @@ void CGuardNpc::Attack(void)
 		XMFLOAT3 weaponCollisionSize = m_pWeapon->GetAttackRange().box.size;
 		float maxAttackRange = std::max(weaponCollisionSize.x, weaponCollisionSize.z); // 攻撃範囲の最大値を計算
 
-		if (Abs(Sub(playerPos, m_tPosition)).x > maxAttackRange * 2.0f ||
-			Abs(Sub(playerPos, m_tPosition)).z > maxAttackRange * 2.0f)
+		if (StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).x > maxAttackRange * 2.0f ||
+			StructMath::Abs(StructMath::Sub(playerPos, m_tPosition)).z > maxAttackRange * 2.0f)
 		{
 			m_bAttack = false;
 			return;
@@ -189,7 +180,7 @@ void CGuardNpc::Attack(void)
 		// 向きを参照して前に出す
 		XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, playerPos);
 
-		m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, maxAttackRange)));
+		m_pWeapon->Update(StructMath::Add(m_tPosition, StructMath::Mul(attackDir, maxAttackRange)));
 
 		/// @todo ここで攻撃タイミングの判定を行う(乱数(確率は参照するたびに上昇))
 

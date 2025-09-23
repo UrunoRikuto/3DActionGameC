@@ -43,11 +43,6 @@ CVisionSearch::~CVisionSearch()
 // @return 更新後の索敵状態
 VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionSearchState In_CurrentSearchState)
 {
-	// 名前空間の使用
-	using namespace GameValue::Npc;
-	using namespace GameValue::VisionSearch;
-	using namespace StructMath;
-
 	// 視野角の更新
 	UpdateViewAngle();
 
@@ -57,7 +52,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	switch (npcType)
 	{
 	case NpcType::ArenaTarget:
-		m_fViewDistance = ArenaTarget::VIEW_DISTANCE; // 通常NPCの視野距離を設定
+		m_fViewDistance = GameValue::Npc::ArenaTarget::VIEW_DISTANCE; // 通常NPCの視野距離を設定
 		break;
 	}
 
@@ -68,16 +63,16 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	switch (playerPosture)
 	{
 	case PlayerPosture::Stand:
-		m_fViewDistance *= StealthCorrection::STAND; // 立ち姿勢の視認距離はそのまま
+		m_fViewDistance *= GameValue::VisionSearch::StealthCorrection::STAND; // 立ち姿勢の視認距離はそのまま
 		break;
 	case PlayerPosture::Crouch:
-		m_fViewDistance *= StealthCorrection::CROUCH; // しゃがみ姿勢の視認距離を補正
+		m_fViewDistance *= GameValue::VisionSearch::StealthCorrection::CROUCH; // しゃがみ姿勢の視認距離を補正
 		break;
 	case PlayerPosture::Prone:
-		m_fViewDistance *= StealthCorrection::PRONE; // 伏せ姿勢の視認距離を補正
+		m_fViewDistance *= GameValue::VisionSearch::StealthCorrection::PRONE; // 伏せ姿勢の視認距離を補正
 		break;
 	case PlayerPosture::Hide:
-		m_fViewDistance *= StealthCorrection::HIDE; // 潜伏姿勢の視認距離を補正
+		m_fViewDistance *= GameValue::VisionSearch::StealthCorrection::HIDE; // 潜伏姿勢の視認距離を補正
 		break;
 	}
 
@@ -85,7 +80,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 	XMFLOAT3 TargetPos = pTarget->GetPosition();
 
 	// ターゲットとの距離を計算
-	float distance = Distance(In_SelfPosition, TargetPos);
+	float distance = StructMath::Distance(In_SelfPosition, TargetPos);
 
 	// 索敵状態によって処理を分岐
 	switch (In_CurrentSearchState)
@@ -97,7 +92,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			// ターゲットのいる位置
 			m_pRay->SetOrigin(In_SelfPosition);
 			// ターゲットの方向を計算
-			m_pRay->SetDirection(Normalize(Sub(TargetPos, In_SelfPosition)));
+			m_pRay->SetDirection(StructMath::Normalize(StructMath::Sub(TargetPos, In_SelfPosition)));
 
 			// 視野角内にターゲットがいるかどうかのチェック
 			if (CheckTargetInViewAngle())
@@ -137,20 +132,20 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 				}
 
 				// 見失い値が一定時間を超えた場合は見失い状態に遷移
-				if (m_fLostTimer > LOST_TIME)
+				if (m_fLostTimer > GameValue::VisionSearch::LOST_TIME)
 				{
 					// LostTimerが一定時間を超えた場合は見失い状態に遷移
 					// 発見値を一定割合減少させる
-					m_fDetectionValue *= LOST_DETECTION_RATE;
+					m_fDetectionValue *= GameValue::VisionSearch::LOST_DETECTION_RATE;
 					// LostTimerをリセット
 					m_fLostTimer = 0.0f;
 
 					return VisionSearchState::Lost;
 				}
 				// 発見値が最大値を超えた場合は発見状態に遷移
-				if (m_fDetectionValue > MAX_DETECTION_TIME)
+				if (m_fDetectionValue > GameValue::VisionSearch::MAX_DETECTION_TIME)
 				{
-					m_fDetectionValue = MAX_DETECTION_TIME; // 発見値を最大値に制限
+					m_fDetectionValue = GameValue::VisionSearch::MAX_DETECTION_TIME; // 発見値を最大値に制限
 					return VisionSearchState::Discovery; // 発見状態に遷移
 				}
 			}
@@ -166,7 +161,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 		{
 			// ゲージUIの更新
 			m_pDetectionGauge->Updatde(
-				Add(In_SelfPosition, XMFLOAT3(0.0f, 3.0f, 0.0f)), // 自身の位置の少し上に表示
+				StructMath::Add(In_SelfPosition, XMFLOAT3(0.0f, 3.0f, 0.0f)), // 自身の位置の少し上に表示
 				m_fDetectionValue); // 発見値の割合を設定
 		}
 
@@ -200,7 +195,7 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 		}
 
 		// 見失い値が一定時間を超えた場合は異常なし状態に遷移
-		if (m_fLostTimer > LOST_TIME)
+		if (m_fLostTimer > GameValue::VisionSearch::LOST_TIME)
 		{
 			// LostTimerをリセット
 			m_fLostTimer = 0.0f;
@@ -210,10 +205,10 @@ VisionSearchState CVisionSearch::Search(const XMFLOAT3& In_SelfPosition, VisionS
 			return VisionSearchState::None;
 		}
 		// 発見値が最大値を超えた場合は発見状態に遷移
-		if (m_fDetectionValue > MAX_DETECTION_TIME)
+		if (m_fDetectionValue > GameValue::VisionSearch::MAX_DETECTION_TIME)
 		{
 			// 発見値を最大値に制限
-			m_fDetectionValue = MAX_DETECTION_TIME;
+			m_fDetectionValue = GameValue::VisionSearch::MAX_DETECTION_TIME;
 			// 発見状態に遷移
 			return VisionSearchState::Discovery;
 			// ゲージUIの削除
@@ -275,9 +270,6 @@ void CVisionSearch::DebugDraw(void)
 // @brief 視野角の更新
 void CVisionSearch::UpdateViewAngle(void)
 {
-	// 名前空間の使用
-	using namespace GameValue::Npc;
-
 	// 視野角
 	float viewAngle = 60.0f;
 	// 視野距離
@@ -289,8 +281,8 @@ void CVisionSearch::UpdateViewAngle(void)
 	switch (npcType)
 	{
 	case NpcType::ArenaTarget:
-		viewAngle = ArenaTarget::VIEW_ANGLE;
-		viewDistance = ArenaTarget::VIEW_DISTANCE;
+		viewAngle = GameValue::Npc::ArenaTarget::VIEW_ANGLE;
+		viewDistance = GameValue::Npc::ArenaTarget::VIEW_DISTANCE;
 		break;
 	}
 
@@ -382,19 +374,16 @@ bool CVisionSearch::CheckTargetInViewAngle(void)
 // @param C 三角形の頂点
 bool CVisionSearch::CheckPointInTriangle(const XMFLOAT3& Point) const
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	// ベクトルの計算
-	XMFLOAT3 v0 = Sub(m_TrianglePoint[1], m_TrianglePoint[0]);
-	XMFLOAT3 v1 = Sub(m_TrianglePoint[2], m_TrianglePoint[0]);
-	XMFLOAT3 v2 = Sub(Point, m_TrianglePoint[0]);
+	XMFLOAT3 v0 = StructMath::Sub(m_TrianglePoint[1], m_TrianglePoint[0]);
+	XMFLOAT3 v1 = StructMath::Sub(m_TrianglePoint[2], m_TrianglePoint[0]);
+	XMFLOAT3 v2 = StructMath::Sub(Point, m_TrianglePoint[0]);
 	// 内積の計算
-	float dot00 = Dot(v0, v0);
-	float dot01 = Dot(v0, v1);
-	float dot02 = Dot(v0, v2);
-	float dot11 = Dot(v1, v1);
-	float dot12 = Dot(v1, v2);
+	float dot00 = StructMath::Dot(v0, v0);
+	float dot01 = StructMath::Dot(v0, v1);
+	float dot02 = StructMath::Dot(v0, v2);
+	float dot11 = StructMath::Dot(v1, v1);
+	float dot12 = StructMath::Dot(v1, v2);
 	// バリューの計算
 	float invDenom = 1.0f / (dot00 * dot11 - dot01 * dot01);
 	float u = (dot11 * dot02 - dot01 * dot12) * invDenom;

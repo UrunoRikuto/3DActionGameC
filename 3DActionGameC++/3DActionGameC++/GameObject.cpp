@@ -43,8 +43,6 @@ void CGameObject::Update()
 // @brief 描画処理
 void CGameObject::Draw()
 {
-	using namespace StructMath;
-
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 
@@ -61,7 +59,7 @@ void CGameObject::Draw()
 	// モデルの描画
 	CreateObject(
 		m_tPosition,	// 位置
-		Add(m_tScale, m_tModelScaleAjast) ,		// スケール
+		StructMath::Add(m_tScale, m_tModelScaleAjast) ,		// スケール
 		m_tRotation,	// 回転
 		m_pModel.get(),       // モデルポインタ
 		Camera::GetInstance(),// カメラポインタ

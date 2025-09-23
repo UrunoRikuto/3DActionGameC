@@ -68,9 +68,6 @@ void CGaugeUI::Updatde(const XMFLOAT3& In_Position, float In_Value)
 // @brief 描画処理
 void CGaugeUI::Draw(void)
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	SetRender3D();
 
 	// テクスチャの設定
@@ -79,7 +76,7 @@ void CGaugeUI::Draw(void)
 	//色を設定
 	m_pSprite->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	//描画設定
-	CreateSpriteObject(Add(m_Position, m_AjustPosition) , m_Size, m_Rotate, { 1.0f,1.0f,1.0f,1.0f }, m_pSprite.get(), Camera::GetInstance(), true);
+	CreateSpriteObject(StructMath::Add(m_Position, m_AjustPosition) , m_Size, m_Rotate, { 1.0f,1.0f,1.0f,1.0f }, m_pSprite.get(), Camera::GetInstance(), true);
 	//UV位置を設定
 	m_pSprite->SetUVPos(m_UV);
 	//UVサイズを設定

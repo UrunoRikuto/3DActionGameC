@@ -15,8 +15,6 @@
 CFieldObject::CFieldObject(FieldObjectType In_Type)
 	: CGameObject() // 基底クラスのコンストラクタを呼び出す
 {
-	using namespace GameValue::Field;
-
 	// モデルの生成
 	m_pModel = std::make_unique<Model>();
 	// フィールドオブジェクトの種類に応じて初期化

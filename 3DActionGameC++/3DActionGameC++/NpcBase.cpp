@@ -41,8 +41,6 @@ void CNpcBase::BiginUpdate(void)
 	// 破棄フラグが立っている場合は更新を行わない
 	if (m_bDestroy)return;
 
-	using namespace StructMath;
-
 	// 索敵システムの更新(索敵)
 	SetSearchState(m_pVisionSearch->Search(m_tPosition, m_eSearchState));
 

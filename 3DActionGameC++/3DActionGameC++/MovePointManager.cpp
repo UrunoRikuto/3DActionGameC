@@ -163,10 +163,6 @@ XMFLOAT3 CMovePointManager::NearMovePointDir(const XMFLOAT3& In_Point, const XMF
 // @return 現在位置から目的地までの移動ルート
 std::vector<XMFLOAT3> CMovePointManager::CreateMoveRoute(const XMFLOAT3& In_CurrentPoint, const XMFLOAT3& In_TargetPoint) const
 {
-	// 名前空間の使用
-	using namespace StructMath;
-	using namespace GameValue::MoveSystem;
-
 	std::vector<XMFLOAT3> newMovePointRoute = std::vector<XMFLOAT3>();
 
 	// 現在位置に近い移動ポイントを取得
@@ -200,32 +196,29 @@ std::vector<XMFLOAT3> CMovePointManager::CreateMoveRoute(const XMFLOAT3& In_Curr
 // @param In_SegmentEnd 線分の最終点
 float CMovePointManager::DistancePointSegment(const XMFLOAT3& In_Point, const XMFLOAT3& In_SegmentStart, const XMFLOAT3& In_SegmentEnd) const
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	// 線分のベクトル
-	XMFLOAT3 segVec = Sub(In_SegmentEnd, In_SegmentStart);
-	XMFLOAT3 StartToPoint = Sub(In_Point, In_SegmentStart);
+	XMFLOAT3 segVec = StructMath::Sub(In_SegmentEnd, In_SegmentStart);
+	XMFLOAT3 StartToPoint = StructMath::Sub(In_Point, In_SegmentStart);
 
-	float ab2 = Dot(segVec, segVec);
+	float ab2 = StructMath::Dot(segVec, segVec);
 	// AとBが同じ点
-	if (ab2 == 0.0f)return Length(StartToPoint);
+	if (ab2 == 0.0f)return StructMath::Length(StartToPoint);
 
-	float t = Dot(StartToPoint, segVec) / ab2;
+	float t = StructMath::Dot(StartToPoint, segVec) / ab2;
 
 	if (t < 0.0f)
 	{
 		// 線分の開始点が最も近い場合
-		return Length(StartToPoint);
+		return StructMath::Length(StartToPoint);
 	}
 	else if (t > 1.0f)
 	{
 		// 線分の終了点が最も近い場合
-		return Length(Sub(In_Point, In_SegmentEnd));
+		return StructMath::Length(StructMath::Sub(In_Point, In_SegmentEnd));
 	}
 
 
 	// 線分上の点が最も近い場合
-	XMFLOAT3 projection = Add(In_SegmentStart, Mul(segVec, FtoF3(t)));
-	return Length(Sub(In_Point, projection));
+	XMFLOAT3 projection = StructMath::Add(In_SegmentStart, StructMath::Mul(segVec, StructMath::FtoF3(t)));
+	return StructMath::Length(StructMath::Sub(In_Point, projection));
 }

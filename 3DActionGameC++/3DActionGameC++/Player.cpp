@@ -198,10 +198,6 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 // @brief 攻撃処理
 void CPlayer::Attack(void)
 {
-	// 名前空間の使用宣言
-	using namespace InputKey::Player;
-	using namespace StructMath;
-
 	// 武器を設定していない場合は何もしない
 	if (!m_pWeapon)return;
 
@@ -209,11 +205,11 @@ void CPlayer::Attack(void)
 	// 向きを考慮して更新
 	XMFLOAT3 FrontDir = { sinf(TORAD(m_tRotation.y)),0.0f,cosf(TORAD(m_tRotation.y)) };
 
-	XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, Add(m_tPosition, FrontDir));
+	XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, StructMath::Add(m_tPosition, FrontDir));
 
 	XMFLOAT3 attackRangeSize = m_pWeapon->GetAttackRange().box.size;
 
-	m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, std::max(attackRangeSize.x, attackRangeSize.z))));
+	m_pWeapon->Update(StructMath::Add(m_tPosition, StructMath::Mul(attackDir, std::max(attackRangeSize.x, attackRangeSize.z))));
 
 	// クールタイムが残っている場合はクールタイムを減らす
 	if (m_fAttackCD > 0.0f)
@@ -247,33 +243,29 @@ void CPlayer::Attack(void)
 // @brief 移動処理
 void CPlayer::Move(void)
 {
-	// 名前空間の使用宣言
-	using namespace InputKey::Player;
-	using namespace GameValue::Player;
-
 	// 前
-	if(IsKeyPress(MOVE_FORWARD))
+	if(IsKeyPress(InputKey::Player::MOVE_FORWARD))
 	{
-		m_tMovePower.x += MOVE_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z += MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x += GameValue::Player::MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z += GameValue::Player::MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 後
-	if (IsKeyPress(MOVE_BACKWARD))
+	if (IsKeyPress(InputKey::Player::MOVE_BACKWARD))
 	{
-		m_tMovePower.x -= MOVE_SPEED * sinf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= GameValue::Player::MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= GameValue::Player::MOVE_SPEED * cosf(TORAD(m_tRotation.y));
 	}
 	// 左
-	if (IsKeyPress(MOVE_LEFT))
+	if (IsKeyPress(InputKey::Player::MOVE_LEFT))
 	{
-		m_tMovePower.x -= MOVE_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z += MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x -= GameValue::Player::MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z += GameValue::Player::MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 	// 右
-	if (IsKeyPress(MOVE_RIGHT))
+	if (IsKeyPress(InputKey::Player::MOVE_RIGHT))
 	{
-		m_tMovePower.x += MOVE_SPEED * cosf(TORAD(m_tRotation.y));
-		m_tMovePower.z -= MOVE_SPEED * sinf(TORAD(m_tRotation.y));
+		m_tMovePower.x += GameValue::Player::MOVE_SPEED * cosf(TORAD(m_tRotation.y));
+		m_tMovePower.z -= GameValue::Player::MOVE_SPEED * sinf(TORAD(m_tRotation.y));
 	}
 
 	// 移動量を適用
@@ -285,12 +277,8 @@ void CPlayer::Move(void)
 // @brief 跳躍処理
 void CPlayer::Jump(void)
 {
-	// 名前空間の使用宣言
-	using namespace InputKey::Player;
-	using namespace GameValue::Player;
-
 	// スペースキーが押されたら
-	if (IsKeyTrigger(JUMP) && m_bGround)
+	if (IsKeyTrigger(InputKey::Player::JUMP) && m_bGround)
 	{
 		// ジャンプ中フラグを立てる
 		m_bJumping = true; 
@@ -306,17 +294,17 @@ void CPlayer::Jump(void)
 	if (m_bJumping) 
 	{
 		// sin波を使ってジャンプの高さを計算
-		float rad = (PI * m_nJumpFrame) / JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
+		float rad = (PI * m_nJumpFrame) / GameValue::Player::JUMP_DURATION;  // πラジアンを使った滑らかなカーブ
 		// ジャンプの高さを計算
-		m_tPosition.y = (sinf(rad) * JUMP_HEIGHT) + m_fBeforeJumpUnderHeight + m_fAjustPositionY;
+		m_tPosition.y = (sinf(rad) * GameValue::Player::JUMP_HEIGHT) + m_fBeforeJumpUnderHeight + m_fAjustPositionY;
 
 		// ジャンプフレームを進める
 		m_nJumpFrame++;
 
 		// ジャンプの総フレーム数に達したら
-		if (m_nJumpFrame >= JUMP_DURATION || m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
+		if (m_nJumpFrame >= GameValue::Player::JUMP_DURATION || m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
 		{
-			m_nJumpFrame = JUMP_DURATION; // ジャンプフレームを最大値に設定
+			m_nJumpFrame = GameValue::Player::JUMP_DURATION; // ジャンプフレームを最大値に設定
 			// ジャンプ中フラグを下ろす
 			m_bJumping = false;
 		}
@@ -330,7 +318,7 @@ void CPlayer::Jump(void)
 	{
 		if (m_tPosition.y >= m_fUnderHeight + m_fAjustPositionY)
 		{
-			if (m_nJumpFrame >= JUMP_DURATION / 2)
+			if (m_nJumpFrame >= GameValue::Player::JUMP_DURATION / 2)
 			{
 				m_tPosition.y -= GRAVITY; // 重力を適用
 				if (m_tPosition.y < m_fUnderHeight + m_fAjustPositionY)
@@ -368,29 +356,26 @@ void CPlayer::IsAlive(void)
 // @brief 視点移動
 void CPlayer::LookRotation(void)
 {
-	// 名前空間の使用宣言
-	using namespace InputKey::Player;
-	using namespace GameValue::Player;
 	// 左回転
 	if (MouseInput::IsMove(MouseInput::MouseMove::Left))
 	{
-		m_tRotation.y -= ROTATION_SPEED;
+		m_tRotation.y -= GameValue::Player::ROTATION_SPEED;
 	}
 	// 右回転
 	if (MouseInput::IsMove(MouseInput::MouseMove::Right))
 	{
-		m_tRotation.y += ROTATION_SPEED;
+		m_tRotation.y += GameValue::Player::ROTATION_SPEED;
 	}
 	// 上回転
 	if (MouseInput::IsMove(MouseInput::MouseMove::Up))
 	{
-		m_tRotation.x -= ROTATION_SPEED;
+		m_tRotation.x -= GameValue::Player::ROTATION_SPEED;
 		if (m_tRotation.x < -89.9f)m_tRotation.x = -89.9f; // 上限を設定
 	}
 	// 下回転
 	if (MouseInput::IsMove(MouseInput::MouseMove::Down))
 	{
-		m_tRotation.x += ROTATION_SPEED;
+		m_tRotation.x += GameValue::Player::ROTATION_SPEED;
 		if (m_tRotation.x > 89.9f)m_tRotation.x = 89.9f; // 下限を設定
 	}
 }

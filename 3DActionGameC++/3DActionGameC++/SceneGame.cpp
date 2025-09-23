@@ -143,9 +143,6 @@ void CSceneGame::InitPlainStage(void)
 CSceneGame::CSceneGame()
 	:CSceneBase()
 {
-	// 名前空間の使用
-	using namespace GameValue;
-
 	// プレイヤーの生成
 	m_pPlayer = std::make_unique<CPlayer>();
 
@@ -292,86 +289,6 @@ void CSceneGame::CollisionCheck(void)
 	}
 
 	// 軽量化する際の処理候補(ブロードとナロー)
-	/*
-	using namespace GameValue::Collision;
-
-	/// ブロードフェーズ
-	// 衝突する可能性のある当たり判定をリストアップする処理
-
-	// 格納リスト
-	std::vector<CollisionCheckInfo> collisionList;
-
-	// Nullチェックを行い、オブジェクトが有効な場合のみ処理を行う
-	for (auto& obj : g_vNullCheckList)
-	{
-		if (SafeNullCheck(obj))
-		{
-			// 各オブジェクトの当たり判定情報を取得
-			auto collisionInfo = obj->GetCollisionInfo(Collision::Tag::All);
-			
-			for (const auto& info : collisionInfo)
-			{
-				CollisionCheckInfo checkInfo;
-				checkInfo.SelfInfo = info; // オブジェクトを設定
-
-				for (auto& TargetObject : g_vNullCheckList)
-				{
-					if (TargetObject == obj) continue; // 自分自身は除外
-
-					auto TargetCollisionInfo = TargetObject->GetCollisionInfo(Collision::Tag::All);
-
-					for (const auto& Targetinfo : TargetCollisionInfo)
-					{
-						switch (info.type)
-						{
-						case Collision::Type::eNone:
-							break;
-						case Collision::Type::eBox:
-							if (StructMath::Distance(Targetinfo.box.center,info.box.center) <= DETECT_DISTANCE)
-							{
-								checkInfo.TargetInfo.push_back(Targetinfo); // 対象の当たり判定情報を設定
-							}
-							break;
-						case Collision::Type::eSphere:
-							break;
-						case Collision::Type::ePlane:
-							break;
-						case Collision::Type::eRay:
-							break;
-						case Collision::Type::eLine:
-							break;
-						case Collision::Type::ePoint:
-							break;
-						case Collision::Type::eTriangle:
-							break;
-						}
-					}
-				}
-
-				if (!checkInfo.TargetInfo.empty()) // 対象の当たり判定情報がある場合
-				{
-					collisionList.push_back(checkInfo); // リストに追加
-				}
-			}
-		}
-	}
-
-
-
-	/// ナローフェーズ
-	// リストアップしたオブジェクト同士の詳細な衝突判定
-	for (const auto& checkInfo : collisionList)
-	{
-		for (const auto& targetInfo : checkInfo.TargetInfo)
-		{
-			Collision::Result result = Collision::Hit(checkInfo.SelfInfo, targetInfo);
-			if (result.isHit)
-			{
-				int a = 0;
-			}
-		}
-	}
-	*/
 }
 
 // @brief レイキャストのチェック

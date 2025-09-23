@@ -19,9 +19,6 @@
 CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	: CNpcBase(NpcType) // 基底クラスのコンストラクタを呼び出す
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	// モデルの読み込み
 	if (!m_pModel->Load(ModelPath::TARGET_NPC_PATH))
 	{
@@ -41,7 +38,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// 補正高さ
 	m_fAjustPositionY = (m_tScale.y * 2) / 2.0f;
 	// 位置
-	m_tPosition = Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
+	m_tPosition = StructMath::Add(m_pMoveSystem->GetMovePointList()[0], XMFLOAT3(0.0f, m_fAjustPositionY, 0.0f));
 	// 回転
 	m_tRotation = { 0.0f, 0.0f, 0.0f };
 
@@ -55,7 +52,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Npc);
 	m_tCollisionInfos[0].tag.push_back(Collision::Tag::Head);
 	// 中心位置を設定
-	m_tCollisionInfos[0].box.center = Add(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
+	m_tCollisionInfos[0].box.center = StructMath::Add(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
 	m_tCollisionInfos[0].AdjustCenter = XMFLOAT3(0.0f, m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[0].box.size = m_tScale;
@@ -77,7 +74,7 @@ CTargetNpc::CTargetNpc(XMFLOAT3 FirstMovePoint, NpcType NpcType)
 	// タグを追加
 	m_tCollisionInfos[2].tag.push_back(Collision::Tag::Foot);
 	// 中心位置を設定
-	m_tCollisionInfos[2].box.center = Sub(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
+	m_tCollisionInfos[2].box.center = StructMath::Sub(m_tPosition, XMFLOAT3(0.0f, m_tScale.y, 0.0f));
 	m_tCollisionInfos[2].AdjustCenter = XMFLOAT3(0.0f, -m_tScale.y, 0.0f); // 中心位置の調整
 	// ボックスの大きさを設定
 	m_tCollisionInfos[2].box.size = m_tScale;
@@ -136,9 +133,6 @@ void CTargetNpc::Update(void)
 // @brief 移動処理
 void CTargetNpc::Move(void)
 {
-	// 名前空間の使用
-	using namespace StructMath;
-
 	XMFLOAT3 movePoint = XMFLOAT3();
 
 	switch (m_eSearchState)
@@ -154,9 +148,9 @@ void CTargetNpc::Move(void)
 		break;
 	}
 
-	XMFLOAT3 moveDir = Direction(m_tPosition, movePoint);
+	XMFLOAT3 moveDir = StructMath::Direction(m_tPosition, movePoint);
 	// 攻撃中でない場合は移動量を適用
-	if (!m_bAttack)SetPosition(Add(m_tPosition, Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
+	if (!m_bAttack)SetPosition(StructMath::Add(m_tPosition, StructMath::Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
 	// 向きの更新
 	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
 }
@@ -164,9 +158,6 @@ void CTargetNpc::Move(void)
 // @brief 攻撃処理
 void CTargetNpc::Attack(void)
 {
-	// 名前空間の使用宣言
-	using namespace StructMath;
-
 	// クールタイムが残っている場合はクールタイムを減らす
 	if (m_fAttackCD > 0.0f)
 	{
@@ -201,7 +192,7 @@ void CTargetNpc::Attack(void)
 		// 向きを考慮して位置を調整
 		XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, playerPos);
 
-		m_pWeapon->Update(Add(m_tPosition, Mul(attackDir, maxAttackRange)));
+		m_pWeapon->Update(StructMath::Add(m_tPosition, StructMath::Mul(attackDir, maxAttackRange)));
 
 		/// @todo ここで攻撃タイミングの判定を行う(乱数(確率は参照するたびに上昇))
 
