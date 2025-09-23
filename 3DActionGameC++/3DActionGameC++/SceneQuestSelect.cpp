@@ -83,6 +83,8 @@ void CSceneQuestSelect::Update(void)
 // @brief •`‰æˆ—
 void CSceneQuestSelect::Draw(void)
 {
+	SetRender2D();
+
 	//”wŒi‚Ì•`‰æ
 	SetSpriteTexture(m_pBackGroundTex);
 

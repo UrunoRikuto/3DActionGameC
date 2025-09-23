@@ -179,7 +179,8 @@ CSceneGame::CSceneGame()
 // @brief デストラクタ
 CSceneGame::~CSceneGame()
 {
-
+	g_vNullCheckList.clear(); // Nullチェック用リストのクリア
+	g_vAttackObjects.clear(); // 攻撃用リストのクリア
 }
 
 // @brief 更新処理

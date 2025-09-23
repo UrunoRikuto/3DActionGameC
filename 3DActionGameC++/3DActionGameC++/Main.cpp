@@ -50,6 +50,9 @@ HRESULT Init(HWND hWnd, UINT width, UINT height,HINSTANCE hInstance)
 	// シーン作成
 	g_pScene = new CSceneTitle();
 
+	// トランジションの初期化
+	g_pTransition = nullptr;
+
 	return hr;
 }
 
@@ -127,6 +130,8 @@ void SetGameEnd(void)
 
 void ChangeScene(SceneType Next, TransitionType In_Transition)
 {
+	if (g_pTransition)return;
+
 	switch (In_Transition)
 	{
 	case TransitionType::Fade:

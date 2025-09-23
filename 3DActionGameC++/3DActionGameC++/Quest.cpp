@@ -57,6 +57,7 @@ void CQuest::SetQuestData(const QuestData& In_QuestData)
 	m_QuestData = In_QuestData;
 	// 制限時間の設定
 	CTimer::GetInstance()->SetLimitTime(m_QuestData.limitTime);
+	CTimer::GetInstance()->Reset();
 }
 
 // @brief クエストデータの取得
