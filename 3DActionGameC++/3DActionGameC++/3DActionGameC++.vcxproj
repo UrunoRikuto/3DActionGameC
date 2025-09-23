@@ -157,6 +157,7 @@
     <ClCompile Include="NpcBase.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="ResultTelop.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="NpcBase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Quest.h" />
+    <ClInclude Include="ResultTelop.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneGame.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="StructMath.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="TargetNpc.h" />
+    <ClInclude Include="TelopEffect.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transition.h" />

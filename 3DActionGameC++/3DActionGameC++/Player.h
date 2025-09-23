@@ -77,12 +77,6 @@ private:
 	void Jump(void);
 
 	/// <summary>
-	/// ¶‘¶”»’èˆ—
-	/// </summary>
-	/// <param name=""></param>
-	void IsAlive(void);
-
-	/// <summary>
 	///  ‹“_ˆÚ“®
 	/// </summary>
 	void LookRotation(void);

@@ -65,7 +65,7 @@ namespace GameValue
 			// 視野距離
 			constexpr float VIEW_DISTANCE = 200.0f; // メートル
 			// 体力
-			constexpr float MAX_HP = 1000.0f;
+			constexpr float MAX_HP = 10.0f;
 		}
 
 		// ジャンプの最大高さ
@@ -132,6 +132,13 @@ namespace GameValue
 		constexpr float GAUGE_SIZE_Y = SCREEN_HEIGHT;
 		
 	}
+
+	// テロップの値
+	namespace Telop
+	{
+		// クエストクリアテロップの表示時間
+		constexpr float RESULTTELOP_DISPLAY_TIME = 5.0f; // 秒
+	}
 }
 
 /* 入力キー */
@@ -172,5 +179,13 @@ namespace InputKey
 		// 前
 		constexpr BYTE BEFORE
 			= 'A';
+	}
+
+	// テロップエフェクトの入力キー
+	namespace TelopEffect
+	{
+		// スキップキー
+		constexpr BYTE SKIP
+			= VK_RETURN;
 	}
 }

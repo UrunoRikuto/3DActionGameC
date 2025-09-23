@@ -13,6 +13,7 @@
 #include "Weapon.h"
 /* 基底クラスのインクルード */
 #include "SceneBase.h"
+#include "TelopEffect.h"
 
 /* 前方宣言 */
 class CGameObject;
@@ -63,6 +64,12 @@ public:
 	/// </summary>
 	void AttackCreate(AttackCollision In_CollisionInfo);
 
+	/// <summary>
+	/// テロップの追加
+	/// </summary>
+	/// <param name="In_Telop">追加するテロップ</param>
+	void AddTelop(CTelopEffect* In_Telop);
+
 private:
 	/// <summary>
 	/// 当たり判定の衝突チェック
@@ -87,4 +94,6 @@ private:
 	std::vector<std::unique_ptr<CNpcBase>> m_pNpc;
 	// 攻撃の当たり判定リスト
 	std::vector<AttackCollision> m_vAttackCollisionInfos;
+	// テロップエフェクト
+	std::vector<CTelopEffect*> m_pGameTelop;
 };

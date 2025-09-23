@@ -186,33 +186,55 @@ CSceneGame::~CSceneGame()
 // @brief 更新処理
 void CSceneGame::Update(void)
 {
-	if (!CTimer::GetInstance()->Update())
+	// テロップが存在する場合はテロップの更新を行う
+	if (!m_pGameTelop.empty())
 	{
-		for (auto& obj : g_vNullCheckList)
+		// 一番前の要素のテロップの更新処理
+		// 更新処理が終わったら削除する
+		if (m_pGameTelop[0]->Update())
 		{
-			if (SafeNullCheck(obj))
-			{
-				obj->Update(); // Nullチェックを行い、オブジェクトが有効な場合のみ更新処理を呼び出す
-			}
+			// テロップの削除処理
+			m_pGameTelop.erase(m_pGameTelop.begin());
 		}
-
-		CollisionCheck(); // 当たり判定の衝突チェック
-
-		RayCastCheck(); // レイキャストのチェック
-
-		AttackCollisionCheck(); // 攻撃の当たり判定チェック
 	}
 	else
 	{
-		// タイムアップ時の処理
-		// ゲームオーバーテロップを表示して、クエスト選択シーンへ遷移
-		ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
+		if (!CTimer::GetInstance()->Update())
+		{
+			for (auto& obj : g_vNullCheckList)
+			{
+				if (SafeNullCheck(obj))
+				{
+					obj->Update(); // Nullチェックを行い、オブジェクトが有効な場合のみ更新処理を呼び出す
+				}
+			}
+
+			CollisionCheck(); // 当たり判定の衝突チェック
+
+			RayCastCheck(); // レイキャストのチェック
+
+			AttackCollisionCheck(); // 攻撃の当たり判定チェック
+		}
+		else
+		{
+			// タイムアップ時の処理
+			// ゲームオーバーテロップを表示して、クエスト選択シーンへ遷移
+			ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
+		}
 	}
 }
 
 // @brief 描画処理
 void CSceneGame::Draw(void)
 {
+	SetRender3D();
+
+	if (!m_pGameTelop.empty())
+	{
+		// 一番前の要素のテロップの更新処理
+		m_pGameTelop[0]->Draw();
+	}
+
 	// タイマーの描画
 	CTimer::GetInstance()->Draw();
 
@@ -413,4 +435,11 @@ void CSceneGame::AttackCreate(AttackCollision In_CollisionInfo)
 {
 	// 攻撃の生成
 	m_vAttackCollisionInfos.push_back(In_CollisionInfo);
+}
+
+// @brief テロップの追加
+// @param In_Telop 追加するテロップ
+void CSceneGame::AddTelop(CTelopEffect* In_Telop)
+{
+	m_pGameTelop.push_back(In_Telop);
 }

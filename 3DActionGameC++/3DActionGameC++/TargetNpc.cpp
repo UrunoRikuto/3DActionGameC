@@ -10,6 +10,7 @@
 #include "Defines.h"
 #include "GameValues.h"
 #include "MoveSystem.h"
+#include "ResultTelop.h"
 
 #undef max
 
@@ -130,6 +131,47 @@ void CTargetNpc::Update(void)
 	}
 }
 
+// @brief 当たり判定の衝突時の処理(攻撃用)
+// @param InCollisionInfo 衝突対象
+// @param In_Attack 相手の攻撃力
+void CTargetNpc::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
+{
+	int IsPlayerAttackCheck = 0;
+
+	// プレイヤーの攻撃に当たったかどうかを判定
+	// プレイヤータグと攻撃タグの両方があればプレイヤーの攻撃に当たったと判定
+	for (auto& tag : InCollisionInfo.tag)
+	{
+		switch (tag)
+		{
+		case Collision::Tag::Player:
+			IsPlayerAttackCheck++;
+			break;
+		case Collision::Tag::Attack:
+			IsPlayerAttackCheck++;
+			break;
+		}
+	}
+
+	// プレイヤーの攻撃に当たった場合
+	if (IsPlayerAttackCheck >= 2)
+	{
+		// 体力を減らす
+		m_fHp -= In_Attack;
+
+		// 索敵状態を発見状態にする
+		SetSearchState(VisionSearchState::Discovery);
+
+		if (m_fHp <= 0.0f)
+		{
+			m_bDestroy = true;
+			m_fHp = 0.0f;
+			// テロップの追加
+			static_cast<CSceneGame*>(GetCurrentScene())->AddTelop(new CResultTelop(true)); 
+		}
+	}
+}
+
 // @brief 移動処理
 void CTargetNpc::Move(void)
 {
@@ -186,8 +228,6 @@ void CTargetNpc::Attack(void)
 			return;
 		}
 
-
-
 		// 武器の更新処理
 		// 向きを考慮して位置を調整
 		XMFLOAT3 attackDir = StructMath::Direction(m_tPosition, playerPos);
@@ -199,7 +239,7 @@ void CTargetNpc::Attack(void)
 		m_pWeapon->ComboTimerUpdate(); // コンボ猶予時間の更新
 
 		// シーンの取得
-		auto scene = (CSceneGame*)GetCurrentScene();
+		auto scene = static_cast<CSceneGame*>(GetCurrentScene());
 
 		// シーンがなければ何もしない
 		if (scene == nullptr)return;

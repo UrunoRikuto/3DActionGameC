@@ -9,6 +9,8 @@
 /* システム・要素のインクルード */
 #include "Timer.h"
 #include "Main.h"
+#include "SceneGame.h"
+#include "ResultTelop.h"
 
 // シングルトンのインスタンスの初期化
 CQuest* CQuest::m_pInstance = nullptr;
@@ -82,7 +84,6 @@ void CQuest::SubPossibleDeathCount(void)
 	if (m_QuestData.PossibleDeathCount < 0)
 	{
 		// クエスト失敗のテロップを表示
-		// 仮でクエスト選択シーンに以降
-		ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
+		static_cast<CSceneGame*>(GetCurrentScene())->AddTelop(new CResultTelop(false)); // テロップの追加
 	}
 }

@@ -39,7 +39,7 @@ CSceneQuestSelect::CSceneQuestSelect()
 
 
 	// クエストデータの登録
-	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 3 });
+	m_QuestList.push_back(QuestData{ QuestType::ArenaNormal,StageType::Arena, 120.0f, 0 });
 	m_QuestList.push_back(QuestData{ QuestType::PlainNormal,StageType::Plain, 120.0f, 3 });
 
 	Vertex noteVtx[4] = {

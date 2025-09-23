@@ -83,12 +83,6 @@ private:
 	/// </summary>
 	void GroundCheck(void);
 
-	/// <summary>
-	/// 生存判定処理
-	/// </summary>
-	void IsAlive(void);
-
-
 protected:
 	/// <summary>
 	/// エンティティのID

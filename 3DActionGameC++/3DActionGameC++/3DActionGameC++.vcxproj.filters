@@ -111,6 +111,9 @@
     <Filter Include="コード ファイル\System\Timer">
       <UniqueIdentifier>{0f46f5e7-5ecd-4f27-b5fb-cfcc6e65a172}</UniqueIdentifier>
     </Filter>
+    <Filter Include="コード ファイル\System\Telop">
+      <UniqueIdentifier>{09eef86b-d49e-4908-89f1-a7fc995053ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshBuffer.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>コード ファイル\System\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultTelop.cpp">
+      <Filter>コード ファイル\System\Telop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +399,12 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>コード ファイル\System\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="TelopEffect.h">
+      <Filter>コード ファイル\System\Telop</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultTelop.h">
+      <Filter>コード ファイル\System\Telop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
