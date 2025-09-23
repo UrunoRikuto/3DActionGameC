@@ -8,6 +8,7 @@
 
 /* システム・要素のインクルード */
 #include "Timer.h"
+#include "Main.h"
 
 // シングルトンのインスタンスの初期化
 CQuest* CQuest::m_pInstance = nullptr;
@@ -71,4 +72,17 @@ const QuestData& CQuest::GetQuestData(void)
 void CQuest::ClearQuestData(void)
 {
 	m_QuestData = QuestData{};
+}
+
+// @brief 死亡可能回数の減少
+void CQuest::SubPossibleDeathCount(void)
+{
+	// 死亡可能回数の減少
+	m_QuestData.PossibleDeathCount--;
+	if (m_QuestData.PossibleDeathCount < 0)
+	{
+		// クエスト失敗のテロップを表示
+		// 仮でクエスト選択シーンに以降
+		ChangeScene(SceneType::QuestSelect, TransitionType::Fade);
+	}
 }

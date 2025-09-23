@@ -83,6 +83,11 @@ private:
 	/// </summary>
 	void GroundCheck(void);
 
+	/// <summary>
+	/// ¶‘¶”»’èˆ—
+	/// </summary>
+	void IsAlive(void);
+
 
 protected:
 	/// <summary>

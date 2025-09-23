@@ -5,6 +5,8 @@
 
 #pragma once
 #include "Defines.h"
+#include "Enums.h"
+#include "StructMath.h"
 
 /* モデルのパス定義 */
 namespace ModelPath
@@ -75,8 +77,12 @@ namespace GameValue
 	// フィールドの値
 	namespace Field
 	{
-		// フィールドのサイズ
-		constexpr float FIELD_SIZE = 100.0f;
+		// プレイヤーの生成位置
+		constexpr XMFLOAT3 PLAYER_SPOWN_POINT[static_cast<int>(StageType::MAX)] =
+		{
+			XMFLOAT3(0.0f,0.0f,-180.0f),		// 闘技場
+			XMFLOAT3(0.0f,0.0f,-180.0f),		// 草原
+		};
 	}
 
 	// 当たり判定の値

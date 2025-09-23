@@ -68,7 +68,7 @@ void CSceneGame::InitArenaStage(void)
 	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
 
 	// プレイヤーの位置設定
-	m_pPlayer->SetPosition(XMFLOAT3(0.0f, 0.0f, -180.0f));
+	m_pPlayer->SetPosition(GameValue::Field::PLAYER_SPOWN_POINT[static_cast<int>(StageType::Arena)]);
 }
 
 void CSceneGame::InitPlainStage(void)
@@ -134,6 +134,9 @@ void CSceneGame::InitPlainStage(void)
 	m_pNpc.push_back(std::make_unique<CGuardNpc>(pMovePointManager[2], NpcType::ArenaTarget));
 	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[3]);
 	m_pNpc[m_pNpc.size() - 1]->GetMoveSystem()->AddMovePoint(pMovePointManager[4]);
+
+	// プレイヤーの位置設定
+	m_pPlayer->SetPosition(GameValue::Field::PLAYER_SPOWN_POINT[static_cast<int>(StageType::Plain)]);
 }
 
 // @brief コンストラクタ

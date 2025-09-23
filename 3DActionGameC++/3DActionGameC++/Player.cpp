@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Mouse.h"
+#include "Quest.h"
 
 // @brief コンストラクタ
 CPlayer::CPlayer()
@@ -188,12 +189,9 @@ void CPlayer::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 	{
 		// 体力を減らす
 		m_fHp -= In_Attack;
-		// 体力が0以下になったら破棄フラグを立てる
-		if (m_fHp <= 0.0f)
-		{
-			m_bDestroy = true;
-			m_fHp = 0.0f;
-		}
+
+		// 生存判定処理
+		IsAlive();
 	}
 }
 
@@ -352,6 +350,19 @@ void CPlayer::Jump(void)
 			}
 		}
 	}
+}
+
+// @brief 生存判定処理
+void CPlayer::IsAlive(void)
+{
+	// 体力が0以下になったら破棄フラグを立てる
+	if (m_fHp <= 0.0f)
+	{
+		m_fHp = GameValue::Player::MAX_HP;
+		CQuest::GetInstance()->SubPossibleDeathCount();
+		m_tPosition = GameValue::Field::PLAYER_SPOWN_POINT[static_cast<int>(CQuest::GetInstance()->GetQuestData().stageType)];
+	}
+
 }
 
 // @brief 視点移動

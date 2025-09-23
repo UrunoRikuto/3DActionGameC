@@ -116,12 +116,8 @@ void CNpcBase::Hit(const Collision::Info& InCollisionInfo, float In_Attack)
 		// 索敵状態を発見状態にする
 		SetSearchState(VisionSearchState::Discovery);
 
-		// 体力が0以下になったら破棄フラグを立てる
-		if (m_fHp <= 0.0f)
-		{
-			m_bDestroy = true;
-			m_fHp = 0.0f;
-		}
+		// 生存判定処理
+		IsAlive();
 	}
 }
 
@@ -153,6 +149,16 @@ void CNpcBase::GroundCheck(void)
 				m_bGround = true; // 地面にいる状態にする
 			}
 		}
+	}
+}
+
+void CNpcBase::IsAlive(void)
+{
+	// 体力が0以下になったら破棄フラグを立てる
+	if (m_fHp <= 0.0f)
+	{
+		m_bDestroy = true;
+		m_fHp = 0.0f;
 	}
 }
 

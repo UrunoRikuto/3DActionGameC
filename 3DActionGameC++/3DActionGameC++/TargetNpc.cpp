@@ -113,18 +113,24 @@ CTargetNpc::~CTargetNpc()
 void CTargetNpc::Update(void)
 {
 	// 破棄フラグが立っている場合は更新を行わない
-	if (m_bDestroy)return;
-	
-	// 基底クラスの更新処理(NPC共通処理)
-	CNpcBase::BiginUpdate();
+	if (m_bDestroy)
+	{
+		ChangeScene(SceneType::QuestSelect, TransitionType::Fade); // シーンをクエスト選択に変更
+	}
+	else
+	{
 
-	// 攻撃
-	Attack();
-	// 移動
-	Move();
+		// 基底クラスの更新処理(NPC共通処理)
+		CNpcBase::BiginUpdate();
 
-	// 基底クラスの更新処理(NPC共通処理)
-	CNpcBase::EndUpdate();
+		// 攻撃
+		Attack();
+		// 移動
+		Move();
+
+		// 基底クラスの更新処理(NPC共通処理)
+		CNpcBase::EndUpdate();
+	}
 }
 
 // @brief 移動処理

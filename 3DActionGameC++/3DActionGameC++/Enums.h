@@ -124,6 +124,7 @@ enum class StageType
 {
 	Arena,		// “¬‹Zê
 	Plain,	// ‘Œ´
+	MAX,
 };
 
 /*

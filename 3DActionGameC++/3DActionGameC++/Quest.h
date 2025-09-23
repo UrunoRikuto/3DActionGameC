@@ -20,8 +20,8 @@ struct QuestData
 	StageType stageType;
 	// 制限時間
 	float limitTime;
-	// 最大死亡可能回数
-	int maxDeathCount;
+	// 死亡可能回数
+	int PossibleDeathCount;
 };
 
 
@@ -56,6 +56,9 @@ public:
 
 	// @brief クエストデータのクリア
 	void ClearQuestData(void);
+
+	// @brief 死亡可能回数の消費
+	void SubPossibleDeathCount(void);
 
 private:
 	// @brief クエストデータ
