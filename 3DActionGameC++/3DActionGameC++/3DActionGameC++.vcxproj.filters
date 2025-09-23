@@ -406,6 +406,9 @@
     <ClInclude Include="ResultTelop.h">
       <Filter>コード ファイル\System\Telop</Filter>
     </ClInclude>
+    <ClInclude Include="Easing.h">
+      <Filter>コード ファイル\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\設計\クリーンアップメモ.txt">
