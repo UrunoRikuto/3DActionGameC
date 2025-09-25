@@ -66,6 +66,11 @@ CPlayer::CPlayer()
 	{
 		AttackRange.tag.push_back(Collision::Tag::Player);
 	}
+
+	// 体力ゲージの作成
+	m_pHpGauge = new CGaugeUI(m_fHp, false, GaugeType::Health);
+	// 体力ゲージのパラメータ設定
+	m_pHpGauge->SetParam({ 5.0f,2.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 0.0f, 5.0f, 0.0f });
 }
 
 // @brief デストラクタ
@@ -96,6 +101,8 @@ void CPlayer::Update(void)
 	// 当たり判定の更新
 	m_tCollisionInfos[0].box.center = m_tPosition; // 当たり判定の中心位置を更新
 
+	// Hpゲージの更新
+	if (m_pHpGauge)m_pHpGauge->Updatde(m_tPosition, m_fHp);
 	// レイの更新
 	m_pRay->SetOrigin(m_tPosition); // レイの位置を更新
 }
@@ -107,6 +114,9 @@ void CPlayer::Draw(void)
 	if (m_bDestroy)return;
 
 	SetRender3D();
+
+	// 体力ゲージの描画
+	m_pHpGauge->Draw();
 
 #ifdef _DEBUG
 	// 当たり判定の描画

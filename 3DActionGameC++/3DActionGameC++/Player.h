@@ -10,6 +10,7 @@
 #include "Ray.h"
 #include "WeaponInclude.h"
 #include "GameValues.h"
+#include "GaugeUI.h"
 
 /* 基底クラスのインクルード */
 #include "GameObject.h"
@@ -92,6 +93,11 @@ private:
 	/// 体力
 	/// </summary>
 	float m_fHp;
+
+	/// <summary>
+	/// 体力ゲージUI
+	/// </summary>
+	CGaugeUI* m_pHpGauge;
 
 	/// <summary>
 	/// 所持している武器

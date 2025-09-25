@@ -245,11 +245,12 @@ void CSceneGame::Draw(void)
 	CMovePointManager::GetInstance()->DebugDraw();
 
 	// 攻撃の当たり判定のデバッグ描画
+#ifdef _DEBUG
 	for (const auto& attack : m_vAttackCollisionInfos)
 	{
 		Collision::DrawCollision(attack.CollisionInfo);
 	}
-
+#endif // _DEBUG
 	for (auto& obj : g_vNullCheckList)
 	{
 		if (SafeNullCheck(obj))
