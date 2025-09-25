@@ -148,3 +148,17 @@ enum class TransitionType
 	Fade,		// フェード
 	MAX,
 };
+
+/*
+* @brief 敵の行動
+* @param 0：選出
+* @param 1：移動
+* @param 2：攻撃
+*/
+enum class EnemyAction
+{
+	Select,	// 選出
+	Move,	// 移動
+	Attack,	// 攻撃
+	Max
+};

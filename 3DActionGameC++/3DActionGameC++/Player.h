@@ -173,4 +173,5 @@ public: //メンバ変数のアクセサ
 	/// </summary>
 	/// <returns>姿勢状態</returns>
 	PlayerPosture GetPosture(void) const { return m_ePosture; }
+
 };

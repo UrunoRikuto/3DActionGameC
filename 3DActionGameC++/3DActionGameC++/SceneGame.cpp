@@ -26,6 +26,7 @@
 std::list<CGameObject*> g_vNullCheckList; // Nullチェック用のゲームオブジェクトのリスト
 std::list<CGameObject*> g_vAttackObjects; // 攻撃用のゲームオブジェクトのリスト
 
+// @brief 闘技場ステージの初期化
 void CSceneGame::InitArenaStage(void)
 {
 	// フィールドの生成
@@ -71,6 +72,7 @@ void CSceneGame::InitArenaStage(void)
 	m_pPlayer->SetPosition(GameValue::Field::PLAYER_SPOWN_POINT[static_cast<int>(StageType::Arena)]);
 }
 
+// @brief 平原ステージの初期化
 void CSceneGame::InitPlainStage(void)
 {
 	// フィールドの生成
@@ -114,6 +116,7 @@ void CSceneGame::InitPlainStage(void)
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetScale(XMFLOAT3(200.0f, 1.0f, 200.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetModelScaleAjast(XMFLOAT3(0.0f, 99.0f, 0.0f));
 	m_pFieldObject[m_pFieldObject.size() - 1]->SetPosition(XMFLOAT3(-200.0f, height, -200.0f));
+
 
 	// すべてのフィールドのモデルサイズによる高さ補正
 	for (auto& field : m_pFieldObject)

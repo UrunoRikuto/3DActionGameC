@@ -34,6 +34,12 @@ public:
 	void Update(void) override;
 
 private:
+
+	/// <summary>
+	/// ”­Œ©‚ÌXVˆ—
+	/// </summary>
+	void DiscoveryUpdate(void) override;
+
 	/// <summary>
 	/// ˆÚ“®ˆ—
 	/// </summary>

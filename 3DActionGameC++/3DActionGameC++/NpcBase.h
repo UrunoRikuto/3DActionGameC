@@ -68,6 +68,11 @@ protected:
 	virtual void Attack(void) = 0;
 
 	/// <summary>
+	/// 発見時の更新処理
+	/// </summary>
+	virtual void DiscoveryUpdate(void) = 0;
+
+	/// <summary>
 	/// 最初の方に行う共通更新処理
 	/// </summary>
 	void BiginUpdate(void);
@@ -84,6 +89,21 @@ private:
 	void GroundCheck(void);
 
 protected:
+	/// <summary>
+	/// 敵の行動
+	/// </summary>
+	EnemyAction m_eActionMode;
+
+	/// <summary>
+	/// 行動タイマー
+	/// </summary>
+	float m_fActionTimer;
+
+	/// <summary>
+	/// 時計回り移動するかどうかのフラグ
+	/// </summary>
+	bool m_bClockwise;	
+
 	/// <summary>
 	/// エンティティのID
 	/// </summary>

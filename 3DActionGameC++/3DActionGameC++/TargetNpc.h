@@ -37,6 +37,12 @@ public:
 	void Hit(const Collision::Info& InCollisionInfo, float In_Attack) override;
 
 private:
+
+	/// <summary>
+	/// ”­Œ©‚ÌXVˆ—
+	/// </summary>
+	void DiscoveryUpdate(void) override;
+
 	/// <summary>
 	/// ˆÚ“®ˆ—
 	/// </summary>

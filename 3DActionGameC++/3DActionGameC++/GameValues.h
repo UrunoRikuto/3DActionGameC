@@ -65,7 +65,7 @@ namespace GameValue
 			// 視野距離
 			constexpr float VIEW_DISTANCE = 200.0f; // メートル
 			// 体力
-			constexpr float MAX_HP = 10.0f;
+			constexpr float MAX_HP = 100.0f;
 		}
 
 		// ジャンプの最大高さ

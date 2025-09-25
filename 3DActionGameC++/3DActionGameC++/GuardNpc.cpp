@@ -110,21 +110,60 @@ void CGuardNpc::Update(void)
 	// 基底クラスの更新処理(NPC共通処理)
 	CNpcBase::BiginUpdate();
 
-	// 移動
-	Move();
-
-	// 攻撃
-	Attack();
+	if (m_eSearchState != VisionSearchState::Discovery)
+	{
+		// 移動
+		Move();
+	}
+	else
+	{
+		// 発見時の更新
+		DiscoveryUpdate();
+	}
 
 	// 基底クラスの更新処理(NPC共通処理)
 	CNpcBase::EndUpdate();
+}
+
+// @brief 発見時の更新処理
+void CGuardNpc::DiscoveryUpdate(void)
+{
+	switch (m_eActionMode)
+	{
+	case EnemyAction::Select:
+		// 行動タイマーをリセット
+		m_fActionTimer = 0.0f;
+		// 行動をランダムに決定
+		m_eActionMode = static_cast<EnemyAction>((rand() % (static_cast<int>(EnemyAction::Max) - 1)) + 1);
+		break;
+	case EnemyAction::Move:
+		Move();
+		// 一定時間移動したら行動を選択に戻す
+		if (m_fActionTimer > 3.0f)
+		{
+			m_eActionMode = EnemyAction::Select;
+		}
+		break;
+	case EnemyAction::Attack:
+		Move();
+		Attack();
+		if (m_bAttack || m_fActionTimer > 5.0f)
+		{
+			// 攻撃が終わったら行動を選択に戻す
+			m_eActionMode = EnemyAction::Select;
+			// 攻撃中フラグを下ろす
+			m_bAttack = false;
+		}
+		break;
+	}
+	m_fActionTimer += 1.0f / fFPS;
 }
 
 // @brief 移動処理
 void CGuardNpc::Move(void)
 {
 	XMFLOAT3 movePoint = XMFLOAT3();
-
+	float distance = 0.0f;
 	switch (m_eSearchState)
 	{
 	case VisionSearchState::None:
@@ -133,16 +172,57 @@ void CGuardNpc::Move(void)
 		movePoint = m_pMoveSystem->GetMovePoint(m_tPosition);
 		break;
 	case VisionSearchState::Discovery:
-		movePoint = m_pTargetObject->GetPosition();
+		switch (m_eActionMode)
+		{
+		case EnemyAction::Move:
+			if (m_fActionTimer == 0.0f)
+			{
+				m_bClockwise = rand() % 2; // 時計回りに移動するかどうかをランダムに決定
+			}
+			// プレイヤーの位置を取得
+			XMFLOAT3 targetPoint = m_pTargetObject->GetPosition();
+			// プレイヤーから一定距離を保って左右移動(時計回りor反時計回り)する
+			distance = 30.0f; // プレイヤーからの距離
+			if (m_bClockwise)
+			{
+				// 時計回り
+				static float angle = 0.0f;
+				angle += 1.0f;
+				if (angle >= 360.0f)angle = 0.0f;
+				movePoint = { targetPoint.x + distance * cosf(TORAD(angle)), m_tPosition.y, targetPoint.z + distance * sinf(TORAD(angle)) };
+			}
+			else
+			{
+				// 反時計回り
+				static float angle = 180.0f;
+				angle -= 1.0f;
+				if (angle < 0.0f)angle = 360.0f;
+				movePoint = { targetPoint.x + distance * cosf(TORAD(angle)), m_tPosition.y, targetPoint.z + distance * sinf(TORAD(angle)) };
+			}
+			break;
+		case EnemyAction::Attack:
+			XMFLOAT3 playerPos = m_pTargetObject->GetPosition();
+			movePoint = { playerPos.x,m_tPosition.y,playerPos.z };
+			break;
+		}
 		break;
 	}
 
 	XMFLOAT3 moveDir = StructMath::Direction(m_tPosition, movePoint);
-
 	// 攻撃中でない場合は移動量を適用
 	if (!m_bAttack)SetPosition(StructMath::Add(m_tPosition, StructMath::Mul(moveDir, m_pMoveSystem->GetMoveSpeed())));
 	// 向きの更新
-	m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
+	if (m_eSearchState != VisionSearchState::Discovery)
+	{
+		m_tRotation.y = TODEG(atan2f(-moveDir.z, moveDir.x));
+	}
+	else
+	{
+		// プレイヤーの位置を取得
+		XMFLOAT3 targetPoint = m_pTargetObject->GetPosition();
+		XMFLOAT3 lookDir = StructMath::Direction(m_tPosition, targetPoint);
+		m_tRotation.y = TODEG(atan2f(-lookDir.z, lookDir.x));
+	}
 }
 
 // @brief 攻撃処理

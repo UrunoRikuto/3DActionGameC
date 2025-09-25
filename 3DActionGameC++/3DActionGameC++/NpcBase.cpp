@@ -19,6 +19,8 @@ CNpcBase::CNpcBase(NpcType InType)
 	, m_pHpGauge(nullptr) // 体力ゲージの初期化
 	, m_bGround(true) // 地面に立っているかのフラグを初期化
 	, m_fUnderHeight(0.0f) // 真下の高さを保存する変数を初期化
+	, m_eActionMode(EnemyAction::Select) // 行動モードを初期化
+	, m_fActionTimer(0.0f) // 行動タイマーを初期化
 {
 	// モデルの作成
 	m_pModel = std::make_unique<Model>();
@@ -33,6 +35,8 @@ CNpcBase::CNpcBase(NpcType InType)
 // @brief デストラクタ
 CNpcBase::~CNpcBase()
 {
+	SAFE_DELETE(m_pHpGauge);
+	SAFE_DELETE(m_pWeapon);
 }
 
 // @brief 最初の方に行う共通更新処理
